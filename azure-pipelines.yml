@@ -9,14 +9,14 @@ trigger:
 pool:
   vmImage: 'Ubuntu-16.04'
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+variables:
+  dockerId: 'pskdev'
+  imageName: 'frontend'
 
-- script: |
-    npm install -g @angular/cli
-    npm install
-    ng build --prod
-  displayName: 'npm install and build'
+steps:
+  - script: |
+      docker build -t $(dockerId).azurecr.io/$(imageName) .
+      docker login -u $(dockerId) -p $(dockerPassword) $(dockerId).azurecr.io
+      docker push $(dockerId).azurecr.io/$(imageName)
+    env:
+      pswd: $(dockerPassword)
