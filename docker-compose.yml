@@ -1,0 +1,27 @@
+version: '3'
+services:
+
+  backend:
+    image: pskdev.azurecr.io/backend:latest
+    container_name: psk_backend
+    environment:
+      - SPRING_PROFILES_ACTIVE=demo
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    links:
+      - db
+    volumes:
+      - /var/log/psk:/var/log
+  db:
+    image: mongo:4.0
+    container_name: db
+    ports:
+      - 27017:27017
+    volumes:
+      - db_mongo_data:/data/db
+
+volumes:
+  db_mongo_data:
+    driver: local
