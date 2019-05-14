@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
-import {AuthenticationService} from './_services';
 import {slideInAnimation} from './animations';
+import {AuthenticationService} from './authentication/authentication.service';
 
 @Component({
   selector: 'app-root',

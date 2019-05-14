@@ -1,3 +1,8 @@
 export const environment = {
-  production: true
+  production: true,
+  urls: {
+    auth: {
+      token: '/api/oauth/token'
+    }
+  }
 };

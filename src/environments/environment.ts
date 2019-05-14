@@ -4,9 +4,11 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:4401',
-  loginUrl: 'http://localhost:8080/api/oauth/token',
-  userUrl: 'http://localhost:8080/api/user'
+  urls: {
+    auth: {
+      token: '/api/oauth/token'
+    }
+  }
 };
 
 /*

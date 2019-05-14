@@ -3,9 +3,8 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {environment} from '../../environments/environment';
-import {CLIENT_ID, CLIENT_SECRET, TOKEN_NAME} from '../utils/constants';
+import {CLIENT_ID, CLIENT_SECRET, TOKEN_PSK} from '../utils/constants';
 import {map} from 'rxjs/operators';
-import {AlertService} from './alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +14,8 @@ export class AuthenticationService {
   public currentToken: Observable<any>;
 
   constructor(private http: HttpClient,
-              private router: Router,
-              private alertService: AlertService) {
-    this.currentTokenSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem(TOKEN_NAME)));
+              private router: Router) {
+    this.currentTokenSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem(TOKEN_PSK)));
     this.currentToken = this.currentTokenSubject.asObservable();
   }
 
@@ -31,14 +29,14 @@ export class AuthenticationService {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': 'Basic ' + btoa(CLIENT_ID + ':' + CLIENT_SECRET)
       });
-    return this.http.post(`${environment.loginUrl}`, body, {headers: httpHeaders}).pipe(map(data => {
-      localStorage.setItem(TOKEN_NAME, JSON.stringify(data));
+    return this.http.post(environment.urls.auth.token, body, {headers: httpHeaders}).pipe(map(data => {
+      localStorage.setItem(TOKEN_PSK, JSON.stringify(data));
       this.currentTokenSubject.next(data);
     }));
   }
 
   logout() {
-    localStorage.removeItem(TOKEN_NAME);
+    localStorage.removeItem(TOKEN_PSK);
     this.currentTokenSubject.next(null);
     this.router.navigate(['/login']);
   }
