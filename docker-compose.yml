@@ -2,7 +2,7 @@ version: '3'
 services:
 
   backend:
-    image: repo.treescale.com/pskdev/pskdev/backend:latest
+    image: repo.treescale.com/pskdev/backend:latest
     container_name: fe_backend
     ports:
       - 8080:8080
