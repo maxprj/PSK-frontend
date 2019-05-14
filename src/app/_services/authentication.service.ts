@@ -3,7 +3,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {environment} from '../../environments/environment';
-import {TOKEN_NAME} from '../utils/constants';
+import {CLIENT_ID, CLIENT_SECRET, TOKEN_NAME} from '../utils/constants';
 import {map} from 'rxjs/operators';
 import {AlertService} from './alert.service';
 
@@ -29,7 +29,7 @@ export class AuthenticationService {
     const body = 'username=' + username + '&password=' + password + '&grant_type=password';
     const httpHeaders = new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Basic ' + btoa('mif-psk:mif-psk-secret') // TODO iskelt
+        'Authorization': 'Basic ' + btoa(CLIENT_ID + ':' + CLIENT_SECRET)
       });
     return this.http.post(`${environment.loginUrl}`, body, {headers: httpHeaders}).pipe(map(data => {
       localStorage.setItem(TOKEN_NAME, JSON.stringify(data));
