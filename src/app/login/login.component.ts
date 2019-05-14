@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AuthenticationService} from '../_services/authentication.service';
-import {AlertService} from '../_services/alert.service';
+import {AlertService, AuthenticationService} from '../_services';
 import {first} from 'rxjs/operators';
 
 @Component({
@@ -14,7 +13,6 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loading = false;
   submitted = false;
-  returnUrl: string;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -31,7 +29,6 @@ export class LoginComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   get f() {
@@ -44,15 +41,15 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.loading = true;
-    this.authenticationService.login(this.f.username.value, this.f.password.value)
-      .pipe(first())
-      .subscribe( data => {
-          this.router.navigate([this.returnUrl]);
-        },
-        error => {
-          this.alertService.error(error.error);
-          this.loading = false;
-        });
+    this.authenticationService.login(this.f.username.value, this.f.password.value).pipe(first()).subscribe(data => {
+        this.router.navigate(['/home']);
+      },
+      error => {
+        this.alertService.error(error.error.error_description);
+        this.loading = false;
+        this.loginForm.reset();
+      }
+    );
   }
 
 }

@@ -1,9 +1,9 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <nav class="navbar navbar-dark bg-dark" style="color:white;">
-  <a class="navbar-brand" (click)="router.navigate(['/'])" class="pointer">
+  <a class="navbar-brand" (click)="router.navigate(['/home'])" class="pointer">
     <img class="img-responsive logo" src="https://www.vu.lt/site_images/infor/vaizdai_spaudai/Logo_vilniaus_universitetas.png">
     PSK Vergai</a>
-  <div *ngIf="currentUser">
+  <div *ngIf="currentToken">
     <a class="nav-item nav-link pointer" (click)="logout()">
       <div class="material-icons">exit_to_app</div>
       Logout

@@ -1,12 +1,20 @@
-FROM node:9.6.1
+FROM node:alpine as builder
+RUN apk update && apk add --no-cache make git
 
-RUN mkdir /usr/src/app
-WORKDIR /usr/src/app
+WORKDIR /app
 
-RUN npm install -g @angular/cli@7.1.4
+COPY package.json .
+COPY package-lock.json .
 
-RUN npm rebuild node-sass
+RUN cd /app && npm set progress=false && npm install
 
-COPY src /usr/src/app
+COPY .  /app
+RUN cd /app && npm run build --build-optimizer
 
-CMD ng serve --host 0.0.0.0 --port 4200
+FROM nginx:1.13-alpine
+
+RUN rm -rf /etc/nginx/conf.d/default.conf
+COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
+COPY --from=builder /app/dist/frontend /usr/share/nginx/html
+CMD ["nginx", "-g", "daemon off;"]

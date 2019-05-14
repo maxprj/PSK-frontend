@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
 import {AuthenticationService} from './_services';
-import { slideInAnimation } from './animations';
-import {User} from './_models/user';
+import {slideInAnimation} from './animations';
 
 @Component({
   selector: 'app-root',
@@ -11,17 +10,15 @@ import {User} from './_models/user';
   animations: [slideInAnimation]
 })
 export class AppComponent {
-  currentUser: User;
-  title = 'frontend';
+  currentToken: any;
   constructor(
     private authenticationService: AuthenticationService,
     public router: Router
   ) {
-    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    this.authenticationService.currentToken.subscribe(x => this.currentToken = x);
   }
   logout() {
     this.authenticationService.logout();
-
   }
   getAnimationData(outlet: RouterOutlet) {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];

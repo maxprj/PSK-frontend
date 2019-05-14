@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:4401',
-  loginUrl: 'https://sadasdadsa.com/Prod/api/token'
+  loginUrl: 'http://localhost:8080/api/oauth/token',
+  userUrl: 'http://localhost:8080/api/user'
 };
 
 /*
