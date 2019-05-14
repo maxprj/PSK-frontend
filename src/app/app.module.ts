@@ -1,16 +1,29 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppComponent } from './app.component';
+import {AppComponent} from './app.component';
+import {routing} from './app-routing';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatIconModule} from '@angular/material';
+import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
+import {AlertComponent} from './alert/alert.component';
+import {HomeComponent} from './home/home.component';
+import {AuthenticationModule} from './authentication/authentication.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AlertComponent,
+    HomeComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    BrowserAnimationsModule,
+    MatIconModule,
+    NgbModalModule,
+    AuthenticationModule,
+    routing
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

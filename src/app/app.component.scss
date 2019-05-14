@@ -1,0 +1,19 @@
+.pointer {
+  cursor: pointer;
+}
+
+.jumbotron {
+  height:auto;
+  margin-bottom: -500px;
+  position: relative;
+  background-size: cover;
+  min-height:100vh;
+}
+
+.material-icons {
+  vertical-align: -5px; /*Change this to adjust the icon*/
+}
+.logo {
+  max-width:150px;
+  max-height: 35px;
+}
