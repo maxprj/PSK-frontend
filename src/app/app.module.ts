@@ -14,7 +14,7 @@ import {MDBBootstrapModule} from 'angular-bootstrap-md';
   declarations: [
     AppComponent,
     AlertComponent,
-    HomeComponent
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

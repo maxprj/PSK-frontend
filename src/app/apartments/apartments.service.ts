@@ -14,6 +14,14 @@ export class ApartmentsService {
     return this.http.get<any>(environment.urls.apartments);
   }
 
+  getById(id) {
+    return this.http.get<any>(environment.urls.apartments + `/${id}`);
+  }
+
+  getPaged(params) {
+    return this.http.get<any>(environment.urls.apartments, { params: params });
+  }
+
   createApartment(apartment) {
     return this.http.post<Apartment>(environment.urls.apartments, apartment);
   }

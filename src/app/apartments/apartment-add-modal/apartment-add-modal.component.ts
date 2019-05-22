@@ -24,6 +24,7 @@ export class ApartmentAddModalComponent implements OnInit {
 
   private createForm() {
     this.formSettings = this.formBuilder.group({
+      apartmentName: ['', Validators.required],
       addressNo: ['', Validators.required],
       addressCity: ['', Validators.required],
       addressStreet: ['', Validators.required],
@@ -41,6 +42,7 @@ export class ApartmentAddModalComponent implements OnInit {
     tempAddress.appartmentNumber = this.formSettings.get('addressNo').value;
     tempAddress.street = this.formSettings.get('addressStreet').value;
     tempAddress.city = this.formSettings.get('addressCity').value;
+    tempApartment.name = this.formSettings.get('apartmentName').value;
     tempApartment.size = this.formSettings.get('apartmentSize').value;
     tempApartment.address = tempAddress;
     return tempApartment;

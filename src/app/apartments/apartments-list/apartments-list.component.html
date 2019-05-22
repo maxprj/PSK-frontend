@@ -3,8 +3,8 @@
   <mat-spinner></mat-spinner>
 </div>
 <br>
-<div class="container">
-  <table mdbTable #tableEl="mdbTable" class="z-depth-0">
+<div *ngIf="apartmentsLoaded" class="container">
+  <table mdbTable class="z-depth-0">
     <thead>
       <tr>
         <th *ngFor="let head of headElements; let i = index" scope="col">{{head}}</th>
@@ -12,7 +12,8 @@
     </thead>
     <tbody>
       <tr *ngFor="let el of apartments; let i = index">
-        <th scope="row">{{i+1}}</th>
+        <th scope="row">{{pageable.number*pageable.size + i + 1}}</th>
+        <td>{{el.name}}</td>
         <td>{{el.address.city}}</td>
         <td>{{el.address.street}}</td>
         <td>{{el.address.appartmentNumber}}</td>
@@ -29,8 +30,22 @@
     </tbody>
     <tfoot class="grey lighten-5 w-100">
       <tr>
-        <td colspan="4">
-          <mdb-table-pagination [tableEl]="tableEl" [searchDataSource]="apartments"></mdb-table-pagination>
+        <td colspan="8">
+          <nav>
+            <ul class="pagination pagination-circle pg-blue d-flex flex-center">
+              <li>Page {{pageable.number + 1}} of {{pageable.totalPages}}</li>
+              <li class="page-item" [ngClass]="{'disabled': pageable.first}">
+                <a class="page-link" mdbWavesEffect aria-label="Previous" (click)="previousPage()">
+                  <span aria-hidden="true">«</span>
+                </a>
+              </li>
+              <li class="page-item" [ngClass]="{'disabled': pageable.last}">
+                <a class="page-link" mdbWavesEffect aria-label="Next" (click)="nextPage()">
+                  <span aria-hidden="true">»</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
         </td>
       </tr>
     </tfoot>

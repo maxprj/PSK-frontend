@@ -1,35 +1,32 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
-import {MdbTableDirective, MdbTablePaginationComponent} from 'angular-bootstrap-md';
+import {Component, OnInit} from '@angular/core';
+import {Observable} from 'rxjs';
+import {Apartment} from '../models/apartment';
+import {ActivatedRoute} from '@angular/router';
+import {ApartmentsService} from '../apartments.service';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-apartments-details',
   templateUrl: './apartments-details.component.html',
   styleUrls: ['./apartments-details.component.scss']
 })
-export class ApartmentsDetailsComponent implements OnInit, AfterViewInit {
-  @ViewChild(MdbTablePaginationComponent) mdbTablePagination: MdbTablePaginationComponent;
-  @ViewChild(MdbTableDirective) mdbTable: MdbTableDirective;
-  elements: any = [];
-  previous: any = [];
-  headElements = ['ID', 'First', 'Last', 'Handle'];
+export class ApartmentsDetailsComponent implements OnInit {
 
-  constructor(private cdRef: ChangeDetectorRef) { }
+  apartment: Observable<Apartment>;
+  apartmentId;
+
+  constructor(private location: Location,
+              private route: ActivatedRoute,
+              private service: ApartmentsService) { }
 
   ngOnInit() {
-    for (let i = 1; i <= 15; i++) {
-      this.elements.push({id: i.toString(), first: 'User ' + i, last: 'Name ' + i, handle: 'Handle ' + i});
-    }
-
-    this.mdbTable.setDataSource(this.elements);
-    this.elements = this.mdbTable.getDataSource();
-    this.previous = this.mdbTable.getDataSource();
+    this.apartmentId = this.route.snapshot.paramMap.get('apartmentId');
+    this.apartment = this.service.getById(this.apartmentId);
   }
 
-  ngAfterViewInit() {
-    this.mdbTablePagination.setMaxVisibleItemsNumberTo(5);
-
-    this.mdbTablePagination.calculateFirstItemIndex();
-    this.mdbTablePagination.calculateLastItemIndex();
-    this.cdRef.detectChanges();
+  save(apartment) {
+    this.service.updateApartment(this.apartmentId, apartment).pipe().subscribe(() => {
+      this.location.back();
+    });
   }
 }
