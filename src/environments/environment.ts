@@ -7,7 +7,8 @@ export const environment = {
   urls: {
     auth: {
       token: '/api/oauth/token'
-    }
+    },
+    apartments: '/api/appartment'
   }
 };
 

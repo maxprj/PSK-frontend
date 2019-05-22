@@ -4,11 +4,11 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {routing} from './app-routing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatIconModule} from '@angular/material';
-import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
 import {AlertComponent} from './alert/alert.component';
 import {HomeComponent} from './home/home.component';
 import {AuthenticationModule} from './authentication/authentication.module';
+import {ApartmentsModule} from './apartments/apartments.module';
+import {MDBBootstrapModule} from 'angular-bootstrap-md';
 
 @NgModule({
   declarations: [
@@ -19,10 +19,10 @@ import {AuthenticationModule} from './authentication/authentication.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MatIconModule,
-    NgbModalModule,
     AuthenticationModule,
-    routing
+    routing,
+    ApartmentsModule,
+    MDBBootstrapModule.forRoot()
   ],
   bootstrap: [AppComponent]
 })

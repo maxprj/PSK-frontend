@@ -1,0 +1,37 @@
+<div class="modal-header">
+  <h4 class="modal-title">Add new apartment</h4>
+  <button type="button" class="close" (click)="activeModal.dismiss('Closed Modal')" aria-label="close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="formSettings" (ngSubmit)="submitForm()">
+  <div class="modal-body">
+    <div class="form-group row">
+      <label for="addressNo" class="col-sm-2 col-form-label">Apartment Number</label>
+      <div class="col-sm-10">
+        <input type="number" class="form-control" formControlName="addressNo" id="addressNo">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="addressCity" class="col-sm-2 col-form-label">City</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" formControlName="addressCity" id="addressCity">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="addressStreet" class="col-sm-2 col-form-label">Street</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" formControlName="addressStreet" id="addressStreet">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="apartmentSize" class="col-sm-2 col-form-label">Apartment Size</label>
+      <div class="col-sm-10">
+        <input type="number" class="form-control" formControlName="apartmentSize" id="apartmentSize">
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success" [disabled]="!formSettings.valid">Add</button>
+  </div>
+</form>
