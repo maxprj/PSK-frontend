@@ -16,9 +16,7 @@ export class ApartmentsListComponent implements OnInit, AfterViewInit {
   private pageable: any;
   public apartments: any = [];
   params: any = {
-    offset: 0,
-    pageNumber: 1,
-    pageSize: 20
+    size: 5
   };
   headElements = ['ID', 'Name', 'City', 'Street', 'No', 'Size', 'Details', 'Delete'];
 
@@ -76,12 +74,12 @@ export class ApartmentsListComponent implements OnInit, AfterViewInit {
   }
 
   previousPage() {
-    this.params.pageNumber = this.pageable.number--;
+    this.params.page = this.pageable.number - 1;
     this.loadApartments();
   }
 
   nextPage() {
-    this.params.pageNumber = this.pageable.number + 2;
+    this.params.page = this.pageable.number + 1;
     this.loadApartments();
   }
 }
