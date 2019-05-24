@@ -1,36 +1,21 @@
 <h2>Apartment information</h2>
-<div *ngIf="apartment | async as apartment">
-<form>
-    <div class="form-group row">
-      <label for="apartmentName" class="col-sm-2 col-form-label">Apartment Name</label>
-      <div class="col-sm-10">
-        <input type="text" [(ngModel)]="apartment.name" class="form-control" name="apartmentName" id="apartmentName">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="addressCity" class="col-sm-2 col-form-label">City</label>
-      <div class="col-sm-10">
-        <input type="text" [(ngModel)]="apartment.address.city" class="form-control" name="addressCity" id="addressCity">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="addressStreet" class="col-sm-2 col-form-label">Street</label>
-      <div class="col-sm-10">
-        <input type="text" [(ngModel)]="apartment.address.street" class="form-control" name="addressStreet" id="addressStreet">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="addressNo" class="col-sm-2 col-form-label">Apartment Number</label>
-      <div class="col-sm-10">
-        <input type="number" [(ngModel)]="apartment.address.appartmentNumber" class="form-control" name="addressNo" id="addressNo">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="apartmentSize" class="col-sm-2 col-form-label">Apartment Size</label>
-      <div class="col-sm-10">
-        <input type="number" [(ngModel)]="apartment.size" class="form-control" name="apartmentSize" id="apartmentSize">
-      </div>
-    </div>
-    <button type="button" class="btn btn-primary" (click)="save(apartment)">Save</button>
+<form [formGroup]="formSettings" (ngSubmit)="save()">
+  <form-row forInput="appartmentName" label="Apartment Name" [isInvalid]="submitted && f.name.invalid" errorText="Name is invalid">
+    <input type="text" class="form-control" formControlName="name" id="apartmentName" [ngClass]="{'is-invalid': submitted && f.name.invalid}">
+  </form-row>
+  <div class="address-group" formGroupName="address">
+    <form-row forInput="addressCity" label="City" [isInvalid]="submitted && f.address.controls.city.invalid" errorText="City is invalid">
+      <input type="text" class="form-control" formControlName="city" id="addressCity" [ngClass]="{'is-invalid': submitted && f.address.controls.city.invalid}">
+    </form-row>
+    <form-row forInput="addressStreet" label="Street" [isInvalid]="submitted && f.address.controls.street.invalid" errorText="Street is invalid">
+      <input type="text" class="form-control" formControlName="street" id="addressStreet" [ngClass]="{'is-invalid': submitted && f.address.controls.street.invalid}">
+    </form-row>
+    <form-row forInput="appartmentNumber" label="Apartment Number" [isInvalid]="submitted && f.address.controls.appartmentNumber.invalid" errorText="Apartment no. is invalid">
+      <input type="text" class="form-control" formControlName="appartmentNumber" id="addressNo" [ngClass]="{'is-invalid': submitted && f.address.controls.appartmentNumber.invalid}">
+    </form-row>
+  </div>
+  <form-row forInput="apartmentSize" label="Apartment Size" [isInvalid]="submitted && f.size.invalid" errorText="Size is invalid">
+    <input type="number" class="form-control" formControlName="size" id="apartmentSize" [ngClass]="{'is-invalid': submitted && f.size.invalid}">
+  </form-row>
+  <btn-primary label="Save"></btn-primary>
 </form>
-</div>

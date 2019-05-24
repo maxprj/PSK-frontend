@@ -4,13 +4,14 @@ import {ApartmentsService} from '../apartments.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AlertService} from '../../alert/alert.service';
 import {ApartmentAddModalComponent} from '../apartment-add-modal/apartment-add-modal.component';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-apartments-list',
   templateUrl: './apartments-list.component.html',
   styleUrls: ['./apartments-list.component.scss']
 })
-export class ApartmentsListComponent implements OnInit, AfterViewInit {
+export class ApartmentsListComponent implements OnInit {
   public apartmentsLoaded: Boolean = false;
   public deleteLoading: string;
   private pageable: any;
@@ -22,16 +23,24 @@ export class ApartmentsListComponent implements OnInit, AfterViewInit {
 
   constructor(private authenticationService: AuthenticationService,
               private apartmentsService: ApartmentsService,
+              private router: Router,
+              private activatedRoute: ActivatedRoute,
               private modalService: NgbModal,
               private alertService: AlertService,
               private cdRef: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.loadApartments();
+    this.activatedRoute.queryParams.subscribe(result => {
+      if (result.page !== undefined) {
+        this.params.page = result.page;
+      }
+      this.loadApartments();
+    });
   }
 
   private loadApartments() {
     this.apartmentsLoaded = false;
+    this.router.navigate(['/apartments'], {queryParams: {page: this.params.page}});
     this.apartmentsService.getPaged(this.params).pipe().subscribe(result => {
       this.pageable = result;
       this.apartments = this.pageable.content;
@@ -52,6 +61,7 @@ export class ApartmentsListComponent implements OnInit, AfterViewInit {
     modalRef.result.then((result) => {
       this.apartmentsLoaded = false;
       this.apartmentsService.createApartment(result).pipe().subscribe(apartment => {
+        this.params.page = this.pageable.totalPages - 1;
         this.loadApartments();
       });
     }).catch((error) => {
@@ -67,10 +77,6 @@ export class ApartmentsListComponent implements OnInit, AfterViewInit {
     }, error => {
       this.alertService.error(error.error.message);
     });
-  }
-
-  ngAfterViewInit() {
-
   }
 
   previousPage() {

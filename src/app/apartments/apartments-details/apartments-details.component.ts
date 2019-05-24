@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
-import {Apartment} from '../models/apartment';
 import {ActivatedRoute} from '@angular/router';
 import {ApartmentsService} from '../apartments.service';
 import {Location} from '@angular/common';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-apartments-details',
@@ -11,22 +10,42 @@ import {Location} from '@angular/common';
   styleUrls: ['./apartments-details.component.scss']
 })
 export class ApartmentsDetailsComponent implements OnInit {
-
-  apartment: Observable<Apartment>;
+  formSettings: FormGroup;
   apartmentId;
+  submitted = false;
 
   constructor(private location: Location,
               private route: ActivatedRoute,
+              private formBuilder: FormBuilder,
               private service: ApartmentsService) { }
 
   ngOnInit() {
     this.apartmentId = this.route.snapshot.paramMap.get('apartmentId');
-    this.apartment = this.service.getById(this.apartmentId);
+    this.formSettings = this.formBuilder.group({
+      name: ['', Validators.required],
+      address: this.formBuilder.group({
+        appartmentNumber: ['', Validators.required],
+        street: ['', Validators.required],
+        city: ['', Validators.required]
+      }),
+      size: ['', [Validators.required, Validators.min(1)]]
+    });
+     this.service.getById(this.apartmentId).pipe().subscribe(result => {
+       this.formSettings.patchValue(result);
+     });
   }
 
-  save(apartment) {
-    this.service.updateApartment(this.apartmentId, apartment).pipe().subscribe(() => {
+  save() {
+    this.submitted = true;
+    if (this.formSettings.invalid) {
+      return;
+    }
+    this.service.updateApartment(this.apartmentId, this.formSettings.value).pipe().subscribe(() => {
       this.location.back();
     });
+  }
+
+  get f() {
+    return this.formSettings.controls;
   }
 }

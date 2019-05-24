@@ -10,6 +10,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TableModule, WavesModule} from 'angular-bootstrap-md';
 import {ApartmentsRoutingModule} from './apartments-routing.module';
 import {CommonModule} from '@angular/common';
+import {SharedModule} from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {CommonModule} from '@angular/common';
     ApartmentsRoutingModule,
     TableModule,
     WavesModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ],
   entryComponents: [ApartmentAddModalComponent]
 })

@@ -1,8 +1,6 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {Apartment} from '../models/apartment';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {Address} from '../models/address';
 
 @Component({
   selector: 'app-apartment-add-modal',
@@ -10,10 +8,8 @@ import {Address} from '../models/address';
   styleUrls: ['./apartment-add-modal.component.scss']
 })
 export class ApartmentAddModalComponent implements OnInit {
-  @Input() id: string;
-  @ViewChild('labelImport')
-  labelImport: ElementRef;
   formSettings: FormGroup;
+  submitted = false;
 
   constructor(public activeModal: NgbActiveModal,
               private formBuilder: FormBuilder) { }
@@ -24,28 +20,30 @@ export class ApartmentAddModalComponent implements OnInit {
 
   private createForm() {
     this.formSettings = this.formBuilder.group({
-      apartmentName: ['', Validators.required],
-      addressNo: ['', Validators.required],
-      addressCity: ['', Validators.required],
-      addressStreet: ['', Validators.required],
-      apartmentSize: ['']
+      name: ['', Validators.required],
+      address: this.formBuilder.group({
+        appartmentNumber: ['', Validators.required],
+        street: ['', Validators.required],
+        city: ['', Validators.required]
+      }),
+      size: ['', [Validators.required, Validators.min(1)]]
     });
   }
 
+  get f() {
+    return this.formSettings.controls;
+  }
+
   public submitForm() {
+    this.submitted = true;
+    if (this.formSettings.invalid) {
+      return;
+    }
     this.activeModal.close(this.buildApartmentObject());
   }
 
   private buildApartmentObject() {
-    const tempApartment = new Apartment();
-    const tempAddress = new Address();
-    tempAddress.appartmentNumber = this.formSettings.get('addressNo').value;
-    tempAddress.street = this.formSettings.get('addressStreet').value;
-    tempAddress.city = this.formSettings.get('addressCity').value;
-    tempApartment.name = this.formSettings.get('apartmentName').value;
-    tempApartment.size = this.formSettings.get('apartmentSize').value;
-    tempApartment.address = tempAddress;
-    return tempApartment;
+    return this.formSettings.value;
   }
 
 }

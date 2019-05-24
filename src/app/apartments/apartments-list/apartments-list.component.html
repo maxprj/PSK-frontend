@@ -31,21 +31,7 @@
     <tfoot class="grey lighten-5 w-100">
       <tr>
         <td colspan="8">
-          <nav>
-            <ul class="pagination pagination-circle pg-blue d-flex flex-center">
-              <li>Page {{pageable.number + 1}} of {{pageable.totalPages}}</li>
-              <li class="page-item" [ngClass]="{'disabled': pageable.first}">
-                <a class="page-link" mdbWavesEffect aria-label="Previous" (click)="previousPage()">
-                  <span aria-hidden="true">«</span>
-                </a>
-              </li>
-              <li class="page-item" [ngClass]="{'disabled': pageable.last}">
-                <a class="page-link" mdbWavesEffect aria-label="Next" (click)="nextPage()">
-                  <span aria-hidden="true">»</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
+          <paginator [pageable]="pageable" (nextPageClick)="nextPage()" (previousPageClick)="previousPage()"></paginator>
         </td>
       </tr>
     </tfoot>

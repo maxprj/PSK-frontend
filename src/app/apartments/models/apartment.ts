@@ -1,8 +1,8 @@
 import {Address} from './address';
 
-export class Apartment {
+export interface Apartment {
   name: string;
   address: Address;
   id: string;
-  size: Number;
+  size: number;
 }
