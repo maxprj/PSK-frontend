@@ -16,6 +16,9 @@ export const environment = {
       create: '/api/user/create',
       details: '/api/user/details'
     }
+  },
+  constants: {
+    pageSize: 5
   }
 };
 

@@ -6,6 +6,7 @@ import { AlertService } from 'src/app/alert/alert.service';
 import { UserService } from '../user.service';
 import { UserCreateComponent } from '../user-create/user-create.component';
 import { UserUpdateComponent } from '../user-update/user-update.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-user-list',
@@ -17,7 +18,7 @@ export class UserListComponent implements OnInit {
   private pageable: any;
   public users: any = [];
   params: any = {
-    size: 5
+    size: environment.constants.pageSize
   };
   headElements = ['No.', 'First Name', 'Last Name', 'Email', 'Role', 'Creation date', 'Status', 'Update'];
 

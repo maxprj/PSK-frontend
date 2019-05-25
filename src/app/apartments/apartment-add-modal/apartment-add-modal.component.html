@@ -1,8 +1,6 @@
 <div class="modal-header">
   <h4 class="modal-title">Add new apartment</h4>
-  <button type="button" class="close" (click)="activeModal.dismiss('Closed Modal')" aria-label="close">
-    <span aria-hidden="true">&times;</span>
-  </button>
+  <modal-btn-close (click)="activeModal.dismiss('Closed Modal')"></modal-btn-close>
 </div>
 <form [formGroup]="formSettings" (ngSubmit)="submitForm()">
   <div class="modal-body">

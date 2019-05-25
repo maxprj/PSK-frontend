@@ -5,6 +5,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AlertService} from '../../alert/alert.service';
 import {ApartmentAddModalComponent} from '../apartment-add-modal/apartment-add-modal.component';
 import {ActivatedRoute, Router} from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-apartments-list',
@@ -17,7 +18,7 @@ export class ApartmentsListComponent implements OnInit {
   private pageable: any;
   public apartments: any = [];
   params: any = {
-    size: 5
+    size: environment.constants.pageSize
   };
   headElements = ['ID', 'Name', 'City', 'Street', 'No', 'Size', 'Details', 'Delete'];
 
