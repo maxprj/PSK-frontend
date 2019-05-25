@@ -6,6 +6,7 @@ import { BtnPrimaryComponent } from './components/btn-primary/btn-primary.compon
 import { InvalidFeedbackComponent } from './components/invalid-feedback/invalid-feedback.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { ModalBtnCloseComponent } from './components/modal-btn-close/modal-btn-close.component';
+import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { ModalBtnCloseComponent } from './components/modal-btn-close/modal-btn-c
     BtnPrimaryComponent,
     InvalidFeedbackComponent,
     PaginatorComponent,
-    ModalBtnCloseComponent],
+    ModalBtnCloseComponent,
+    LoaderComponent],
   imports: [
     CommonModule
   ],
@@ -23,6 +25,7 @@ import { ModalBtnCloseComponent } from './components/modal-btn-close/modal-btn-c
     BtnPrimaryComponent,
     InvalidFeedbackComponent,
     PaginatorComponent,
-    ModalBtnCloseComponent]
+    ModalBtnCloseComponent,
+    LoaderComponent]
 })
 export class SharedModule { }
