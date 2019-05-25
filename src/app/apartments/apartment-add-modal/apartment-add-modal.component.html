@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <h4 class="modal-title">Add new apartment</h4>
+  <button type="button" class="close" (click)="activeModal.dismiss('Closed Modal')" aria-label="close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="formSettings" (ngSubmit)="submitForm()">
+  <div class="modal-body">
+    <form-row forInput="appartmentName" label="Apartment Name" [isInvalid]="submitted && f.name.invalid" errorText="Name is invalid">
+      <input type="text" class="form-control" formControlName="name" id="apartmentName" [ngClass]="{'is-invalid': submitted && f.name.invalid}">
+    </form-row>
+    <div class="address-group" formGroupName="address">
+      <form-row forInput="addressCity" label="City" [isInvalid]="submitted && f.address.controls.city.invalid" errorText="City is invalid">
+        <input type="text" class="form-control" formControlName="city" id="addressCity" [ngClass]="{'is-invalid': submitted && f.address.controls.city.invalid}">
+      </form-row>
+      <form-row forInput="addressStreet" label="Street" [isInvalid]="submitted && f.address.controls.street.invalid" errorText="Street is invalid">
+        <input type="text" class="form-control" formControlName="street" id="addressStreet" [ngClass]="{'is-invalid': submitted && f.address.controls.street.invalid}">
+      </form-row>
+      <form-row forInput="appartmentNumber" label="Apartment Number" [isInvalid]="submitted && f.address.controls.appartmentNumber.invalid" errorText="Apartment no. is invalid">
+        <input type="text" class="form-control" formControlName="appartmentNumber" id="addressNo" [ngClass]="{'is-invalid': submitted && f.address.controls.appartmentNumber.invalid}">
+      </form-row>
+    </div>
+    <form-row forInput="apartmentSize" label="Apartment Size" [isInvalid]="submitted && f.size.invalid" errorText="Size is invalid">
+      <input type="number" class="form-control" formControlName="size" id="apartmentSize" [ngClass]="{'is-invalid': submitted && f.size.invalid}">
+    </form-row>
+  </div>
+  <div class="modal-footer">
+    <btn-primary label="Add"></btn-primary>
+  </div>
+</form>

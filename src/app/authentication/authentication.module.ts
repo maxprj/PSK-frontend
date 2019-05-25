@@ -6,6 +6,7 @@ import {AuthenticationInterceptor} from './authentication.interceptor';
 import {LoginComponent} from './login';
 import {AuthenticationService} from './authentication.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {SharedModule} from '../shared/shared.module';
 
 @NgModule({
   declarations: [LoginComponent],
@@ -14,6 +15,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    SharedModule
   ],
   providers: [ AuthenticationService, AuthenticationGuard,
   {
