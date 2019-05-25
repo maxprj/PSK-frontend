@@ -85,7 +85,7 @@ export class UserListComponent implements OnInit {
         this.loadUsers();
       });
     }).catch((error) => {
-      console.log(error);
+      
     });
   }
 

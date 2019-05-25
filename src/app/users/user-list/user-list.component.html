@@ -17,7 +17,7 @@
         <td>{{el.surname}}</td>
         <td>{{el.email}}</td>
         <td>{{el.role}}</td>
-        <td>{{el.createdAt}}</td>
+        <td>{{el.createdAt | date: 'yyyy/MM/dd'}}</td>
         <td>{{el.status}}</td>
         <td>
           <mat-icon style="cursor: pointer" (click)="updateUser(el.id)">create</mat-icon>
