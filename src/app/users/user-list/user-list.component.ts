@@ -7,6 +7,7 @@ import { UserService } from '../user.service';
 import { UserCreateComponent } from '../user-create/user-create.component';
 import { UserUpdateComponent } from '../user-update/user-update.component';
 import { environment } from 'src/environments/environment';
+import { UserRoleEnumToTextMapping } from '../_models/enums/UserRoleEnumToTextMapping';
 
 @Component({
   selector: 'app-user-list',
@@ -21,6 +22,8 @@ export class UserListComponent implements OnInit {
     size: environment.constants.pageSize
   };
   headElements = ['No.', 'First Name', 'Last Name', 'Email', 'Role', 'Creation date', 'Status', 'Update'];
+
+  public UserRoleEnumToTextMapping = UserRoleEnumToTextMapping;
 
   constructor(private authenticationService: AuthenticationService,
               private router: Router,
@@ -62,7 +65,7 @@ export class UserListComponent implements OnInit {
     modalRef.result.then((result) => {
       this.usersLoaded = false;
       this.usersService.createUser(result).pipe().subscribe(user => {
-        this.params.page = this.pageable.totalPages - 1;
+        this.params.page = 0;
         this.loadUsers();
       });
     }).catch((error) => {
@@ -82,7 +85,7 @@ export class UserListComponent implements OnInit {
     modalRef.result.then((result) => {
       this.usersLoaded = false;
       this.usersService.updateUser(id, result).pipe().subscribe(user => {
-        this.params.page = this.pageable.totalPages - 1;
+        this.params.page = 0;
         this.loadUsers();
       });
     }).catch((error) => {

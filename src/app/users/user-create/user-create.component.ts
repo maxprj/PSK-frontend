@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { UserRoleEnumToTextMapping } from '../_models/enums/UserRoleEnumToTextMapping';
+import { UserRoleEnum } from '../_models/enums/UserRoleEnum';
 
 @Component({
   selector: 'app-user-create',
@@ -10,7 +12,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class UserCreateComponent implements OnInit {
   formSettings: FormGroup;
   submitted = false;
-  userRoles = ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_ORGANIZER'];
+  public UserRoleEnumToTextMapping = UserRoleEnumToTextMapping;
+  public userRoles = Object.values(UserRoleEnum);
   
   constructor(public activeModal: NgbActiveModal,
               private formBuilder: FormBuilder) { }
