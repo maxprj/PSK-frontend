@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {environment} from '../../environments/environment';
 import {CLIENT_ID, CLIENT_SECRET, TOKEN_PSK} from '../utils/constants';
 import {map} from 'rxjs/operators';
+import { PasswordForm } from './_models/PasswordForm';
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +40,13 @@ export class AuthenticationService {
     localStorage.removeItem(TOKEN_PSK);
     this.currentTokenSubject.next(null);
     this.router.navigate(['/login']);
+  }
+
+  resetPassword(email) {
+    return this.http.post(environment.urls.users.resetPassword, null, {params: email});
+  }
+
+  changePassword(form) {
+    return this.http.post<PasswordForm>(environment.urls.users.savePassword, form);
   }
 }

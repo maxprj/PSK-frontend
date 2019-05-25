@@ -12,18 +12,18 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getPaged(params) {
-    return this.http.get<any>(environment.urls.users, { params: params });
+    return this.http.get<any>(environment.urls.users.user, { params: params });
   }
 
   getById(id) {
-    return this.http.get<any>(environment.urls.users + `/details/${id}`);
+    return this.http.get<any>(environment.urls.users.details + `/${id}`);
   }
 
   createUser(user) {
-    return this.http.post<NewUserForm>(environment.urls.users + `/create`, user);
+    return this.http.post<NewUserForm>(environment.urls.users.create, user);
   }
 
   updateUser(id, user) {
-    return this.http.put<UpdateUserForm>(environment.urls.users + `/${id}`, user);
+    return this.http.put<UpdateUserForm>(environment.urls.users.user + `/${id}`, user);
   }
 }

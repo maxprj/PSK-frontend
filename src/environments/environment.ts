@@ -9,7 +9,13 @@ export const environment = {
       token: '/api/oauth/token'
     },
     apartments: '/api/appartment',
-    users: '/api/user'
+    users: {
+      user: '/api/user',
+      resetPassword: '/api/user/resetPassword',
+      savePassword: '/api/user/savePassword',
+      create: '/api/user/create',
+      details: '/api/user/details'
+    }
   }
 };
 
