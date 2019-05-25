@@ -9,6 +9,7 @@ import {HomeComponent} from './home/home.component';
 import {AuthenticationModule} from './authentication/authentication.module';
 import {ApartmentsModule} from './apartments/apartments.module';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
+import { UsersModule } from './users/users.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import {MDBBootstrapModule} from 'angular-bootstrap-md';
     AuthenticationModule,
     routing,
     ApartmentsModule,
+    UsersModule,
     MDBBootstrapModule.forRoot()
   ],
   bootstrap: [AppComponent]
