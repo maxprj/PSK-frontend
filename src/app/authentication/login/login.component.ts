@@ -65,8 +65,6 @@ export class LoginComponent implements OnInit {
 
       modalRef.result.then((result) => {
         this.authenticationService.resetPassword(result).subscribe(data => {});
-      }).catch((error) => {
-  
       });
   }
 

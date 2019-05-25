@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../authentication.service';
+import { PasswordForm } from '../_models/PasswordForm';
 
 @Component({
   selector: 'app-password-change',
@@ -13,6 +14,7 @@ export class PasswordChangeComponent implements OnInit {
   submitted = false;
   token; 
   alertService: any;
+  passwordForm: PasswordForm;
 
   constructor(private route: ActivatedRoute,
               private formBuilder: FormBuilder,
@@ -22,8 +24,7 @@ export class PasswordChangeComponent implements OnInit {
   ngOnInit() {
     this.token = this.route.snapshot.queryParamMap.get('token');
     this.formSettings = this.formBuilder.group({
-      password: ['', Validators.required],
-      token: [this.token]
+      password: ['', Validators.required]
     });
   }
 
@@ -36,8 +37,13 @@ export class PasswordChangeComponent implements OnInit {
     if (this.formSettings.invalid) {
       return;
     }
-    
-    this.service.changePassword(this.formSettings.value).pipe().subscribe(data => {
+
+    this.passwordForm = {
+      password: this.f.password.value,
+      token: this.token
+    }
+
+    this.service.changePassword(this.passwordForm).pipe().subscribe(data => {
         this.router.navigate(['/login']);
       },
       error => {

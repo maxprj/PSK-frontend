@@ -10,11 +10,12 @@ export const environment = {
     },
     apartments: '/api/appartment',
     users: {
-      user: '/api/user',
+      list: '/api/user',
+      create: '/api/user',
       resetPassword: '/api/user/resetPassword',
       savePassword: '/api/user/savePassword',
-      create: '/api/user/create',
-      details: '/api/user/details'
+      details: (userId: string) => `/api/user/details/${userId}`,
+      update: (userId: string) => `/api/user/${userId}`
     }
   },
   constants: {
