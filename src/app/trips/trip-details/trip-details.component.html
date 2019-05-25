@@ -1,0 +1,19 @@
+<h2>Apartment information</h2>
+<form [formGroup]="formSettings" (ngSubmit)="onSubmit()">
+  <form-row forInput="arrival" label="Arrival date">
+    <input type="date" class="form-control" formControlName="arrival" id="arrival">
+  </form-row>
+  <form-row forInput="departion" label="Departure date" [isInvalid]="submitted && f.departion.invalid" errorText="Departure is invalid">
+    <input type="date" class="form-control" formControlName="departion" id="departion" [ngClass]="{'is-invalid': submitted && f.departion.invalid}">
+  </form-row>
+  <form-row forInput="description" label="description">
+    <input type="text" class="form-control" formControlName="description" id="description">
+  </form-row>
+  <mat-form-field>
+    <mat-label>Toppings</mat-label>
+    <mat-select [formControl]="toppings" multiple>
+      <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <btn-primary label="Save"></btn-primary>
+</form>
