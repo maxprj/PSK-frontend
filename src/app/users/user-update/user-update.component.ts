@@ -16,7 +16,6 @@ export class UserUpdateComponent implements OnInit {
   submitted = false;
   @Input() id;
   
-  public UserRoleEnumToTextMapping = UserRoleEnumToTextMapping;
   public userRoles = Object.values(UserRoleEnum);
 
   constructor(public activeModal: NgbActiveModal,

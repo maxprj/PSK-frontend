@@ -10,9 +10,10 @@ import { SharedModule } from '../shared/shared.module';
 import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { MatProgressSpinnerModule, MatIconModule } from '@angular/material';
+import { UserRolePipe } from '../users/_models/enums/UserRolePipe';
 
 @NgModule({
-  declarations: [UserCreateComponent, UserUpdateComponent, UserListComponent],
+  declarations: [UserCreateComponent, UserUpdateComponent, UserListComponent, UserRolePipe],
   imports: [
     CommonModule,
     UsersRoutingModule,
@@ -25,7 +26,7 @@ import { MatProgressSpinnerModule, MatIconModule } from '@angular/material';
     MatProgressSpinnerModule,
     MatIconModule,
     ReactiveFormsModule,
-    NgbModule,
+    NgbModule
   ],
   entryComponents: [UserCreateComponent, UserUpdateComponent]
 })

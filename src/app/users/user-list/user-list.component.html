@@ -16,7 +16,7 @@
         <td>{{el.name}}</td>
         <td>{{el.surname}}</td>
         <td>{{el.email}}</td>
-        <td>{{UserRoleEnumToTextMapping[el.role]}}</td>
+        <td>{{el.role | userRolePipe}}</td>
         <td>{{el.createdAt | date: 'yyyy/MM/dd'}}</td>
         <td>{{el.status}}</td>
         <td>

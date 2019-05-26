@@ -12,7 +12,6 @@ import { UserRoleEnum } from '../_models/enums/UserRoleEnum';
 export class UserCreateComponent implements OnInit {
   formSettings: FormGroup;
   submitted = false;
-  public UserRoleEnumToTextMapping = UserRoleEnumToTextMapping;
   public userRoles = Object.values(UserRoleEnum);
   
   constructor(public activeModal: NgbActiveModal,

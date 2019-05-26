@@ -23,8 +23,6 @@ export class UserListComponent implements OnInit {
   };
   headElements = ['No.', 'First Name', 'Last Name', 'Email', 'Role', 'Creation date', 'Status', 'Update'];
 
-  public UserRoleEnumToTextMapping = UserRoleEnumToTextMapping;
-
   constructor(private authenticationService: AuthenticationService,
               private router: Router,
               private activatedRoute: ActivatedRoute,

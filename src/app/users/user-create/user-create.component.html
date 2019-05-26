@@ -15,7 +15,7 @@
     </form-row>
     <form-row forInput="role" label="User Role" [isInvalid]="submitted && f.role.invalid" errorText="User Role is required">
       <select class="form-control" formControlName="role" id="role" [ngClass]="{'is-invalid': submitted && f.role.invalid}">
-        <option [value]="userRole" *ngFor="let userRole of userRoles">{{UserRoleEnumToTextMapping[userRole]}}</option>
+        <option [value]="userRole" *ngFor="let userRole of userRoles">{{userRole | userRolePipe}}</option>
       </select>
     </form-row>
   </div>
