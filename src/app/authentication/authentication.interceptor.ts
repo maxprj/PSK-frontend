@@ -4,7 +4,7 @@ import {Observable, throwError} from 'rxjs';
 import {Router} from '@angular/router';
 import {catchError, map} from 'rxjs/operators';
 import {TOKEN_PSK} from '../utils/constants';
-import {AlertService} from '../alert/alert.service';
+import {AlertService} from '../shared/components/alert/alert.service';
  
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {

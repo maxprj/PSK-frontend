@@ -12,15 +12,8 @@ import {AuthenticationService} from './authentication/authentication.service';
 export class AppComponent {
   currentToken: any;
   constructor(
-    private authenticationService: AuthenticationService,
-    public router: Router
+    private authenticationService: AuthenticationService
   ) {
     this.authenticationService.currentToken.subscribe(x => this.currentToken = x);
-  }
-  logout() {
-    this.authenticationService.logout();
-  }
-  getAnimationData(outlet: RouterOutlet) {
-    return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
   }
 }

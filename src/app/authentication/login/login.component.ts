@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {first} from 'rxjs/operators';
 import {AuthenticationService} from '../authentication.service';
-import {AlertService} from '../../alert/alert.service';
+import {AlertService} from '../../shared/components/alert/alert.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PasswordResetComponent } from '../password-reset/password-reset.component';
 
@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
     }
     this.loading = true;
     this.authenticationService.login(this.f.username.value, this.f.password.value).pipe(first()).subscribe(data => {
-        this.router.navigate(['/apartments']);
+        this.router.navigate(['']);
       },
       error => {
         this.alertService.error(error.error.error_description);

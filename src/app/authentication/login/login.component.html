@@ -1,18 +1,27 @@
-<h2>Login</h2>
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <div class="form-group">
-    <label for="username">Username</label>
-    <input id="username" type="text" formControlName="username" class="form-control" [ngClass]="{'is-invalid': submitted && f.username.invalid}" />
-    <invalid-feedback errorText="Username is required" [isInvalid]="submitted && f.username.invalid" ></invalid-feedback>
+<div class="fullheight jumbotron">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-10 offset-sm-1">
+        <alert></alert>
+        <h2>Login</h2>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input id="username" type="text" formControlName="username" class="form-control" [ngClass]="{'is-invalid': submitted && f.username.invalid}" />
+            <invalid-feedback errorText="Username is required" [isInvalid]="submitted && f.username.invalid" ></invalid-feedback>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input id="password" type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.invalid }" />
+            <invalid-feedback errorText="Password is required" [isInvalid]="submitted && f.password.invalid" ></invalid-feedback>
+          </div>
+          <div class="form-group">
+            <btn-primary [isDisabled]="loading" label="Login"></btn-primary>
+            <app-loader [isLoading]="loading"></app-loader>
+            <a class="forgotButton" (click)="resetPassword()">Forgot Your Password?</a>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input id="password" type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.invalid }" />
-    <invalid-feedback errorText="Password is required" [isInvalid]="submitted && f.password.invalid" ></invalid-feedback>
-  </div>
-  <div class="form-group">
-    <btn-primary [isDisabled]="loading" label="Login"></btn-primary>
-    <app-loader [isLoading]="loading"></app-loader>
-    <a class="forgotButton" (click)="resetPassword()">Forgot Your Password?</a>
-  </div>
-</form>
+</div>

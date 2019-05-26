@@ -2,7 +2,7 @@ import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core
 import {AuthenticationService} from '../../authentication/authentication.service';
 import {ApartmentsService} from '../apartments.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {AlertService} from '../../alert/alert.service';
+import {AlertService} from '../../shared/components/alert/alert.service';
 import {ApartmentAddModalComponent} from '../apartment-add-modal/apartment-add-modal.component';
 import {ActivatedRoute, Router} from '@angular/router';
 import { environment } from 'src/environments/environment';
