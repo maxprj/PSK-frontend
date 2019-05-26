@@ -8,7 +8,18 @@ export const environment = {
     auth: {
       token: '/api/oauth/token'
     },
-    apartments: '/api/appartment'
+    apartments: '/api/appartment',
+    users: {
+      list: '/api/user',
+      create: '/api/user',
+      resetPassword: '/api/user/resetPassword',
+      savePassword: '/api/user/savePassword',
+      details: (userId: string) => `/api/user/details/${userId}`,
+      update: (userId: string) => `/api/user/${userId}`
+    }
+  },
+  constants: {
+    pageSize: 5
   }
 };
 

@@ -1,0 +1,37 @@
+<h2>Users</h2>
+<div class="spinner-div" *ngIf="!usersLoaded">
+  <mat-spinner></mat-spinner>
+</div>
+<br>
+<div *ngIf="usersLoaded" class="container">
+  <table mdbTable class="z-depth-0">
+    <thead>
+      <tr>
+        <th *ngFor="let head of headElements; let i = index" scope="col">{{head}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let el of users; let i = index">
+        <th scope="row">{{pageable.number*pageable.size + i + 1}}</th>
+        <td>{{el.name}}</td>
+        <td>{{el.surname}}</td>
+        <td>{{el.email}}</td>
+        <td>{{el.role | userRolePipe}}</td>
+        <td>{{el.createdAt | date: 'yyyy/MM/dd'}}</td>
+        <td>{{el.status}}</td>
+        <td>
+          <mat-icon style="cursor: pointer" (click)="updateUser(el.id)">create</mat-icon>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot class="grey lighten-5 w-100">
+      <tr>
+        <td colspan="8">
+          <paginator [pageable]="pageable" (nextPageClick)="nextPage()" (previousPageClick)="previousPage()"></paginator>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+<btn-primary (click)="addUser()" label="Add new user"></btn-primary>
+

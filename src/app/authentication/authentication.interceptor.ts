@@ -1,19 +1,21 @@
 import {Injectable} from '@angular/core';
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {Router} from '@angular/router';
 import {catchError, map} from 'rxjs/operators';
 import {TOKEN_PSK} from '../utils/constants';
-
+import {AlertService} from '../alert/alert.service';
+ 
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {
-
-
-  constructor(private router: Router) {
+ 
+ 
+  constructor(private router: Router, 
+              private alertService: AlertService) {
   }
-
+ 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
+ 
     if (req.headers.get('Authorization') != null) {
       return next.handle(req.clone());
     } else {
@@ -27,10 +29,16 @@ export class AuthenticationInterceptor implements HttpInterceptor {
             return event;
           }),
           catchError((error: HttpErrorResponse) => {
-            localStorage.removeItem(TOKEN_PSK);
-            this.router.navigate(['/login']);
+            if (error.status === 401) {
+              localStorage.removeItem(TOKEN_PSK);
+              this.router.navigate(['/login']);
+            } else {
+              this.alertService.error(error.message);
+            }
             return throwError(error);
           }));
+      } else {
+        return next.handle(req.clone());
       }
     }
   }

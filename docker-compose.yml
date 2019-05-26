@@ -5,7 +5,7 @@ services:
     image: repo.treescale.com/pskdev/backend:latest
     container_name: fe_backend
     environment:
-      - SPRING_PROFILES_ACTIVE=demo
+      - SPRING_PROFILES_ACTIVE=virtual
     ports:
       - 8080:8080
     depends_on:
