@@ -10,10 +10,7 @@ import {AuthenticationService} from './authentication/authentication.service';
   animations: [slideInAnimation]
 })
 export class AppComponent {
-  currentToken: any;
   constructor(
-    private authenticationService: AuthenticationService
   ) {
-    this.authenticationService.currentToken.subscribe(x => this.currentToken = x);
   }
 }
