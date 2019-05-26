@@ -3,16 +3,17 @@ import {CommonModule} from '@angular/common';
 import {TripListComponent} from './trip-list/trip-list.component';
 import {MatIconModule, MatProgressSpinnerModule} from '@angular/material';
 import {SharedModule} from '../shared/shared.module';
-import {TripDetailsComponent} from './trip-details/trip-details.component';
+import {TripAddComponent} from './trip-add/trip-add.component';
 import {routing} from '../app-routing';
 import {CheckboxModule, TableModule, WavesModule} from 'angular-bootstrap-md';
 import {NgbModalModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AuthenticationModule} from '../authentication/authentication.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TripsRoutingModule} from './trips-routing.module';
+import {UsersModule} from '../users/users.module';
 
 @NgModule({
-  declarations: [TripListComponent, TripDetailsComponent],
+  declarations: [TripListComponent, TripAddComponent],
   imports: [
     NgbModule,
     routing,
@@ -27,7 +28,8 @@ import {TripsRoutingModule} from './trips-routing.module';
     WavesModule,
     FormsModule,
     CheckboxModule,
-    SharedModule
+    SharedModule,
+    UsersModule
   ]
 })
 export class TripsModule { }

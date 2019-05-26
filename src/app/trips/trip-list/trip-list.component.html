@@ -16,10 +16,10 @@
       <td>{{el.name}}</td>
       <td>{{el.destinationAddress.street}} {{el.destinationAddress.appartmentNumber}}, {{el.destinationAddress.city}}</td>
       <td>{{el.sourceAddress.street}} {{el.sourceAddress.appartmentNumber}}, {{el.sourceAddress.city}}</td>
-      <td>{{el.departion}}</td>
+      <td>{{el.departure | date: 'yyyy-MM-dd'}}</td>
       <td>{{el.status}}</td>
       <td>
-        <a [routerLink]="[el.id, 'details']">
+        <a [routerLink]="[el.id]">
           <mat-icon style="cursor: pointer;">settings</mat-icon>
         </a>
       </td>

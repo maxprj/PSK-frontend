@@ -47,7 +47,7 @@ export class TripListComponent implements OnInit {
   }
 
   addTrip() {
-      console.log('Add Trip');
+      this.router.navigate(['/trips/add']);
   }
 
   deleteTrip(id) {

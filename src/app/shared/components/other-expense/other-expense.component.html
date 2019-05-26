@@ -1,5 +1,5 @@
 <span layout="row"><a (click)="expand()">{{label}}</a><hr flex/></span>
-<div *ngIf="expanded">
+<div *ngIf="expanded" [formGroup]="formGroup">
   <form-row forInput="count" label="Quantity" [isInvalid]="submitted && f.count.invalid" errorText="Count is invalid">
     <input type="number" class="form-control" formControlName="count" id="count" [ngClass]="{'is-invalid': submitted && f.count.invalid}">
   </form-row>

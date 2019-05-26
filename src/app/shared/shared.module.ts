@@ -8,6 +8,8 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
 import { OtherExpenseComponent } from './components/other-expense/other-expense.component';
 import { ModalBtnCloseComponent } from './components/modal-btn-close/modal-btn-close.component';
 import { LoaderComponent } from './components/loader/loader.component';
+import { UserAddComponent } from './components/user-add/user-add.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,9 +20,12 @@ import { LoaderComponent } from './components/loader/loader.component';
     PaginatorComponent,
     OtherExpenseComponent,
     ModalBtnCloseComponent,
-    LoaderComponent],
+    LoaderComponent,
+    UserAddComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [FormRowWrapperComponent,
     BtnSecondaryComponent,
@@ -29,6 +34,7 @@ import { LoaderComponent } from './components/loader/loader.component';
     PaginatorComponent,
     OtherExpenseComponent,
     ModalBtnCloseComponent,
-    LoaderComponent]
+    LoaderComponent,
+    UserAddComponent]
 })
 export class SharedModule { }

@@ -12,6 +12,7 @@ export const environment = {
     trip: '/api/trip',
     users: {
       list: '/api/user',
+      allList: '/api/user/all',
       create: '/api/user',
       resetPassword: '/api/user/resetPassword',
       savePassword: '/api/user/savePassword',
