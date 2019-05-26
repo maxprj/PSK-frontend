@@ -22,7 +22,7 @@ export class ApartmentAddModalComponent implements OnInit {
     this.formSettings = this.formBuilder.group({
       name: ['', Validators.required],
       address: this.formBuilder.group({
-        appartmentNumber: ['', Validators.required],
+        apartmentNumber: ['', Validators.required],
         street: ['', Validators.required],
         city: ['', Validators.required]
       }),

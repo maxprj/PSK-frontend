@@ -1,5 +1,5 @@
 export interface Address {
-  appartmentNumber: number;
+  apartmentNumber: number;
   city: string;
   street: string;
 }

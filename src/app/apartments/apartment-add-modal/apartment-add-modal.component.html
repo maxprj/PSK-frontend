@@ -14,8 +14,8 @@
       <form-row forInput="addressStreet" label="Street" [isInvalid]="submitted && f.address.controls.street.invalid" errorText="Street is invalid">
         <input type="text" class="form-control" formControlName="street" id="addressStreet" [ngClass]="{'is-invalid': submitted && f.address.controls.street.invalid}">
       </form-row>
-      <form-row forInput="appartmentNumber" label="Apartment Number" [isInvalid]="submitted && f.address.controls.appartmentNumber.invalid" errorText="Apartment no. is invalid">
-        <input type="text" class="form-control" formControlName="appartmentNumber" id="addressNo" [ngClass]="{'is-invalid': submitted && f.address.controls.appartmentNumber.invalid}">
+      <form-row forInput="apartmentNumber" label="Apartment Number" [isInvalid]="submitted && f.address.controls.apartmentNumber.invalid" errorText="Apartment no. is invalid">
+        <input type="text" class="form-control" formControlName="apartmentNumber" id="addressNo" [ngClass]="{'is-invalid': submitted && f.address.controls.apartmentNumber.invalid}">
       </form-row>
     </div>
     <form-row forInput="apartmentSize" label="Apartment Size" [isInvalid]="submitted && f.size.invalid" errorText="Size is invalid">
