@@ -1,0 +1,44 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.navbar-user {
+  margin: 0;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.navbar-user > button {
+  border: 0;
+  background-color: transparent;
+  color: white;
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
+  i {
+    vertical-align: middle;
+  }
+}
+
+.navbar-user > i, span {
+  background-color: transparent;
+  color: white;
+  vertical-align: middle;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}

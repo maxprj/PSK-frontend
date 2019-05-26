@@ -5,7 +5,6 @@ import {ApartmentAddModalComponent} from './apartment-add-modal/apartment-add-mo
 import {NgbModalModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AuthenticationModule} from '../authentication/authentication.module';
 import {MatIconModule, MatProgressSpinnerModule} from '@angular/material';
-import {routing} from '../app-routing';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TableModule, WavesModule} from 'angular-bootstrap-md';
 import {ApartmentsRoutingModule} from './apartments-routing.module';
@@ -20,7 +19,6 @@ import {SharedModule} from '../shared/shared.module';
   ],
   imports: [
     NgbModule,
-    routing,
     NgbModalModule,
     AuthenticationModule,
     MatProgressSpinnerModule,

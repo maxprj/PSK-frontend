@@ -2,12 +2,11 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AlertService } from 'src/app/alert/alert.service';
-import { UserService } from '../user.service';
 import { UserCreateComponent } from '../user-create/user-create.component';
 import { UserUpdateComponent } from '../user-update/user-update.component';
+import { UserService } from '../user.service';
+import { AlertService } from 'src/app/shared/components/alert/alert.service';
 import { environment } from 'src/environments/environment';
-import { UserRoleEnumToTextMapping } from '../_models/enums/UserRoleEnumToTextMapping';
 
 @Component({
   selector: 'app-user-list',
