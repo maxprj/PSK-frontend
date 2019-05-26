@@ -10,6 +10,7 @@ import {AuthenticationModule} from './authentication/authentication.module';
 import {ApartmentsModule} from './apartments/apartments.module';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import {TripsModule} from './trips/trips.module';
+import { UsersModule } from './users/users.module';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import {TripsModule} from './trips/trips.module';
     routing,
     ApartmentsModule,
     TripsModule,
+    UsersModule,
     MDBBootstrapModule.forRoot()
   ],
   bootstrap: [AppComponent]

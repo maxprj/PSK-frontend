@@ -4,6 +4,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {first} from 'rxjs/operators';
 import {AuthenticationService} from '../authentication.service';
 import {AlertService} from '../../alert/alert.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PasswordResetComponent } from '../password-reset/password-reset.component';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +21,8 @@ export class LoginComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private authenticationService: AuthenticationService,
-              private alertService: AlertService) {
+              private alertService: AlertService,
+              private modalService: NgbModal) {
     if (this.authenticationService.currentUserValue) {
       this.router.navigate(['/']);
     }
@@ -51,6 +54,18 @@ export class LoginComponent implements OnInit {
         this.loginForm.reset();
       }
     );
+  }
+
+  resetPassword() {
+    const modalRef = this.modalService.open(PasswordResetComponent,
+      {
+        size: 'lg',
+        windowClass: 'show'
+      });
+
+      modalRef.result.then((result) => {
+        this.authenticationService.resetPassword(result).subscribe(data => {});
+      });
   }
 
 }

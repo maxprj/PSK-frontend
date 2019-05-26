@@ -1,0 +1,22 @@
+<div class="modal-header">
+  <h4 class="modal-title">Update user data</h4>
+  <modal-btn-close (click)="activeModal.dismiss('Closed Modal')"></modal-btn-close>
+</div>
+<form [formGroup]="formSettings" (ngSubmit)="submitForm()">
+  <div class="modal-body">
+    <form-row forInput="name" label="First Name" [isInvalid]="submitted && f.name.invalid" errorText="First Name is required">
+      <input type="text" class="form-control" formControlName="name" id="name" [ngClass]="{'is-invalid': submitted && f.name.invalid}">
+    </form-row>
+    <form-row forInput="surname" label="Last Name" [isInvalid]="submitted && f.surname.invalid" errorText="Last Name is required">
+      <input type="text" class="form-control" formControlName="surname" id="surname" [ngClass]="{'is-invalid': submitted && f.surname.invalid}">
+    </form-row>
+    <form-row forInput="role" label="User Role" [isInvalid]="submitted && f.role.invalid" errorText="User Role is required">
+      <select class="form-control" formControlName="role" id="role" [ngClass]="{'is-invalid': submitted && f.role.invalid}">
+        <option [value]="userRole" *ngFor="let userRole of userRoles">{{userRole | userRolePipe}}</option>
+      </select>
+    </form-row>
+  </div>
+  <div class="modal-footer">
+    <btn-primary label="Save"></btn-primary>
+  </div>
+</form>

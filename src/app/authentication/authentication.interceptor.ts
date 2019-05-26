@@ -9,8 +9,8 @@ import {AlertService} from '../alert/alert.service';
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {
 
-
-  constructor(private router: Router, private alertService: AlertService) {
+  constructor(private router: Router,
+              private alertService: AlertService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
