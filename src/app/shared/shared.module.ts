@@ -5,6 +5,7 @@ import { BtnSecondaryComponent } from './components/btn-secondary/btn-secondary.
 import { BtnPrimaryComponent } from './components/btn-primary/btn-primary.component';
 import { InvalidFeedbackComponent } from './components/invalid-feedback/invalid-feedback.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
+import { OtherExpenseComponent } from './components/other-expense/other-expense.component';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     BtnSecondaryComponent,
     BtnPrimaryComponent,
     InvalidFeedbackComponent,
-    PaginatorComponent],
+    PaginatorComponent,
+    OtherExpenseComponent],
   imports: [
     CommonModule
   ],
@@ -20,6 +22,7 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     BtnSecondaryComponent,
     BtnPrimaryComponent,
     InvalidFeedbackComponent,
-    PaginatorComponent]
+    PaginatorComponent,
+    OtherExpenseComponent]
 })
 export class SharedModule { }

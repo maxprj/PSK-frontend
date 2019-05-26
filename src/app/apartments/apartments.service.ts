@@ -11,7 +11,7 @@ export class ApartmentsService {
   constructor(private http: HttpClient) { }
 
   getAll() {
-    return this.http.get<any>(environment.urls.apartments);
+    return this.http.get<any>(environment.urls.apartments + `/all`);
   }
 
   getById(id) {

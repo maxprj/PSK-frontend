@@ -8,7 +8,7 @@ export const environment = {
     auth: {
       token: '/api/oauth/token'
     },
-    apartments: '/api/appartment',
+    apartments: '/api/apartment',
     trip: '/api/trip'
   }
 };

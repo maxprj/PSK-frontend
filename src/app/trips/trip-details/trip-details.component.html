@@ -1,19 +1,56 @@
-<h2>Apartment information</h2>
+<h2>Trip information</h2>
 <form [formGroup]="formSettings" (ngSubmit)="onSubmit()">
-  <form-row forInput="arrival" label="Arrival date">
-    <input type="date" class="form-control" formControlName="arrival" id="arrival">
+  <form-row forInput="name" label="Trip name" [isInvalid]="submitted && f.name.invalid" errorText="Name is invalid">
+    <input type="text" class="form-control" formControlName="name" id="name" [ngClass]="{'is-invalid': submitted && f.name.invalid}">
   </form-row>
-  <form-row forInput="departion" label="Departure date" [isInvalid]="submitted && f.departion.invalid" errorText="Departure is invalid">
-    <input type="date" class="form-control" formControlName="departion" id="departion" [ngClass]="{'is-invalid': submitted && f.departion.invalid}">
+  <form-row forInput="departure" label="Departure time" [isInvalid]="submitted && f.departure.invalid" errorText="Departure is invalid">
+    <input type="datetime-local" class="form-control" formControlName="departure" id="departure" [ngClass]="{'is-invalid': submitted && f.departure.invalid}">
   </form-row>
-  <form-row forInput="description" label="description">
-    <input type="text" class="form-control" formControlName="description" id="description">
+  <form-row forInput="source" label="Departure point" [isInvalid]="submitted && f.source.invalid" errorText="Departure point is invalid">
+    <select class="form-control" formControlName="source" id="source" [ngClass]="{'is-invalid': submitted && f.source.invalid}">
+      <option *ngFor="let apartment of apartments" [value]="apartment.id">{{apartment.name}}</option>
+    </select>
   </form-row>
-  <mat-form-field>
-    <mat-label>Toppings</mat-label>
-    <mat-select [formControl]="toppings" multiple>
-      <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <form-row forInput="destination" label="Destination point" [isInvalid]="submitted && f.destination.invalid" errorText="Destination is invalid">
+    <select class="form-control" formControlName="destination" id="destination" [ngClass]="{'is-invalid': submitted && f.destination.invalid}">
+      <option *ngFor="let apartment of apartments" [value]="apartment.id">{{apartment.name}}</option>
+    </select>
+  </form-row>
+  <span class="subtitle">Reservation information<hr flex/></span>
+  <div class="form-group form-check">
+    <input type="checkbox" (click)="reservationOn()" class="form-check-input" formControlName="reservation" id="reservation">
+    <label class="form-check-label" for="reservation">Is apartment reservation needed?</label>
+  </div>
+  <div *ngIf="!reservationNeeded">
+    <form-row forInput="reservationBegin" label="Reservation start" [isInvalid]="isReservationStartInvalid()" errorText="Reservation begin date is invalid">
+      <input type="datetime-local" class="form-control" formControlName="reservationBegin" id="reservationBegin" [ngClass]="{'is-invalid': isReservationStartInvalid()}">
+    </form-row>
+    <form-row forInput="reservationEnd" label="Reservation End" [isInvalid]="isReservationEndInvalid()" errorText="Reservation end date is invalid">
+      <input type="datetime-local" class="form-control" formControlName="reservationEnd" id="reservationEnd" [ngClass]="{'is-invalid': isReservationEndInvalid()}">
+    </form-row>
+  </div>
+  <form-row *ngIf="reservationNeeded" forInput="arrival" label="Arrival time" [isInvalid]="isArrivalValid()" errorText="Arrival date is invalid">
+    <input type="datetime-local" class="form-control" formControlName="arrival" id="arrival" [ngClass]="{'is-invalid': isArrivalValid()}">
+  </form-row>
+  <span class="subtitle">Participants<hr flex/></span>
+  <div formArrayName="users" *ngFor="let item of formSettings.controls.users.controls; let i = index; let last = last">
+    <div [formGroupName]="i">
+      <form-row forInput="userId" label="User" [isInvalid]="submitted && item.controls.userId.invalid" errorText="User is invalid">
+        <select class="form-control" formControlName="userId" id="userId" [ngClass]="{'is-invalid': submitted && item.controls.userId.invalid}">
+          <option *ngFor="let user of users" [value]="user.id">{{user.name}} {{user.lastName}}</option>
+        </select>
+      </form-row>
+    </div>
+  </div>
+  <span class="subtitle">Optional details<hr flex/></span>
+  <form-row forInput="description" label="Description">
+    <textarea type="text" class="form-control" formControlName="description" id="description"></textarea>
+  </form-row>
+  <form-row forInput="otherExpenses" label="Other expenses">
+    <input type="number" class="form-control" formControlName="otherExpenses" id="otherExpenses">
+  </form-row>
+  <other-expense label="Plane tickets" [formGroup]="f.flight" [submitted]="submitted"></other-expense>
+  <other-expense label="Hotel booking" [formGroup]="f.hotel" [submitted]="submitted"></other-expense>
+  <other-expense label="Car rent" [formGroup]="f.carRent" [submitted]="submitted"></other-expense>
   <btn-primary label="Save"></btn-primary>
 </form>

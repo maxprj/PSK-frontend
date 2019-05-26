@@ -5,7 +5,7 @@ import {MatIconModule, MatProgressSpinnerModule} from '@angular/material';
 import {SharedModule} from '../shared/shared.module';
 import {TripDetailsComponent} from './trip-details/trip-details.component';
 import {routing} from '../app-routing';
-import {TableModule, WavesModule} from 'angular-bootstrap-md';
+import {CheckboxModule, TableModule, WavesModule} from 'angular-bootstrap-md';
 import {NgbModalModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AuthenticationModule} from '../authentication/authentication.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -26,6 +26,7 @@ import {TripsRoutingModule} from './trips-routing.module';
     TableModule,
     WavesModule,
     FormsModule,
+    CheckboxModule,
     SharedModule
   ]
 })
