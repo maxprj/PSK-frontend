@@ -11,9 +11,10 @@ import {AuthenticationModule} from '../authentication/authentication.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TripsRoutingModule} from './trips-routing.module';
 import {UsersModule} from '../users/users.module';
+import { TripDetailsComponent } from './trip-details/trip-details.component';
 
 @NgModule({
-  declarations: [TripListComponent, TripAddComponent],
+  declarations: [TripListComponent, TripAddComponent, TripDetailsComponent],
   imports: [
     NgbModule,
     routing,

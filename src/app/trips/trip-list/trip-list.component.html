@@ -14,8 +14,8 @@
     <tr *ngFor="let el of trips; let i = index">
       <th scope="row">{{pageable.number*pageable.size + i + 1}}</th>
       <td>{{el.name}}</td>
-      <td>{{el.destinationAddress.street}} {{el.destinationAddress.appartmentNumber}}, {{el.destinationAddress.city}}</td>
-      <td>{{el.sourceAddress.street}} {{el.sourceAddress.appartmentNumber}}, {{el.sourceAddress.city}}</td>
+      <td>{{el.destinationAddress.street}} {{el.destinationAddress.apartmentNumber}}, {{el.destinationAddress.city}}</td>
+      <td>{{el.sourceAddress.street}} {{el.sourceAddress.apartmentNumber}}, {{el.sourceAddress.city}}</td>
       <td>{{el.departure | date: 'medium'}}</td>
       <td>{{el.status}}</td>
       <td>

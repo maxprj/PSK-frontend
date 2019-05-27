@@ -21,7 +21,7 @@
     <input type="checkbox" (click)="reservationOn()" class="form-check-input" formControlName="reservation" id="reservation">
     <label class="form-check-label" for="reservation">Is apartment reservation needed?</label>
   </div>
-  <div *ngIf="!reservationNeeded">
+  <div *ngIf="reservationNeeded">
     <form-row forInput="reservationBegin" label="Reservation start" [isInvalid]="submitted && isReservationStartInvalid()" errorText="Reservation begin time must be greater than departure time">
       <input type="datetime-local" class="form-control" formControlName="reservationBegin" id="reservationBegin" [ngClass]="{'is-invalid': submitted && isReservationStartInvalid()}">
     </form-row>
@@ -29,7 +29,7 @@
       <input type="datetime-local" class="form-control" formControlName="reservationEnd" id="reservationEnd" [ngClass]="{'is-invalid': submitted && isReservationEndInvalid()}">
     </form-row>
   </div>
-  <form-row *ngIf="reservationNeeded" forInput="arrival" label="Arrival time" [isInvalid]="submitted && isArrivalValid()" errorText="Arrival time must be greater than departure time">
+  <form-row *ngIf="!reservationNeeded" forInput="arrival" label="Arrival time" [isInvalid]="submitted && isArrivalValid()" errorText="Arrival time must be greater than departure time">
     <input type="datetime-local" class="form-control" formControlName="arrival" id="arrival" [ngClass]="{'is-invalid': submitted && isArrivalValid()}">
   </form-row>
   <span class="subtitle">Participants<hr flex/></span>
@@ -37,7 +37,7 @@
     <div [formGroupName]="i">
       <multiple-user-add  [submitted]="submitted" (addUserClick)="addUser()" [item]="item"
                           [canRemove]="f.users.controls.length == 1" [index]="i" [last]="last"
-                         (removeUserClick)="removeUser()" [users]="users"></multiple-user-add>
+                         (removeUserClick)="removeUser(i)" [users]="users" [isInput]="true"></multiple-user-add>
     </div>
   </div>
   <span class="subtitle">Optional details<hr flex/></span>

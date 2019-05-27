@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 
 @Component({
@@ -6,7 +6,7 @@ import {FormGroup} from '@angular/forms';
   templateUrl: './user-add.component.html',
   styleUrls: ['./user-add.component.scss']
 })
-export class UserAddComponent {
+export class UserAddComponent implements OnInit {
 
   @Input() users: [];
   @Input() submitted: boolean;
@@ -14,6 +14,7 @@ export class UserAddComponent {
   @Input() canRemove: boolean;
   @Input() index: any;
   @Input() item: FormGroup;
+  @Input() isInput: boolean;
   @Output() addUserClick = new EventEmitter<any>();
   @Output() removeUserClick = new EventEmitter<any>();
   livesInApartment = true;
@@ -29,6 +30,10 @@ export class UserAddComponent {
 
   residenceSwitch() {
     this.livesInApartment = !this.livesInApartment;
+  }
+
+  ngOnInit(): void {
+    this.livesInApartment = this.item.controls.inApartment.value;
   }
 
 }

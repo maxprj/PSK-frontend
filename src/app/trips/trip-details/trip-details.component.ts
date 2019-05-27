@@ -1,35 +1,40 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {TripsService} from '../trips.service';
-import {Location} from '@angular/common';
 import {ApartmentsService} from '../../apartments/apartments.service';
+import {Location} from '@angular/common';
 import {UserService} from '../../users/user.service';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-trip-details',
-  templateUrl: './trip-add.component.html',
-  styleUrls: ['./trip-add.component.scss']
+  templateUrl: './trip-details.component.html',
+  styleUrls: ['./trip-details.component.scss']
 })
-export class TripAddComponent implements OnInit {
+export class TripDetailsComponent implements OnInit {
 
   formSettings: FormGroup;
   submitted = false;
-  reservationNeeded = true;
   apartments: any = [];
   users: any = [];
+  trip;
+  tripLoaded = false;
+  tripId: string;
   tripsInvalid = true;
+  reservationNeeded = true;
 
   constructor(private formBuilder: FormBuilder,
               private tripsService: TripsService,
               private apartmentsService: ApartmentsService,
               private location: Location,
+              private route: ActivatedRoute,
               private userService: UserService) { }
 
   ngOnInit() {
     this.createForm();
     this.getApartments();
     this.getUsers();
+    this.getTrip();
   }
 
   createForm() {
@@ -38,7 +43,7 @@ export class TripAddComponent implements OnInit {
       carRent: this.createOtherExpense(),
       departure: ['', Validators.required],
       description: [''],
-      destination: ['', Validators.required],
+      destination: [{value: '', disabled: true}, Validators.required],
       flight: this.createOtherExpense(),
       hotel: this.createOtherExpense(),
       name: ['', Validators.required],
@@ -46,8 +51,23 @@ export class TripAddComponent implements OnInit {
       otherExpenses: [''],
       reservationBegin: [''],
       reservationEnd: [''],
-      source: ['', Validators.required],
-      users: this.formBuilder.array([this.createUser()])
+      source: [{value: '', disabled: true}, Validators.required],
+      users: this.formBuilder.array([])
+    });
+  }
+
+  getTrip() {
+    this.tripId = this.route.snapshot.paramMap.get('tripId');
+    this.tripsService.getTripById(this.tripId).pipe().subscribe(result => {
+      this.formSettings.patchValue(result);
+      result.users.forEach((value) => this.addPatchedUser(value));
+      this.trip = result;
+      this.formSettings.patchValue({
+        source: this.trip.source.street + ' ' + this.trip.source.apartmentNumber + ', ' + this.trip.source.city,
+        destination: this.trip.destination.street + ' ' + this.trip.destination.apartmentNumber + ', ' + this.trip.destination.city,
+      });
+      this.reservationNeeded = result.reservation;
+      this.tripLoaded = true;
     });
   }
 
@@ -60,18 +80,34 @@ export class TripAddComponent implements OnInit {
   }
 
   addUser() {
-    const companies = this.formSettings.get('users') as FormArray;
-    companies.push(this.createUser());
+    const users = this.formSettings.get('users') as FormArray;
+    users.push(this.createUser());
+  }
+
+  addPatchedUser(user) {
+    const users = this.formSettings.get('users') as FormArray;
+    users.push(this.createPatchedUser(user));
   }
 
   removeUser(index) {
-    const companies = this.formSettings.get('users') as FormArray;
-    companies.removeAt(index);
+    const users = this.formSettings.get('users') as FormArray;
+    users.removeAt(index);
+  }
+
+  createPatchedUser(user) {
+    const formGroup = this.formBuilder.group({
+      inApartment: [{value: '', disabled: user.inApartment}],
+      userId: [{value: '', disabled: true}, Validators.required],
+      flightTicket: [''],
+      carRent: [''],
+      residenceAddress: [{value: '', disabled: user.inApartment}]});
+    formGroup.patchValue(user);
+    return formGroup;
   }
 
   createUser() {
     return this.formBuilder.group({
-      inApartment: [true],
+      inApartment: [''],
       userId: ['', Validators.required],
       flightTicket: [''],
       carRent: [''],
@@ -96,11 +132,11 @@ export class TripAddComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    console.log(this.formSettings.value);
+    console.log(this.formSettings.getRawValue());
     if (this.formSettings.invalid) {
       return;
     }
-    this.tripsService.createTrip(this.formSettings.value).pipe().subscribe(() => {
+    this.tripsService.updateTrip(this.trip.id, this.formSettings.getRawValue()).pipe().subscribe(() => {
       this.location.back();
     });
   }
