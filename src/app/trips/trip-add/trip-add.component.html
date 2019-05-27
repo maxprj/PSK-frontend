@@ -3,16 +3,16 @@
   <form-row forInput="name" label="Trip name" [isInvalid]="submitted && f.name.invalid" errorText="Name is invalid">
     <input type="text" class="form-control" formControlName="name" id="name" [ngClass]="{'is-invalid': submitted && f.name.invalid}">
   </form-row>
-  <form-row forInput="departure" label="Departure time" [isInvalid]="submitted && isDepartureInvalid()" errorText="Departure is invalid">
+  <form-row forInput="departure" label="Departure time" [isInvalid]="submitted && isDepartureInvalid()" errorText="Departure time must be greater than current time">
     <input type="datetime-local" class="form-control" formControlName="departure" id="departure" [ngClass]="{'is-invalid': submitted && isDepartureInvalid()}">
   </form-row>
-  <form-row forInput="source" label="Departure point" [isInvalid]="submitted && f.source.invalid && areTripPointsInvalid()" errorText="Departure point is invalid">
-    <select class="form-control" formControlName="source" id="source" [ngClass]="{'is-invalid': submitted && f.source.invalid && areTripPointsInvalid() }">
+  <form-row forInput="source" label="Departure point" [isInvalid]="submitted && (f.source.invalid || tripsInvalid)" errorText="Departure point is invalid">
+    <select class="form-control" formControlName="source" id="source" [ngClass]="{'is-invalid': submitted && (f.source.invalid || tripsInvalid)}" (change)="areTripPointsInvalid()">
       <option *ngFor="let apartment of apartments" [value]="apartment.id">{{apartment.name}}</option>
     </select>
   </form-row>
-  <form-row forInput="destination" label="Destination point" [isInvalid]="submitted && f.destination.invalid && areTripPointsInvalid()" errorText="Destination is invalid">
-    <select class="form-control" formControlName="destination" id="destination" [ngClass]="{'is-invalid': submitted && f.destination.invalid && areTripPointsInvalid()}">
+  <form-row forInput="destination" label="Destination point" [isInvalid]="submitted && (f.destination.invalid || tripsInvalid)" errorText="Destination point is invalid">
+    <select class="form-control" formControlName="destination" id="destination" [ngClass]="{'is-invalid': submitted && (f.destination.invalid || tripsInvalid)}" (change)="areTripPointsInvalid()">
       <option *ngFor="let apartment of apartments" [value]="apartment.id">{{apartment.name}}</option>
     </select>
   </form-row>
@@ -22,14 +22,14 @@
     <label class="form-check-label" for="reservation">Is apartment reservation needed?</label>
   </div>
   <div *ngIf="!reservationNeeded">
-    <form-row forInput="reservationBegin" label="Reservation start" [isInvalid]="submitted && isReservationStartInvalid()" errorText="Reservation begin date is invalid">
+    <form-row forInput="reservationBegin" label="Reservation start" [isInvalid]="submitted && isReservationStartInvalid()" errorText="Reservation begin time must be greater than departure time">
       <input type="datetime-local" class="form-control" formControlName="reservationBegin" id="reservationBegin" [ngClass]="{'is-invalid': submitted && isReservationStartInvalid()}">
     </form-row>
-    <form-row forInput="reservationEnd" label="Reservation End" [isInvalid]="submitted && isReservationEndInvalid()" errorText="Reservation end date is invalid">
+    <form-row forInput="reservationEnd" label="Reservation End" [isInvalid]="submitted && isReservationEndInvalid()" errorText="Reservation end time must be greater than reservation begin time">
       <input type="datetime-local" class="form-control" formControlName="reservationEnd" id="reservationEnd" [ngClass]="{'is-invalid': submitted && isReservationEndInvalid()}">
     </form-row>
   </div>
-  <form-row *ngIf="reservationNeeded" forInput="arrival" label="Arrival time" [isInvalid]="submitted && isArrivalValid()" errorText="Arrival date is invalid">
+  <form-row *ngIf="reservationNeeded" forInput="arrival" label="Arrival time" [isInvalid]="submitted && isArrivalValid()" errorText="Arrival time must be greater than departure time">
     <input type="datetime-local" class="form-control" formControlName="arrival" id="arrival" [ngClass]="{'is-invalid': submitted && isArrivalValid()}">
   </form-row>
   <span class="subtitle">Participants<hr flex/></span>

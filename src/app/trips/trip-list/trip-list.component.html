@@ -16,7 +16,7 @@
       <td>{{el.name}}</td>
       <td>{{el.destinationAddress.street}} {{el.destinationAddress.appartmentNumber}}, {{el.destinationAddress.city}}</td>
       <td>{{el.sourceAddress.street}} {{el.sourceAddress.appartmentNumber}}, {{el.sourceAddress.city}}</td>
-      <td>{{el.departure | date: 'yyyy-MM-dd'}}</td>
+      <td>{{el.departure | date: 'medium'}}</td>
       <td>{{el.status}}</td>
       <td>
         <a [routerLink]="[el.id]">

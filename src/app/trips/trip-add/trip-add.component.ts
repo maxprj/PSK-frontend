@@ -18,13 +18,13 @@ export class TripAddComponent implements OnInit {
   reservationNeeded = false;
   apartments: any = [];
   users: any = [];
+  tripsInvalid = true;
 
   constructor(private formBuilder: FormBuilder,
               private tripsService: TripsService,
               private apartmentsService: ApartmentsService,
               private location: Location,
-              private userService: UserService,
-              private activatedRoute: ActivatedRoute) { }
+              private userService: UserService) { }
 
   ngOnInit() {
     this.createForm();
@@ -122,7 +122,7 @@ export class TripAddComponent implements OnInit {
   }
 
   areTripPointsInvalid() {
-    return this.f.source.value === this.f.destination.value;
+    this.tripsInvalid = this.f.source.value === this.f.destination.value;
   }
 
   compareDates(date1, date2): boolean {
