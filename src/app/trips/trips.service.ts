@@ -10,42 +10,42 @@ export class TripsService {
   constructor(private http: HttpClient) { }
 
   getAllTrips(params) {
-    return this.http.get<any>(environment.urls.trip, {params: params});
+    return this.http.get<any>(environment.urls.trip.list, {params: params});
   }
 
   createTrip(trip) {
-    return this.http.post(environment.urls.trip, trip);
+    return this.http.post(environment.urls.trip.list, trip);
   }
 
   getTripById(id) {
-    return this.http.get<any>(environment.urls.trip + `/${id}`);
+    return this.http.get<any>(environment.urls.trip.byId(id));
   }
 
   updateTrip(id, trip) {
-    return this.http.put<any>(environment.urls.trip + `/${id}`, trip);
+    return this.http.put<any>(environment.urls.trip.byId(id), trip);
   }
 
   deleteTrip(id) {
-    return this.http.delete(environment.urls.trip + `/${id}`);
+    return this.http.delete(environment.urls.trip.byId(id));
   }
 
   confirmTrip(tripId, userId) {
-    return this.http.put(environment.urls.trip + `/${tripId}/${userId}/confirm/`, null);
+    return this.http.put(environment.urls.trip.confirm(tripId, userId), null);
   }
 
   declineTrip(tripId, userId) {
-    return this.http.put(environment.urls.trip + `/${tripId}/${userId}/decline/`, null);
+    return this.http.put(environment.urls.trip.decline(tripId, userId), null);
   }
 
   getMergableTrips(id) {
-    return this.http.get(environment.urls.trip + `/${id}/match`);
+    return this.http.get(environment.urls.trip.match(id));
   }
 
   mergeTrips(params) {
-    return this.http.post(environment.urls.trip + `/merge`, null, {params: params});
+    return this.http.post(environment.urls.trip.merge, null, {params: params});
   }
 
   getTripsByUserId(userId) {
-    return this.http.get(environment.urls.trip + `/user/${userId}`);
+    return this.http.get(environment.urls.trip.userTrips(userId));
   }
 }

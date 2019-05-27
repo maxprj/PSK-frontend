@@ -8,8 +8,20 @@ export const environment = {
     auth: {
       token: '/api/oauth/token'
     },
-    apartments: '/api/apartment',
-    trip: '/api/trip',
+    apartments: {
+      list: 'api/apartment',
+      all: '/api/apartment/all',
+      byId: (id) => `/api/apartment/${id}`
+    },
+    trip: {
+      list: '/api/trip',
+      byId: (tripId: string) => `api/trip/${tripId}`,
+      confirm: (tripId: string, userId: string) => `/api/trip/${tripId}/${userId}/confirm`,
+      decline: (tripId: string, userId: string) => `/api/trip/${tripId}/${userId}/decline`,
+      match: (tripId: string) => `/api/trip/${tripId}/match`,
+      merge: `/api/trip/merge`,
+      userTrips: (userId: string) => `/api/trip/user/${userId}/`
+    },
     users: {
       list: '/api/user',
       allList: '/api/user/all',
