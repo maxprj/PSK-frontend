@@ -25,7 +25,7 @@
       <input type="text" class="form-control" formControlName="flightTicket">
     </form-row>
   </div>
-  <div *ngIf="isPending(trip?.userStatus)" class="modal-footer trip-actions">
+  <div *ngIf="statusChangeAvailable()" class="modal-footer trip-actions">
     <btn-cancel label="Decline" (onClick)="decline()"></btn-cancel>
     <btn-primary label="Confirm" (onClick)="confirm()"></btn-primary>
   </div>

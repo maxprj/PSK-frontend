@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {DateValidators} from "../../../shared/validators/date.validator";
+import {UserService} from "../../../users/user.service";
+import {UserAllView} from "../../../users/_models/user";
+import {EventCreateForm} from "../../model/event";
 
 @Component({
   selector: 'app-event-add-modal',
@@ -10,39 +13,72 @@ import {DateValidators} from "../../../shared/validators/date.validator";
 })
 export class EventAddModalComponent implements OnInit {
 
-  formSettings: FormGroup;
+  form: FormGroup;
   submitted = false;
   currentDate = new Date();
 
+  availableUsers: UserAllView[] = [];
+  selectedUsers: UserAllView[] = [];
+
+  headElements = ['#', 'Name', 'Surname'];
+
   constructor(public activeModal: NgbActiveModal,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private userService: UserService) {
   }
 
   ngOnInit() {
     this.initForm();
+    this.loadUsers();
   }
 
   private initForm() {
-    this.formSettings = this.formBuilder.group({
+    this.form = this.formBuilder.group({
+      name: ['', Validators.required],
+      user: [''],
       description: ['', Validators.required],
       start: [this.currentDate, Validators.required],
       end: [this.currentDate, Validators.required]
     }, {
       validator: Validators.compose(
-        [DateValidators.dateLessThan('start', 'end', {'endDate': true })]
+        [DateValidators.dateLessThan('start', 'end', {'endDate': true})]
       )
     });
   }
 
+  private loadUsers() {
+    this.userService.getAll().subscribe(users => this.availableUsers = users);
+  }
+
   get f() {
-    return this.formSettings.controls;
+    return this.form.controls;
   }
 
   public submitForm() {
     this.submitted = true;
-    if (this.formSettings.invalid) {
+    if (this.form.invalid) {
       return;
     }
-    this.activeModal.close(this.formSettings.value);
+    let value: EventCreateForm = {
+      ...<EventCreateForm>this.form.value,
+      users: this.availableUsers.map(u => u.id)
+    };
+
+    this.activeModal.close(value);
+  }
+
+  removeUser(id: string) {
+    const user = this.selectedUsers.find(u => u.id == id);
+    this.selectedUsers.splice(this.selectedUsers.indexOf(user), 1);
+    this.availableUsers.push(user);
+  }
+
+  addUser() {
+    const user = this.availableUsers.find(u => u.id == this.form.get('user').value);
+    if (user) {
+      this.selectedUsers.push(user);
+      this.availableUsers.splice(this.availableUsers.indexOf(user), 1);
+      this.form.get('user').setValue('');
+    }
   }
 }

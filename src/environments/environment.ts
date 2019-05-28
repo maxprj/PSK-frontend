@@ -38,7 +38,10 @@ export const environment = {
     events: {
       create: '/api/event',
       list: '/api/event',
-      delete: (id: string) => `/api/event/${id}`
+      get: (id: string) => `/api/event/${id}`,
+      delete: (id: string) => `/api/event/${id}`,
+      confirm: (id: string) => `/api/event/${id}/confirm`,
+      decline: (id: string) => `/api/event/${id}/decline`,
     }
   },
   constants: {

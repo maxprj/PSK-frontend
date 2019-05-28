@@ -8,6 +8,7 @@ import {EventService} from "../../service/event.service";
 import {EventCalendarView} from "../../model/event";
 import {map} from "rxjs/internal/operators";
 import {TripEventDetailsComponent} from "../trip-event-details/trip-event-details.component";
+import {EventDetailsComponent} from "../event-details/event-details.component";
 
 
 const colors: any = {
@@ -92,10 +93,15 @@ export class UserCalendarComponent implements OnInit {
     this.modalData = {event, action};
     switch (action) {
       case 'Clicked': {
-        event.meta.trip ? this.showTripDetails(event) : null;
+        if(event.meta.trip) {
+          this.showTripDetails(event);
+        } else if(event.meta.owner) {
+          console.log('owner');
+        } else {
+         this.showEventDetails(event);
+        }
       }
     }
-    // this.modal.open(this.modalContent, {size: 'lg'});
   }
 
   showTripDetails(event: CalendarEvent) {
@@ -106,6 +112,21 @@ export class UserCalendarComponent implements OnInit {
       });
 
     modalRef.componentInstance.id = event.id;
+    modalRef.result.then(accepted => {
+      if (!accepted) {
+        this.loading = true;
+        this.loadEvents();
+      }
+    });
+  }
+
+  showEventDetails(event: CalendarEvent) {
+    const modalRef = this.modal.open(EventDetailsComponent,
+      {
+        size: "sm",
+        windowClass: 'show'
+      });
+    modalRef.componentInstance.event = event;
     modalRef.result.then(accepted => {
       if (!accepted) {
         this.loading = true;
@@ -145,7 +166,7 @@ export class UserCalendarComponent implements OnInit {
       id: e.id,
       start: new Date(e.start),
       end: new Date(e.end),
-      title: e.description,
+      title: e.name,
       draggable: false,
       allDay: false,
       color: e.trip ? colors.tripEvent : colors.userEvent,

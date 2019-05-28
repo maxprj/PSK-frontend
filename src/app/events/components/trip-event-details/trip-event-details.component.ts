@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TripsService} from "../../../trips/trips.service";
-import {TripUserStatus, TripUserView} from "../../../trips/model/trip";
+import {TripStatus, TripUserStatus, TripUserView} from "../../../trips/model/trip";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {AlertService} from "../../../shared/components/alert/alert.service";
@@ -47,8 +47,9 @@ export class TripEventDetailsComponent implements OnInit {
     this.form.disable();
   }
 
-  isPending(userStatus: TripUserStatus) {
-    return userStatus == TripUserStatus.CONFIRMATION_PENDING;
+
+  statusChangeAvailable() {
+    return this.trip.userStatus == TripUserStatus.CONFIRMATION_PENDING && this.trip.status == TripStatus.DRAFT;
   }
 
   confirm() {

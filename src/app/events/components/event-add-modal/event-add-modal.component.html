@@ -2,11 +2,19 @@
   <h4 class="modal-title">Add new event</h4>
   <modal-btn-close (click)="activeModal.dismiss('Closed Modal')"></modal-btn-close>
 </div>
-<form [formGroup]="formSettings" (ngSubmit)="submitForm()">
+<form [formGroup]="form" (ngSubmit)="submitForm()">
   <div class="modal-body">
-    <form-row forInput="description" label="Description" [isInvalid]="submitted && f.description.invalid" errorText="Description is required">
-      <input type="text" class="form-control" formControlName="description" id="description" [ngClass]="{'is-invalid': submitted && f.description.invalid}">
+    <form-row forInput="name" label="Name" [isInvalid]="submitted && f.name.invalid" errorText="Name is required">
+      <input type="text" class="form-control" formControlName="name" id="name"
+             [ngClass]="{'is-invalid': submitted && f.description.invalid}">
     </form-row>
+
+    <form-row forInput="description" label="Description" [isInvalid]="submitted && f.description.invalid"
+              errorText="Description is required">
+      <textarea type="text" class="form-control" formControlName="description" id="description"
+                [ngClass]="{'is-invalid': submitted && f.description.invalid}"></textarea>
+    </form-row>
+
     <form-row forInput="start" label="Start" [isInvalid]="submitted && f.end.invalid" errorText="Start is required">
       <input type="text" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2"
              class="form-control" formControlName="start" [min]="currentDate"
@@ -18,10 +26,38 @@
       <input type="text" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1"
              class="form-control" [min]="currentDate"
              formControlName="end"
-             id="end" [ngClass]="{'is-invalid': submitted && formSettings.hasError('endDate')}">
-      <invalid-feedback [isInvalid]="submitted && formSettings.hasError('endDate')" errorText="End date should be after start date" ></invalid-feedback>
+             id="end" [ngClass]="{'is-invalid': submitted && form.hasError('endDate')}">
+      <invalid-feedback [isInvalid]="submitted && form.hasError('endDate')"
+                        errorText="End date should be after start date"></invalid-feedback>
       <owl-date-time #dt1></owl-date-time>
     </form-row>
+
+
+    <form-row forInput="user" label="Available Users">
+      <select class="form-control" formControlName="user" id="user">
+        <option *ngFor="let user of availableUsers" [value]="user.id">{{user.name}} {{user.surname}}</option>
+      </select>
+    </form-row>
+    <btn-primary [type]="'button'" label="Add user" (onClick)="addUser()"></btn-primary>
+
+    <table mdbTable class="z-depth-0">
+      <thead>
+      <tr>
+        <th *ngFor="let head of headElements; let i = index" scope="col">{{head}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of selectedUsers; let i = index">
+        <td>{{i + 1}}</td>
+        <td>{{user.name}}</td>
+        <td>{{user.surname}}</td>
+        <td>
+          <mat-icon style="cursor: pointer" (click)="removeUser(user.id)">delete</mat-icon>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
   </div>
   <div class="modal-footer">
     <btn-primary label="Add"></btn-primary>

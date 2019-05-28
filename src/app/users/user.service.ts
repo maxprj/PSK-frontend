@@ -1,10 +1,8 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
-import { NewUserForm } from './_models/NewUserForm';
-import { UpdateUserForm } from './_models/UpdateUserForm';
-import { UserListView } from './_models/UserListView';
-import { UserView } from './_models/UserView';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {environment} from 'src/environments/environment';
+import {NewUserForm, UpdateUserForm, UserAllView, UserListView, UserView} from "./_models/user";
+import {Observable} from "rxjs/index";
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +11,8 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getAll() {
-    return this.http.get<any>(environment.urls.users.allList);
+  getAll(): Observable<UserAllView[]> {
+    return this.http.get<UserAllView[]>(environment.urls.users.allList);
   }
 
   getPaged(params) {

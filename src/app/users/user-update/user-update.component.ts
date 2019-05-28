@@ -1,10 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { UserService } from '../user.service';
-import { UserView } from '../_models/UserView';
-import { UserRoleEnumToTextMapping } from '../_models/enums/UserRoleEnumToTextMapping';
-import { UserRole } from '../_models/enums/UserRoleEnum';
+import {Component, Input, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {UserService} from '../user.service';
+import {UserRole} from '../_models/enums/UserRoleEnum';
 
 @Component({
   selector: 'app-user-update',

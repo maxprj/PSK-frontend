@@ -1,0 +1,40 @@
+<div class="modal-header">
+  <h4 class="modal-title">Event overview</h4>
+  <modal-btn-close (click)="activeModal.dismiss('Closed Modal')"></modal-btn-close>
+</div>
+<form [formGroup]="form">
+  <div class="modal-body">
+    <form-row forInput="name" label="Event Name">
+      <input type="text" class="form-control" formControlName="name">
+    </form-row>
+    <form-row forInput="start" label="Event Start Date">
+      <input type="text" class="form-control" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" formControlName="start">
+      <owl-date-time #dt1></owl-date-time>
+    </form-row>
+    <form-row forInput="end" label="Event End Date">
+      <input type="text" class="form-control" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" formControlName="end">
+      <owl-date-time #dt2></owl-date-time>
+    </form-row>
+    <form-row forInput="description" label="Description">
+      <textarea type="text" class="form-control" formControlName="description"></textarea>
+    </form-row>
+  </div>
+
+  <table mdbTable class="z-depth-0">
+    <thead>
+    <tr>
+      <th *ngFor="let head of headElements; let i = index" scope="col">{{head}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of selectedUsers; let i = index">
+      <td>{{i + 1}}</td>
+      <td>{{user.name}}</td>
+      <td>{{user.surname}}</td>
+      <td>
+        <mat-icon style="cursor: pointer" (click)="removeUser(user.id)">delete</mat-icon>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</form>
