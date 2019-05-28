@@ -5,17 +5,16 @@ import {Router} from '@angular/router';
 import {catchError, map} from 'rxjs/operators';
 import {TOKEN_PSK} from '../utils/constants';
 import {AlertService} from '../shared/components/alert/alert.service';
- 
+
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {
- 
- 
-  constructor(private router: Router, 
+
+  constructor(private router: Router,
               private alertService: AlertService) {
   }
- 
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
- 
+
     if (req.headers.get('Authorization') != null) {
       return next.handle(req.clone());
     } else {

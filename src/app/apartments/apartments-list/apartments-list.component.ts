@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../authentication/authentication.service';
 import {ApartmentsService} from '../apartments.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -14,7 +14,6 @@ import { environment } from 'src/environments/environment';
 })
 export class ApartmentsListComponent implements OnInit {
   public apartmentsLoaded: Boolean = false;
-  public deleteLoading: string;
   private pageable: any;
   public apartments: any = [];
   params: any = {
@@ -27,8 +26,7 @@ export class ApartmentsListComponent implements OnInit {
               private router: Router,
               private activatedRoute: ActivatedRoute,
               private modalService: NgbModal,
-              private alertService: AlertService,
-              private cdRef: ChangeDetectorRef) { }
+              private alertService: AlertService) { }
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(result => {
@@ -46,7 +44,6 @@ export class ApartmentsListComponent implements OnInit {
       this.pageable = result;
       this.apartments = this.pageable.content;
       this.apartmentsLoaded = true;
-      this.cdRef.detectChanges();
     }, error => {
       this.apartmentsLoaded = true;
       this.alertService.error(error.error.message);
@@ -71,9 +68,7 @@ export class ApartmentsListComponent implements OnInit {
   }
 
   public deleteApartment(id) {
-    this.deleteLoading = id;
     this.apartmentsService.deleteApartment(id).pipe().subscribe(() => {
-      this.deleteLoading = null;
       this.loadApartments();
     }, error => {
       this.alertService.error(error.error.message);

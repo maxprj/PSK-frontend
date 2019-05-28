@@ -5,9 +5,11 @@ import { BtnSecondaryComponent } from './components/btn-secondary/btn-secondary.
 import { BtnPrimaryComponent } from './components/btn-primary/btn-primary.component';
 import { InvalidFeedbackComponent } from './components/invalid-feedback/invalid-feedback.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
+import { OtherExpenseComponent } from './components/other-expense/other-expense.component';
 import { ModalBtnCloseComponent } from './components/modal-btn-close/modal-btn-close.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { AlertComponent } from './components/alert/alert.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,11 +18,14 @@ import { AlertComponent } from './components/alert/alert.component';
     BtnPrimaryComponent,
     InvalidFeedbackComponent,
     PaginatorComponent,
+    OtherExpenseComponent,
     ModalBtnCloseComponent,
     LoaderComponent,
     AlertComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     FormRowWrapperComponent,
@@ -28,6 +33,7 @@ import { AlertComponent } from './components/alert/alert.component';
     BtnPrimaryComponent,
     InvalidFeedbackComponent,
     PaginatorComponent,
+    OtherExpenseComponent,
     ModalBtnCloseComponent,
     LoaderComponent,
     AlertComponent]
