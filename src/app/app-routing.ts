@@ -9,9 +9,9 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 const appRoutes: Routes = [
   { path: '', component: NavComponent, canActivate: [AuthenticationGuard],
     children: [
-      { path: 'events', loadChildren: 'src/app/events/events.module#EventsModule' },
+      { path: 'events', loadChildren: 'src/app/events/events.module#EventsModule', data: {roles: [UserRoleEnum.ROLE_USER] } },
       { path: 'users', loadChildren: 'src/app/users/users.module#UsersModule', data: {roles: [UserRoleEnum.ROLE_ADMIN] } },
-      { path: 'apartments', loadChildren: 'src/app/apartments/apartments.module#ApartmentsModule', data: {roles: [UserRoleEnum.ROLE_ADMIN, UserRoleEnum.ROLE_USER] } },
+      { path: 'apartments', loadChildren: 'src/app/apartments/apartments.module#ApartmentsModule', data: {roles: [UserRoleEnum.ROLE_ADMIN] } },
       { path: 'error', component: ErrorPageComponent },
   ]},
   { path: 'login', component: LoginComponent },
