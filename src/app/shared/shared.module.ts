@@ -12,6 +12,7 @@ import {AlertComponent} from './components/alert/alert.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TripStatusPipe} from "./pipes/trip-status-pipe";
 import {BtnCancelComponent} from './components/btn-cancel/btn-cancel.component';
+import { UserAddComponent } from './components/user-add/user-add.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {BtnCancelComponent} from './components/btn-cancel/btn-cancel.component';
     LoaderComponent,
     AlertComponent,
     TripStatusPipe,
-    BtnCancelComponent
+    BtnCancelComponent,
+    UserAddComponent
   ],
   imports: [
     CommonModule,
@@ -43,7 +45,8 @@ import {BtnCancelComponent} from './components/btn-cancel/btn-cancel.component';
     ModalBtnCloseComponent,
     LoaderComponent,
     AlertComponent,
-    TripStatusPipe
+    TripStatusPipe,
+    UserAddComponent
   ]
 })
 export class SharedModule { }

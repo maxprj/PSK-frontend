@@ -17,7 +17,6 @@ import { TripDetailsComponent } from './trip-details/trip-details.component';
   declarations: [TripListComponent, TripAddComponent, TripDetailsComponent],
   imports: [
     NgbModule,
-    routing,
     NgbModalModule,
     AuthenticationModule,
     TripsRoutingModule,

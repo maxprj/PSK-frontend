@@ -46,7 +46,7 @@ export const environment = {
   },
   homePageUrls: {
     admin: 'users',
-    organiser: 'apartments',
+    organiser: 'trips',
     user: 'events'
   }
 };

@@ -6,9 +6,9 @@ import {TripAddComponent} from './trip-add/trip-add.component';
 import {TripDetailsComponent} from './trip-details/trip-details.component';
 
 const routes: Routes = [
-  { path: 'trips', component: TripListComponent, canActivate: [AuthenticationGuard]},
-  { path: 'trips/add', component: TripAddComponent, canActivate: [AuthenticationGuard]},
-  { path: 'trips/:tripId', component: TripDetailsComponent, canActivate: [AuthenticationGuard]}
+  { path: '', component: TripListComponent, canActivate: [AuthenticationGuard]},
+  { path: 'add', component: TripAddComponent, canActivate: [AuthenticationGuard]},
+  { path: ':tripId', component: TripDetailsComponent, canActivate: [AuthenticationGuard]}
 ];
 
 @NgModule({

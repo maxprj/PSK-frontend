@@ -6,7 +6,7 @@ import {AuthenticationService} from '../authentication.service';
 import {AlertService} from '../../shared/components/alert/alert.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PasswordResetComponent } from '../password-reset/password-reset.component';
-import { UserRoleEnum } from 'src/app/users/_models/enums/UserRoleEnum';
+import { UserRole } from 'src/app/users/_models/enums/UserRoleEnum';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -73,9 +73,9 @@ export class LoginComponent implements OnInit {
   get getHomePageBaseOnUserRole() {
     const userRole = this.authenticationService.currentUserRole;
 
-    if (userRole == UserRoleEnum.ROLE_USER) {
+    if (userRole == UserRole.ROLE_USER) {
       return environment.homePageUrls.user;
-    } else if (userRole == UserRoleEnum.ROLE_ORGANIZER) {
+    } else if (userRole == UserRole.ROLE_ORGANIZER) {
       return environment.homePageUrls.organiser;
     } else {
       return environment.homePageUrls.admin;
