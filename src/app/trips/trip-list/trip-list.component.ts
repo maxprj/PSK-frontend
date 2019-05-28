@@ -12,7 +12,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 export class TripListComponent implements OnInit {
 
   tripsLoaded = false;
-  headElements = ['#', 'Name', 'Destination Address', 'Residence Address', 'Departure Time', 'Status', 'Details', 'Delete'];
+  headElements = ['#', 'Name', 'Departure point', 'Destination point', 'Departure time', 'Status', 'Details', 'Delete'];
   pageable: any;
   trips: any = [];
   params: any = {

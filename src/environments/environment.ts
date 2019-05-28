@@ -28,7 +28,7 @@ export const environment = {
       create: '/api/user',
       resetPassword: '/api/user/resetPassword',
       savePassword: '/api/user/savePassword',
-      details: (userId: string) => `/api/user/details/${userId}`,
+      details: (userId: string) => `/api/user/${userId}`,
       update: (userId: string) => `/api/user/${userId}`
     }
   },
