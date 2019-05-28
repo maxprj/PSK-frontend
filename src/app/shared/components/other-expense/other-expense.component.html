@@ -1,0 +1,15 @@
+<span layout="row"><a (click)="expand()">{{label}}</a><hr flex/></span>
+<div *ngIf="expanded" [formGroup]="formGroup">
+  <form-row forInput="count" label="Quantity" [isInvalid]="submitted && f.count.invalid" errorText="Count is invalid">
+    <input type="number" class="form-control" formControlName="count" id="count" [ngClass]="{'is-invalid': submitted && f.count.invalid}">
+  </form-row>
+  <form-row forInput="price" label="Total Price" [isInvalid]="submitted && f.price.invalid" errorText="Count is invalid">
+    <input type="number" class="form-control" formControlName="price" id="price" [ngClass]="{'is-invalid': submitted && f.count.invalid}">
+  </form-row>
+  <div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" formControlName="ordered" id="ordered">
+    <label class="form-check-label" for="ordered">Is it ordered?</label>
+  </div>
+</div>
+
+

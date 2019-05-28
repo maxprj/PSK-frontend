@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'btn-primary',
@@ -9,6 +9,14 @@ export class BtnPrimaryComponent {
 
   @Input() label: string;
   @Input() isDisabled: boolean;
-  constructor() { }
 
+  @Output('onClick') click: EventEmitter<any>;
+
+  constructor() {
+    this.click = new EventEmitter<any>();
+  }
+
+  onClick() {
+    this.click.emit();
+  }
 }

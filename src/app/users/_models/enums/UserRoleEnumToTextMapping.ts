@@ -1,7 +1,7 @@
-import { UserRoleEnum } from './UserRoleEnum';
+import { UserRole } from './UserRoleEnum';
 
 export const UserRoleEnumToTextMapping = {
-    [UserRoleEnum.ROLE_ADMIN]: "Administrator",
-    [UserRoleEnum.ROLE_ORGANIZER]: "Trip Organiser",
-    [UserRoleEnum.ROLE_USER]: "User"
+    [UserRole.ROLE_ADMIN]: "Administrator",
+    [UserRole.ROLE_ORGANIZER]: "Trip Organiser",
+    [UserRole.ROLE_USER]: "User"
 }

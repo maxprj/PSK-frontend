@@ -19,7 +19,7 @@
         <td>{{el.address.apartmentNumber}}</td>
         <td>{{el.size}}</td>
         <td>
-          <a [routerLink]="[el.id, 'details']">
+          <a [routerLink]="[el.id]">
             <mat-icon style="cursor: pointer;">settings</mat-icon>
           </a>
         </td>
@@ -30,11 +30,11 @@
     </tbody>
     <tfoot class="grey lighten-5 w-100">
       <tr>
-        <td colspan="8">
+        <td [colSpan]="headElements.length">
           <paginator [pageable]="pageable" (nextPageClick)="nextPage()" (previousPageClick)="previousPage()"></paginator>
         </td>
       </tr>
     </tfoot>
   </table>
 </div>
-<button type="button" class="btn btn-primary" (click)="addApartment()">Add new apartment</button>
+<btn-primary label="Add new apartment" (onClick)="addApartment($event)"></btn-primary>

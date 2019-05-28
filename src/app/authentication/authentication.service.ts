@@ -3,9 +3,10 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {environment} from '../../environments/environment';
-import {CLIENT_ID, CLIENT_SECRET, TOKEN_PSK} from '../utils/constants';
+import {CLIENT_ID, CLIENT_SECRET, TOKEN_PSK, USER_VIEW} from '../utils/constants';
 import {map} from 'rxjs/operators';
-import { PasswordForm } from './_models/PasswordForm';
+import {CurrentUserView, PasswordForm} from './_models/auth.models';
+import {switchMap} from "rxjs/internal/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -27,17 +28,25 @@ export class AuthenticationService {
   login(username: string, password: string) {
     const body = 'username=' + username + '&password=' + password + '&grant_type=password';
     const httpHeaders = new HttpHeaders({
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Basic ' + btoa(CLIENT_ID + ':' + CLIENT_SECRET)
-      });
-    return this.http.post(environment.urls.auth.token, body, {headers: httpHeaders}).pipe(map(data => {
-      localStorage.setItem(TOKEN_PSK, JSON.stringify(data));
-      this.currentTokenSubject.next(data);
-    }));
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Basic ' + btoa(CLIENT_ID + ':' + CLIENT_SECRET)
+    });
+    return this.http.post(environment.urls.auth.token, body, {headers: httpHeaders}).pipe(
+      map(data => {
+        localStorage.setItem(TOKEN_PSK, JSON.stringify(data));
+        this.currentTokenSubject.next(data);
+      }),
+      switchMap(() => {
+        return this.http.get(environment.urls.auth.me);
+      }),
+      map((user: CurrentUserView) => {
+        localStorage.setItem(USER_VIEW, JSON.stringify(user));
+      }));
   }
 
   logout() {
     localStorage.removeItem(TOKEN_PSK);
+    localStorage.removeItem(USER_VIEW);
     this.currentTokenSubject.next(null);
     this.router.navigate(['/login']);
   }

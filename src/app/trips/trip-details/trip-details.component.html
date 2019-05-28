@@ -1,0 +1,54 @@
+<h2>Trip information</h2>
+<div class="spinner-div" *ngIf="!tripLoaded">
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="tripLoaded">
+  <h4>{{trip.status}}</h4>
+  <form [formGroup]="formSettings" (ngSubmit)="onSubmit()">
+    <form-row forInput="name" label="Trip name" [isInvalid]="submitted && f.name.invalid" errorText="Name is invalid">
+      <input type="text" class="form-control" formControlName="name" id="name" [ngClass]="{'is-invalid': submitted && f.name.invalid}">
+    </form-row>
+    <form-row forInput="departure" label="Departure time" [isInvalid]="submitted && isDepartureInvalid()" errorText="Departure time must be greater than current time">
+      <input type="datetime-local" class="form-control" formControlName="departure" id="departure" [ngClass]="{'is-invalid': submitted && isDepartureInvalid()}">
+    </form-row>
+    <form-row forInput="source" label="Departure point">
+      <input class="form-control" formControlName="source" id="source">
+    </form-row>
+    <form-row forInput="destination" label="Destination point">
+      <input class="form-control" formControlName="destination" id="destination">
+    </form-row>
+    <form-row *ngIf="!reservationNeeded" forInput="arrival" label="Arrival time" [isInvalid]="submitted && isArrivalValid()" errorText="Arrival time must be greater than departure time">
+      <input type="datetime-local" class="form-control" formControlName="arrival" id="arrival" [ngClass]="{'is-invalid': submitted && isArrivalValid()}">
+    </form-row>
+    <div *ngIf="reservationNeeded">
+    <span class="subtitle">Reservation information<hr flex/></span>
+      <form-row forInput="reservationBegin" label="Reservation start" [isInvalid]="submitted && isReservationStartInvalid()" errorText="Reservation begin time must be greater than departure time">
+        <input type="datetime-local" class="form-control" formControlName="reservationBegin" id="reservationBegin" [ngClass]="{'is-invalid': submitted && isReservationStartInvalid()}">
+      </form-row>
+      <form-row forInput="reservationEnd" label="Reservation End" [isInvalid]="submitted && isReservationEndInvalid()" errorText="Reservation end time must be greater than reservation begin time">
+        <input type="datetime-local" class="form-control" formControlName="reservationEnd" id="reservationEnd" [ngClass]="{'is-invalid': submitted && isReservationEndInvalid()}">
+      </form-row>
+    </div>
+    <span class="subtitle">Participants<hr flex/></span>
+    <div formArrayName="users" *ngFor="let item of f.users.controls; let i = index; let last = last;">
+      <div [formGroupName]="i">
+        <multiple-user-add  [submitted]="submitted" (addUserClick)="addUser()" [item]="item"
+                            [canRemove]="f.users.controls.length == 1" [index]="i" [last]="last"
+                            (removeUserClick)="removeUser(i)" [users]="users" [isInput]="false"></multiple-user-add>
+      </div>
+    </div>
+    <span class="subtitle">Optional details<hr flex/></span>
+    <form-row forInput="description" label="Description">
+      <textarea type="text" class="form-control" formControlName="description" id="description"></textarea>
+    </form-row>
+    <form-row forInput="otherExpenses" label="Other expenses">
+      <input type="number" class="form-control" formControlName="otherExpenses" id="otherExpenses">
+    </form-row>
+    <other-expense label="Plane tickets" [formGroup]="f.flight" [submitted]="submitted"></other-expense>
+    <other-expense label="Hotel booking" [formGroup]="f.hotel" [submitted]="submitted"></other-expense>
+    <other-expense label="Car rent" [formGroup]="f.carRent" [submitted]="submitted"></other-expense>
+    <btn-primary label="Update trip"></btn-primary>
+  </form>
+</div>
+
+

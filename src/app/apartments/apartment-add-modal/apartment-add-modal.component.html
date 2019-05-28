@@ -4,7 +4,7 @@
 </div>
 <form [formGroup]="formSettings" (ngSubmit)="submitForm()">
   <div class="modal-body">
-    <form-row forInput="appartmentName" label="Apartment Name" [isInvalid]="submitted && f.name.invalid" errorText="Name is invalid">
+    <form-row forInput="apartmentName" label="Apartment Name" [isInvalid]="submitted && f.name.invalid" errorText="Name is invalid">
       <input type="text" class="form-control" formControlName="name" id="apartmentName" [ngClass]="{'is-invalid': submitted && f.name.invalid}">
     </form-row>
     <div class="address-group" formGroupName="address">

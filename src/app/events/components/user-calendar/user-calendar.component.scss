@@ -1,0 +1,9 @@
+@import "../../../utilities/colors";
+@import "../../../utilities/mixin-variables";
+
+a {
+  color: $black-color;
+  &:hover{
+    color: $black-color;
+  }
+}

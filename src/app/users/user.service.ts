@@ -13,12 +13,16 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  getAll() {
+    return this.http.get<any>(environment.urls.users.allList);
+  }
+
   getPaged(params) {
     return this.http.get<UserListView[]>(environment.urls.users.list, { params: params });
   }
 
   getById(id) {
-    return this.http.get<UserView>(environment.urls.users.details(id));
+    return this.http.get<UserView>(environment.urls.users.get(id));
   }
 
   createUser(user) {

@@ -4,7 +4,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../user.service';
 import { UserView } from '../_models/UserView';
 import { UserRoleEnumToTextMapping } from '../_models/enums/UserRoleEnumToTextMapping';
-import { UserRoleEnum } from '../_models/enums/UserRoleEnum';
+import { UserRole } from '../_models/enums/UserRoleEnum';
 
 @Component({
   selector: 'app-user-update',
@@ -15,8 +15,8 @@ export class UserUpdateComponent implements OnInit {
   formSettings: FormGroup;
   submitted = false;
   @Input() id;
-  
-  public userRoles = Object.values(UserRoleEnum);
+
+  public userRoles = Object.values(UserRole);
 
   constructor(public activeModal: NgbActiveModal,
               private formBuilder: FormBuilder,
