@@ -5,8 +5,8 @@
       [opened]="(isHandset$ | async)">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item href="users">Users</a>
-      <a mat-list-item href="apartments">Apartments</a>
+      <a mat-list-item href="users" *ngIf="isAdmin">Users</a>
+      <a mat-list-item href="apartments" *ngIf="isAdmin">Apartments</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
