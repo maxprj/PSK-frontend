@@ -7,6 +7,7 @@ import {CLIENT_ID, CLIENT_SECRET, TOKEN_PSK, USER_VIEW} from '../utils/constants
 import {map} from 'rxjs/operators';
 import {CurrentUserView, PasswordForm} from './_models/auth.models';
 import {switchMap} from "rxjs/internal/operators";
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -57,5 +58,11 @@ export class AuthenticationService {
 
   changePassword(form) {
     return this.http.post<PasswordForm>(environment.urls.users.savePassword, form);
+  }
+
+  public get currentUserRole(): any {
+    const helper = new JwtHelperService();
+    const decodedToken = helper.decodeToken(this.currentUserValue['access_token']);
+    return decodedToken['authorities'][0];
   }
 }

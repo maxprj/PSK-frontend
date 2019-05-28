@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
 import {Router} from "@angular/router";
+import { UserRoleEnum } from 'src/app/users/_models/enums/UserRoleEnum';
 
 @Component({
   selector: 'app-nav',
@@ -11,6 +12,9 @@ import {Router} from "@angular/router";
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent {
+  isAdmin: boolean;
+  isOrganiser: boolean;
+  isUser: boolean;
 
   @ViewChild('drawer') drawer: ElementRef;
 
@@ -21,7 +25,9 @@ export class NavComponent {
 
   constructor(private breakpointObserver: BreakpointObserver,
               private router: Router,
-              private authenticationService: AuthenticationService) {}
+              private authenticationService: AuthenticationService) {
+    this.setMenuVisibilityValues();
+  }
 
   logout() {
     this.authenticationService.logout();
@@ -30,4 +36,12 @@ export class NavComponent {
   navigate(route: string) {
     this.router.navigate([route]);
   }
+  
+  setMenuVisibilityValues() {
+    const userRole = this.authenticationService.currentUserRole;
+    this.isAdmin = userRole == UserRoleEnum.ROLE_ADMIN;
+    this.isOrganiser = userRole == UserRoleEnum.ROLE_ORGANIZER;
+    this.isUser = userRole == UserRoleEnum.ROLE_USER;
+  }
+
 }
