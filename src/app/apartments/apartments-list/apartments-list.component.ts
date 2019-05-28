@@ -66,7 +66,7 @@ export class ApartmentsListComponent implements OnInit {
         this.loadApartments();
       });
     }).catch((error) => {
-
+      this.router.navigate(['/error']);
     });
   }
 

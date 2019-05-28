@@ -20,6 +20,11 @@ export const environment = {
   },
   constants: {
     pageSize: 5
+  },
+  homePageUrls: {
+    admin: 'users',
+    organiser: 'apartments',
+    user: 'apartments'
   }
 };
 
