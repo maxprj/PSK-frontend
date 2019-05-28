@@ -5,8 +5,8 @@ import {AuthenticationGuard} from '../authentication/authentication.guard';
 import {ApartmentsListComponent} from './apartments-list/apartments-list.component';
 
 const routes: Routes = [
-  { path: 'apartments', component: ApartmentsListComponent, canActivate: [AuthenticationGuard]},
-  { path: 'apartments/:apartmentId', component: ApartmentsDetailsComponent, canActivate: [AuthenticationGuard]}
+  { path: '', component: ApartmentsListComponent, canActivate: [AuthenticationGuard]},
+  { path: '/:apartmentId', component: ApartmentsDetailsComponent, canActivate: [AuthenticationGuard]}
 ];
 
 @NgModule({

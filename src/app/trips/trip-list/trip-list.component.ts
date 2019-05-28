@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TripsService} from '../trips.service';
-import {AlertService} from '../../alert/alert.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {AlertService} from "../../shared/components/alert/alert.service";
 
 @Component({
   selector: 'app-trip-list',

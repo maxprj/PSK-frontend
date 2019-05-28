@@ -1,45 +1,25 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewChild,
-  TemplateRef, OnInit
-} from '@angular/core';
-import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  addHours
-} from 'date-fns';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {isSameDay, isSameMonth} from 'date-fns';
 import {Subject} from 'rxjs';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {
-  CalendarEvent,
-  CalendarEventAction,
-  CalendarEventTimesChangedEvent,
-  CalendarView
-} from 'angular-calendar';
-import {ApartmentAddModalComponent} from "../../../apartments/apartment-add-modal/apartment-add-modal.component";
+import {CalendarEvent, CalendarEventAction, CalendarView} from 'angular-calendar';
 import {EventAddModalComponent} from "../event-add-modal/event-add-modal.component";
 import {EventService} from "../../service/event.service";
 import {EventCalendarView} from "../../model/event";
 import {map} from "rxjs/internal/operators";
-import {flatMap} from "tslint/lib/utils";
+import {TripEventDetailsComponent} from "../trip-event-details/trip-event-details.component";
 
 
 const colors: any = {
 
-    userEvent: {
-      primary: '#4285f4',
-      secondary: '#4285f4'
-    },
-    tripEvent: {
-      primary: '#00c851',
-      secondary: '#00c851'
-    }
+  userEvent: {
+    primary: '#4285f4',
+    secondary: '#4285f4'
+  },
+  tripEvent: {
+    primary: '#00c851',
+    secondary: '#00c851'
+  }
 };
 
 
@@ -69,12 +49,12 @@ export class UserCalendarComponent implements OnInit {
   viewDate: Date = new Date();
 
   userEventActions: CalendarEventAction[] = [
-    {
-      label: '<a><i class="material-icons">edit</i></a>',
-      onClick: ({event}: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      }
-    },
+    // {
+    //   label: '<a><i class="material-icons">edit</i></a>',
+    //   onClick: ({event}: { event: CalendarEvent }): void => {
+    //     this.handleEvent('Edited', event);
+    //   }
+    // },
     {
       label: '<a><i class="material-icons">delete</i></a>',
       onClick: ({event}: { event: CalendarEvent }): void => {
@@ -110,7 +90,28 @@ export class UserCalendarComponent implements OnInit {
 
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = {event, action};
-    this.modal.open(this.modalContent, {size: 'lg'});
+    switch (action) {
+      case 'Clicked': {
+        event.meta.trip ? this.showTripDetails(event) : null;
+      }
+    }
+    // this.modal.open(this.modalContent, {size: 'lg'});
+  }
+
+  showTripDetails(event: CalendarEvent) {
+    const modalRef = this.modal.open(TripEventDetailsComponent,
+      {
+        size: 'lg',
+        windowClass: 'show'
+      });
+
+    modalRef.componentInstance.id = event.id;
+    modalRef.result.then(accepted => {
+      if (!accepted) {
+        this.loading = true;
+        this.loadEvents();
+      }
+    });
   }
 
   addEvent() {
@@ -125,6 +126,7 @@ export class UserCalendarComponent implements OnInit {
         this.loadEvents();
       });
     }).catch((error) => {
+
     });
   }
 
@@ -139,7 +141,6 @@ export class UserCalendarComponent implements OnInit {
   }
 
   toCalendarEvent(e: EventCalendarView): CalendarEvent {
-    console.log(e);
     return <CalendarEvent>{
       id: e.id,
       start: new Date(e.start),
@@ -148,7 +149,11 @@ export class UserCalendarComponent implements OnInit {
       draggable: false,
       allDay: false,
       color: e.trip ? colors.tripEvent : colors.userEvent,
-      actions: this.userEventActions
+      actions: e.owner ? this.userEventActions : [],
+      meta: {
+        trip: e.trip,
+        owner: e.owner
+      }
     };
   }
 

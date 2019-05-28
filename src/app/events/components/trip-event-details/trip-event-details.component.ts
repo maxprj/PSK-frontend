@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {TripsService} from "../../../trips/trips.service";
+import {TripUserStatus, TripUserView} from "../../../trips/model/trip";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
+import {AlertService} from "../../../shared/components/alert/alert.service";
 
 @Component({
   selector: 'app-trip-event-details',
@@ -7,9 +12,60 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TripEventDetailsComponent implements OnInit {
 
-  constructor() { }
+  @Input() id: string;
+  form: FormGroup;
+  trip: TripUserView;
 
-  ngOnInit() {
+  constructor(private activeModal: NgbActiveModal,
+              private tripService: TripsService,
+              private fb: FormBuilder,
+              private alertService: AlertService) {
   }
 
+  ngOnInit() {
+    this.initForm();
+    this.loadTrip();
+  }
+
+  loadTrip() {
+    this.tripService.userView(this.id).subscribe((trip: TripUserView) => {
+      this.trip = trip;
+      this.form.patchValue(trip);
+    });
+  }
+
+  initForm() {
+    this.form = this.fb.group({
+      name: [''],
+      status: [''],
+      departure: [''],
+      sourceAddress: [''],
+      residenceAddress: [''],
+      carRent: [''],
+      flightTicket: ['']
+    });
+    this.form.disable();
+  }
+
+  isPending(userStatus: TripUserStatus) {
+    return userStatus == TripUserStatus.CONFIRMATION_PENDING;
+  }
+
+  confirm() {
+    this.tripService.confirmTrip(this.trip.tripId)
+      .subscribe(() => {
+        this.trip.userStatus = TripUserStatus.CONFIRMED;
+        this.activeModal.close(true);
+        this.alertService.success('You have confirmed to participate in a trip.');
+      });
+  }
+
+  decline() {
+    this.tripService.declineTrip(this.trip.tripId)
+      .subscribe(() => {
+        this.trip.userStatus = TripUserStatus.DECLINED;
+        this.activeModal.close(false);
+        this.alertService.success('You have declined trip participation.');
+      });
+  }
 }

@@ -12,3 +12,4 @@ export interface EventCreateForm {
   start: Date;
   end: Date;
 }
+

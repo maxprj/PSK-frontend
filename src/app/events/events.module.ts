@@ -7,12 +7,12 @@ import {CalendarModule, DateAdapter} from "angular-calendar";
 import {NgbModalModule} from "@ng-bootstrap/ng-bootstrap";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {EventsRoutingModule} from "./events-routing.module";
-import { EventAddModalComponent } from './components/event-add-modal/event-add-modal.component';
+import {EventAddModalComponent} from './components/event-add-modal/event-add-modal.component';
 import {MatIconModule, MatProgressSpinnerModule} from "@angular/material";
 import {AuthenticationModule} from "../authentication/authentication.module";
 import {SharedModule} from "../shared/shared.module";
 import {OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime";
-import { TripEventDetailsComponent } from './components/trip-event-details/trip-event-details.component';
+import {TripEventDetailsComponent} from './components/trip-event-details/trip-event-details.component';
 
 @NgModule({
   declarations: [UserCalendarComponent, EventAddModalComponent, TripEventDetailsComponent],
@@ -35,7 +35,8 @@ import { TripEventDetailsComponent } from './components/trip-event-details/trip-
     })
   ],
   entryComponents: [
-    EventAddModalComponent
+    EventAddModalComponent,
+    TripEventDetailsComponent
   ]
 })
 export class EventsModule {

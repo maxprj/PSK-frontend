@@ -20,21 +20,25 @@ export const environment = {
     trip: {
       list: '/api/trip',
       byId: (tripId: string) => `api/trip/${tripId}`,
-      confirm: (tripId: string, userId: string) => `/api/trip/${tripId}/${userId}/confirm`,
-      decline: (tripId: string, userId: string) => `/api/trip/${tripId}/${userId}/decline`,
+      confirm: (tripId: string) => `/api/trip/${tripId}/confirm`,
+      decline: (tripId: string) => `/api/trip/${tripId}/decline`,
       match: (tripId: string) => `/api/trip/${tripId}/match`,
       merge: `/api/trip/merge`,
-      userTrips: (userId: string) => `/api/trip/user/${userId}/`
+      userView: (id: string) => `/api/trip/${id}/user-view`
     },
-
     users: {
       list: '/api/user',
       allList: '/api/user/all',
       create: '/api/user',
       resetPassword: '/api/user/resetPassword',
       savePassword: '/api/user/savePassword',
-      details: (userId: string) => `/api/user/${userId}`,
+      get: (userId: string) => `/api/user/${userId}`,
       update: (userId: string) => `/api/user/${userId}`
+    },
+    events: {
+      create: '/api/event',
+      list: '/api/event',
+      delete: (id: string) => `/api/event/${id}`
     }
   },
   constants: {

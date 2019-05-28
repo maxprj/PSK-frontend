@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
-  selector: 'btn-primary',
-  templateUrl: './btn-primary.component.html',
-  styleUrls: ['./btn-primary.component.scss']
+  selector: 'btn-cancel',
+  templateUrl: './btn-cancel.component.html',
+  styleUrls: ['./btn-cancel.component.scss']
 })
-export class BtnPrimaryComponent {
+export class BtnCancelComponent {
 
   @Input() label: string;
   @Input() isDisabled: boolean;
