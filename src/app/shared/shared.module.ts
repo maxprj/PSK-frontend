@@ -22,7 +22,8 @@ import { AlertComponent } from './components/alert/alert.component';
   imports: [
     CommonModule
   ],
-  exports: [FormRowWrapperComponent,
+  exports: [
+    FormRowWrapperComponent,
     BtnSecondaryComponent,
     BtnPrimaryComponent,
     InvalidFeedbackComponent,

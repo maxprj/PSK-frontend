@@ -18,7 +18,7 @@ export class UserService {
   }
 
   getById(id) {
-    return this.http.get<UserView>(environment.urls.users.details(id));
+    return this.http.get<UserView>(environment.urls.users.get(id));
   }
 
   createUser(user) {

@@ -58,7 +58,10 @@
   </div>
 </div>
 <br/>
-<div [ngSwitch]="view">
+<div class="spinner-div" *ngIf="loading">
+  <mat-spinner></mat-spinner>
+</div>
+<div [ngSwitch]="view" *ngIf="!loading">
   <mwl-calendar-month-view
     *ngSwitchCase="CalendarView.Month"
     [viewDate]="viewDate"
@@ -67,7 +70,6 @@
     [activeDayIsOpen]="activeDayIsOpen"
     (dayClicked)="dayClicked($event.day)"
     (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)"
   >
   </mwl-calendar-month-view>
   <mwl-calendar-week-view
@@ -76,7 +78,6 @@
     [events]="events"
     [refresh]="refresh"
     (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)"
   >
   </mwl-calendar-week-view>
   <mwl-calendar-day-view
@@ -85,7 +86,9 @@
     [events]="events"
     [refresh]="refresh"
     (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)"
   >
   </mwl-calendar-day-view>
+  <button type="button" class="btn btn-primary" (click)="addEvent()">Add new event</button>
 </div>
+
+

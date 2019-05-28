@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../authentication.service';
-import { PasswordForm } from '../_models/PasswordForm';
+import { PasswordForm } from '../_models/auth.models';
 
 @Component({
   selector: 'app-password-change',
@@ -12,7 +12,7 @@ import { PasswordForm } from '../_models/PasswordForm';
 export class PasswordChangeComponent implements OnInit {
   formSettings: FormGroup;
   submitted = false;
-  token; 
+  token;
   alertService: any;
   passwordForm: PasswordForm;
 

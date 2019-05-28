@@ -14,29 +14,32 @@ import {
   isSameMonth,
   addHours
 } from 'date-fns';
-import { Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {Subject} from 'rxjs';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
   CalendarView
 } from 'angular-calendar';
+import {ApartmentAddModalComponent} from "../../../apartments/apartment-add-modal/apartment-add-modal.component";
+import {EventAddModalComponent} from "../event-add-modal/event-add-modal.component";
+import {EventService} from "../../service/event.service";
+import {EventCalendarView} from "../../model/event";
+import {map} from "rxjs/internal/operators";
+import {flatMap} from "tslint/lib/utils";
 
 
 const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3'
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF'
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA'
-  }
+
+    userEvent: {
+      primary: '#4285f4',
+      secondary: '#4285f4'
+    },
+    tripEvent: {
+      primary: '#00c851',
+      secondary: '#00c851'
+    }
 };
 
 
@@ -48,6 +51,13 @@ const colors: any = {
 export class UserCalendarComponent implements OnInit {
 
   ngOnInit() {
+    this.loadEvents();
+  }
+
+  loading: boolean = true;
+
+  constructor(private modal: NgbModal,
+              private eventService: EventService) {
   }
 
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
@@ -58,75 +68,33 @@ export class UserCalendarComponent implements OnInit {
 
   viewDate: Date = new Date();
 
+  userEventActions: CalendarEventAction[] = [
+    {
+      label: '<a><i class="material-icons">edit</i></a>',
+      onClick: ({event}: { event: CalendarEvent }): void => {
+        this.handleEvent('Edited', event);
+      }
+    },
+    {
+      label: '<a><i class="material-icons">delete</i></a>',
+      onClick: ({event}: { event: CalendarEvent }): void => {
+        this.deleteEvent(event);
+      }
+    }
+  ];
+
   modalData: {
     action: string;
     event: CalendarEvent;
   };
 
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fa fa-fw fa-pencil"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      }
-    },
-    {
-      label: '<i class="fa fa-fw fa-times"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter(iEvent => iEvent !== event);
-        this.handleEvent('Deleted', event);
-      }
-    }
-  ];
-
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      color: colors.red,
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      },
-      draggable: true
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: colors.yellow,
-      actions: this.actions
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: colors.blue,
-      allDay: true
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: new Date(),
-      title: 'A draggable and resizable event',
-      color: colors.yellow,
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      },
-      draggable: true
-    }
-  ];
+  events: CalendarEvent[] = [];
 
-  activeDayIsOpen: boolean = true;
+  activeDayIsOpen: boolean = false;
 
-  constructor(private modal: NgbModal) {}
-
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+  dayClicked({date, events}: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       this.viewDate = date;
       if (
@@ -140,48 +108,57 @@ export class UserCalendarComponent implements OnInit {
     }
   }
 
-  eventTimesChanged({
-                      event,
-                      newStart,
-                      newEnd
-                    }: CalendarEventTimesChangedEvent): void {
-    this.events = this.events.map(iEvent => {
-      if (iEvent === event) {
-        return {
-          ...event,
-          start: newStart,
-          end: newEnd
-        };
-      }
-      return iEvent;
-    });
-    this.handleEvent('Dropped or resized', event);
-  }
-
   handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
+    this.modalData = {event, action};
+    this.modal.open(this.modalContent, {size: 'lg'});
   }
 
-  addEvent(): void {
-    this.events = [
-      ...this.events,
+  addEvent() {
+    const modalRef = this.modal.open(EventAddModalComponent,
       {
-        title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: colors.red,
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true
-        }
-      }
-    ];
+        size: 'lg',
+        windowClass: 'show'
+      });
+    modalRef.result.then((result) => {
+      this.loading = true;
+      this.eventService.create(result).pipe().subscribe(e => {
+        this.loadEvents();
+      });
+    }).catch((error) => {
+    });
+  }
+
+  loadEvents() {
+    this.eventService.list().pipe(
+      map(events => events.map(e => this.toCalendarEvent(e)))
+    ).subscribe((events) => {
+      this.events = events;
+      this.refresh.next();
+      this.loading = false;
+    })
+  }
+
+  toCalendarEvent(e: EventCalendarView): CalendarEvent {
+    console.log(e);
+    return <CalendarEvent>{
+      id: e.id,
+      start: new Date(e.start),
+      end: new Date(e.end),
+      title: e.description,
+      draggable: false,
+      allDay: false,
+      color: e.trip ? colors.tripEvent : colors.userEvent,
+      actions: this.userEventActions
+    };
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter(event => event !== eventToDelete);
+    this.loading = true;
+    this.eventService.delete(<string>eventToDelete.id).subscribe(id => {
+      this.events = this.events.filter(event => event !== eventToDelete);
+      this.refresh.next();
+      this.loading = false;
+    });
   }
 
   setView(view: CalendarView) {

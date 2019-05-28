@@ -1,18 +1,7 @@
 @import "../../utilities/colors";
 @import "../../utilities/mixin-variables";
 
-.spinner-div {
-  @include flexibleCentre();
-}
-a {
-  color: $black-color;
-  &:hover{
-    color: $black-color;
-  }
-}
-.btn-primary {
-  background-color: $blue-color;
-}
+
 .modal-holder {
   animation-name: example;
   animation-duration: 0.3s;

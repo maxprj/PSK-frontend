@@ -6,17 +6,33 @@ export const environment = {
   production: false,
   urls: {
     auth: {
-      token: '/api/oauth/token'
+      token: '/api/oauth/token',
+      me: '/api/me'
     },
-    apartments: '/api/apartment',
+    apartments: {
+      list: '/api/apartment',
+      create: '/api/apartment',
+      update: (id: string) => `/api/apartment/${id}`,
+      get: (id: string) => `/api/apartment/${id}`,
+      delete: (id: string) => `/api/apartment/${id}`,
+      all: '/api/apartment/all'
+    },
     users: {
       list: '/api/user',
       create: '/api/user',
       resetPassword: '/api/user/resetPassword',
       savePassword: '/api/user/savePassword',
-      details: (userId: string) => `/api/user/details/${userId}`,
-      update: (userId: string) => `/api/user/${userId}`
-    }
+      get: (userId: string) => `/api/user/${userId}`,
+      update: (userId: string) => `/api/user/${userId}`,
+      all: '/api/user/all'
+    },
+    events: {
+      list: '/api/event',
+      create: '/api/event',
+      update: (id: string) => `/api/event/${id}`,
+      get: (id: string) => `/api/event/${id}`,
+      delete: (id: string) => `/api/event/${id}`
+    },
   },
   constants: {
     pageSize: 5

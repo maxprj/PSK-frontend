@@ -1,6 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+@import "./app/utilities/colors";
+@import "./app/utilities/mixin-variables";
 
 .pointer {
     cursor: pointer;
@@ -13,4 +16,21 @@
     min-height:100vh;
     margin-bottom: 0 !important;
     padding-bottom: 0 !important;
+}
+
+.cdk-global-overlay-wrapper, .cdk-overlay-container {
+  z-index: 99999 !important;
+}
+
+.spinner-div {
+  @include flexibleCentre();
+}
+a {
+  color: $black-color;
+  &:hover{
+    color: $black-color;
+  }
+}
+.btn-primary {
+  background-color: $blue-color;
 }

@@ -10,6 +10,7 @@ import {TableModule, WavesModule} from 'angular-bootstrap-md';
 import {ApartmentsRoutingModule} from './apartments-routing.module';
 import {CommonModule} from '@angular/common';
 import {SharedModule} from '../shared/shared.module';
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import {SharedModule} from '../shared/shared.module';
   ],
   imports: [
     NgbModule,
+    HttpClientModule,
     NgbModalModule,
     AuthenticationModule,
     MatProgressSpinnerModule,
