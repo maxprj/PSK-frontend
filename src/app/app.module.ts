@@ -7,10 +7,12 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AuthenticationModule} from './authentication/authentication.module';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import { CoreModule } from './core/core.module';
+import { ErrorPageComponent } from './error-page/error-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    ErrorPageComponent,
   ],
   imports: [
     BrowserModule,
