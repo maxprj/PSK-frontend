@@ -4,6 +4,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {AlertService} from "../../shared/components/alert/alert.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {TripsService} from "../trips.service";
+import {TripEventDetailsComponent} from "../../shared/components/trip-event-details/trip-event-details.component";
 
 @Component({
   selector: 'app-trip-user-view',
@@ -12,8 +13,7 @@ import {TripsService} from "../trips.service";
 })
 export class TripUserViewComponent implements OnInit {
 
-
-  tripsLoaded = false;
+  loading = true;
   headElements = ['#', 'Name', 'Departure point', 'Destination point', 'Departure time', 'Status', 'Details'];
   pageable: any;
   trips: any = [];
@@ -24,7 +24,7 @@ export class TripUserViewComponent implements OnInit {
               private router: Router,
               private tripService: TripsService,
               private alertService: AlertService,
-              private ngbModal: NgbModal) { }
+              private modal: NgbModal) { }
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(result => {
@@ -36,20 +36,31 @@ export class TripUserViewComponent implements OnInit {
   }
 
   loadTrips() {
-    this.tripsLoaded = false;
+    this.loading = true;
     this.router.navigate(['/trips'], {queryParams: {page: this.params.page}});
     this.tripService.listForUser(this.params).pipe().subscribe(result => {
       this.pageable = result;
       this.trips = result.content;
-      this.tripsLoaded = true;
+      this.loading = false;
     }, error => {
-      this.tripsLoaded = true;
+      this.loading = false;
       this.alertService.error(error.error.message);
     });
   }
 
   viewDetails(id: string) {
+    const modalRef = this.modal.open(TripEventDetailsComponent,
+      {
+        size: 'lg',
+        windowClass: 'show'
+      });
 
+    modalRef.componentInstance.id = id;
+    modalRef.result.then(accepted => {
+      if (!accepted) {
+        this.loadTrips();
+      }
+    });
   }
 
   nextPage() {

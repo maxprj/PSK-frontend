@@ -1,9 +1,9 @@
 <h2>Trips</h2>
-<div class="spinner-div" *ngIf="!tripsLoaded">
+<div class="spinner-div" *ngIf="loading">
   <mat-spinner></mat-spinner>
 </div>
 <br>
-<div *ngIf="tripsLoaded" class="container">
+<div *ngIf="!loading" class="container">
   <table mdbTable class="z-depth-0">
     <thead>
     <tr>
@@ -19,7 +19,7 @@
       <td>{{el.departure | date: 'medium'}}</td>
       <td>{{el.status}}</td>
       <td>
-        <a [routerLink]="[el.id]">
+        <a (click)="viewDetails(el.id)">
           <mat-icon style="cursor: pointer;">details</mat-icon>
         </a>
       </td>
