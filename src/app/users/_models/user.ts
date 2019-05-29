@@ -42,3 +42,9 @@ export enum UserStatus {
   ACTIVE = 'ACTIVE',
   VERIFICATION_PENDING = 'VERIFICATION_PENDING'
 }
+
+export enum UserRole {
+  ROLE_ADMIN = "ROLE_ADMIN",
+  ROLE_USER = "ROLE_USER",
+  ROLE_ORGANIZER = "ROLE_ORGANIZER"
+}

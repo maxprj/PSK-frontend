@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {UserService} from '../../user.service';
-import {UserRole} from '../../_models/enums/UserRoleEnum';
+import {UserRole} from "../../_models/user";
 
 @Component({
   selector: 'app-user-update',

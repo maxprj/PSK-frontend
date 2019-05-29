@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TripsService} from "../../../../trips/trips.service";
-import {TripStatus, TripUserStatus, TripUserView} from "../../../../trips/model/trip";
+import {TripsService} from "../../../trips/trips.service";
+import {TripStatus, TripUserStatus, TripUserView} from "../../../trips/model/trip";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {AlertService} from "../../../../shared/components/alert/alert.service";
+import {AlertService} from "../alert/alert.service";
 
 @Component({
   selector: 'app-trip-event-details',

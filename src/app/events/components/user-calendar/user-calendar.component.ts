@@ -2,14 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CalendarEvent, CalendarEventAction} from 'angular-calendar';
-import {EventAddModalComponent} from "../details/event-add-modal/event-add-modal.component";
 import {EventService} from "../../service/event.service";
 import {EventCalendarView} from "../../model/event";
 import {map} from "rxjs/internal/operators";
-import {TripEventDetailsComponent} from "../details/trip-event-details/trip-event-details.component";
-import {EventDetailsComponent} from "../details/event-details/event-details.component";
-import {EventOwnerDetailsComponent} from "../details/event-owner-details/event-owner-details.component";
 import {environment} from "../../../../environments/environment";
+import {EventOwnerDetailsComponent} from "../details/event-owner-details/event-owner-details.component";
+import {EventDetailsComponent} from "../details/event-details/event-details.component";
+import {TripEventDetailsComponent} from "../../../shared/components/trip-event-details/trip-event-details.component";
+import {EventAddModalComponent} from "../details/event-add-modal/event-add-modal.component";
 
 
 @Component({

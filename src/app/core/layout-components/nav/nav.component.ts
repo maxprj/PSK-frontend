@@ -1,12 +1,12 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { AuthenticationService } from 'src/app/authentication/authentication.service';
+import {Component, ViewChild} from '@angular/core';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {AuthenticationService} from 'src/app/authentication/authentication.service';
 import {Router} from "@angular/router";
-import { UserRole } from 'src/app/users/_models/enums/UserRoleEnum';
-import { MatSidenav } from '@angular/material';
-import { USER_VIEW } from 'src/app/utils/constants';
+import {MatSidenav} from '@angular/material';
+import {USER_VIEW} from 'src/app/utils/constants';
+import {UserRole} from "../../../users/_models/user";
 
 @Component({
   selector: 'app-nav',
@@ -41,8 +41,9 @@ export class NavComponent {
   navigate(route: string) {
     this.router.navigate([route]);
     this.drawer.close();
+    this.drawer.autoFocus = false;
   }
-  
+
   setMenuVisibilityValues() {
     const userRole = this.authenticationService.currentUserRole;
     this.isAdmin = userRole == UserRole.ROLE_ADMIN;

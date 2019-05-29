@@ -24,7 +24,8 @@ export const environment = {
       decline: (tripId: string) => `/api/trip/${tripId}/decline`,
       match: (tripId: string) => `/api/trip/${tripId}/match`,
       merge: `/api/trip/merge`,
-      userView: (id: string) => `/api/trip/${id}/user-view`
+      userView: (id: string) => `/api/trip/${id}/user-view`,
+      userList: '/api/trip/user'
     },
     users: {
       list: '/api/user',

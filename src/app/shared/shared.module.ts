@@ -17,6 +17,9 @@ import {CalendarWrapperComponent} from './components/calendar-wrapper/calendar-w
 import {adapterFactory} from "angular-calendar/date-adapters/date-fns";
 import {CalendarModule, DateAdapter} from "angular-calendar";
 import {MatProgressSpinnerModule} from "@angular/material";
+import {EventUserStatusPipe} from "./pipes/event-user-status.pipe";
+import {TripEventDetailsComponent} from "./components/trip-event-details/trip-event-details.component";
+import {OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime";
 
 @NgModule({
   declarations: [
@@ -31,15 +34,18 @@ import {MatProgressSpinnerModule} from "@angular/material";
     AlertComponent,
     TripStatusPipe,
     UserStatusPipe,
+    EventUserStatusPipe,
     BtnCancelComponent,
     CalendarWrapperComponent,
-
+    TripEventDetailsComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
     MatProgressSpinnerModule,
     ReactiveFormsModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory
@@ -58,7 +64,12 @@ import {MatProgressSpinnerModule} from "@angular/material";
     AlertComponent,
     TripStatusPipe,
     UserStatusPipe,
+    EventUserStatusPipe,
+    TripEventDetailsComponent,
     CalendarWrapperComponent
+  ],
+  entryComponents: [
+    TripEventDetailsComponent
   ]
 })
 export class SharedModule { }

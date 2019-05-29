@@ -1,19 +1,20 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {TripsService} from '../trips.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {AlertService} from "../../shared/components/alert/alert.service";
 import {environment} from "../../../environments/environment";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {AlertService} from "../../shared/components/alert/alert.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {TripsService} from "../trips.service";
 
 @Component({
-  selector: 'app-trip-list',
-  templateUrl: './trip-list.component.html',
-  styleUrls: ['./trip-list.component.scss']
+  selector: 'app-trip-user-view',
+  templateUrl: './trip-user-view.component.html',
+  styleUrls: ['./trip-user-view.component.scss']
 })
-export class TripListComponent implements OnInit {
+export class TripUserViewComponent implements OnInit {
+
 
   tripsLoaded = false;
-  headElements = ['#', 'Name', 'Departure point', 'Destination point', 'Departure time', 'Status', 'Details', 'Delete'];
+  headElements = ['#', 'Name', 'Departure point', 'Destination point', 'Departure time', 'Status', 'Details'];
   pageable: any;
   trips: any = [];
   params: any = {
@@ -37,7 +38,7 @@ export class TripListComponent implements OnInit {
   loadTrips() {
     this.tripsLoaded = false;
     this.router.navigate(['/trips'], {queryParams: {page: this.params.page}});
-    this.tripService.getAllTrips(this.params).pipe().subscribe(result => {
+    this.tripService.listForUser(this.params).pipe().subscribe(result => {
       this.pageable = result;
       this.trips = result.content;
       this.tripsLoaded = true;
@@ -47,16 +48,8 @@ export class TripListComponent implements OnInit {
     });
   }
 
-  addTrip() {
-      this.router.navigate(['/trips/add']);
-  }
+  viewDetails(id: string) {
 
-  deleteTrip(id) {
-    this.tripService.deleteTrip(id).pipe().subscribe(() => {
-      this.loadTrips();
-    }, error => {
-      this.alertService.error(error.error.message);
-    });
   }
 
   nextPage() {
@@ -68,5 +61,4 @@ export class TripListComponent implements OnInit {
     this.params.page = this.pageable.number - 1;
     this.loadTrips();
   }
-
 }

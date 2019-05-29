@@ -5,13 +5,13 @@
                [opened]="(isHandset$ | async)">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item (click)="navigate('users')" *ngIf="isAdmin">
+      <a mat-list-item (click)="navigate('users')" *ngIf="isAdmin || isOrganiser">
         <i class="material-icons">
           supervisor_account
         </i>
         Users
       </a>
-      <a mat-list-item (click)="navigate('users/details')">Users details
+      <a mat-list-item (click)="navigate('users/details')" *ngIf="isAdmin">Users details
         <i class="material-icons">card</i>
       </a>
       <a mat-list-item (click)="navigate('apartments')" *ngIf="isAdmin">

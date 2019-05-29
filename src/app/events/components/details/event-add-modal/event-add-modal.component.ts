@@ -5,6 +5,8 @@ import {DateValidators} from "../../../../shared/validators/date.validator";
 import {UserService} from "../../../../users/user.service";
 import {UserAllView} from "../../../../users/_models/user";
 import {EventCreateForm} from "../../../model/event";
+import {USER_VIEW} from "../../../../utils/constants";
+import {CurrentUserView} from "../../../../authentication/_models/auth.models";
 
 @Component({
   selector: 'app-event-add-modal',
@@ -47,7 +49,13 @@ export class EventAddModalComponent implements OnInit {
   }
 
   private loadUsers() {
-    this.userService.getAll().subscribe(users => this.availableUsers = users);
+    this.userService.getAll().subscribe(users => {
+      if (localStorage.getItem(USER_VIEW) != null) {
+        const currentUser: CurrentUserView = JSON.parse(localStorage.getItem(USER_VIEW));
+        users = users.filter(u => u.id !== currentUser.id);
+      }
+      this.availableUsers = users;
+    });
   }
 
   get f() {

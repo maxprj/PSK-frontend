@@ -10,8 +10,8 @@ import {SharedModule} from '../shared/shared.module';
 import {NgbModalModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AuthenticationModule} from '../authentication/authentication.module';
 import {MatIconModule, MatProgressSpinnerModule} from '@angular/material';
-import {UserRolePipe} from '../users/_models/enums/UserRolePipe';
 import {UserOrganizerViewComponent} from './components/user-organizer-view/user-organizer-view.component';
+import {UserRolePipe} from "./_models/pipe/UserRolePipe";
 
 @NgModule({
   declarations: [UserCreateComponent, UserUpdateComponent, UserListComponent, UserRolePipe, UserOrganizerViewComponent],

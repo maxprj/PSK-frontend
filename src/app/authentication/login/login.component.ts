@@ -4,10 +4,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {first} from 'rxjs/operators';
 import {AuthenticationService} from '../authentication.service';
 import {AlertService} from '../../shared/components/alert/alert.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PasswordResetComponent } from '../password-reset/password-reset.component';
-import { UserRole } from 'src/app/users/_models/enums/UserRoleEnum';
-import { environment } from 'src/environments/environment';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {PasswordResetComponent} from '../password-reset/password-reset.component';
+import {environment} from 'src/environments/environment';
+import {UserRole} from "../../users/_models/user";
 
 @Component({
   selector: 'app-login',
