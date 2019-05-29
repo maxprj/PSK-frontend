@@ -3,7 +3,7 @@
   <mat-spinner></mat-spinner>
 </div>
 <div *ngIf="tripLoaded">
-  <h4>{{trip.status | tripStatusPipe}}</h4>
+  <h4 [ngStyle]="{'color': trip.status | tripStatusColorPipe}">{{trip.status | tripStatusPipe}}</h4>
   <form [formGroup]="formSettings" (ngSubmit)="onSubmit()">
     <form-row forInput="name" label="Trip name" [isInvalid]="submitted && f.name.invalid" errorText="Name is invalid">
       <input type="text" class="form-control" formControlName="name" id="name" [ngClass]="{'is-invalid': submitted && f.name.invalid}">

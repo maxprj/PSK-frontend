@@ -12,6 +12,7 @@ import {AlertComponent} from './components/alert/alert.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TripStatusPipe} from './pipes/trip-status-pipe';
 import {BtnCancelComponent} from './components/btn-cancel/btn-cancel.component';
+import {TripStatusColorPipe} from './pipes/TripStatusColorPipe';
 import {UserStatusPipe} from "./pipes/user-status-pipe";
 import {CalendarWrapperComponent} from './components/calendar-wrapper/calendar-wrapper.component';
 import {adapterFactory} from "angular-calendar/date-adapters/date-fns";
@@ -38,6 +39,8 @@ import {OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime";
     BtnCancelComponent,
     CalendarWrapperComponent,
     TripEventDetailsComponent,
+    TripStatusColorPipe,
+    BtnCancelComponent
   ],
   imports: [
     CommonModule,
@@ -62,6 +65,8 @@ import {OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime";
     ModalBtnCloseComponent,
     LoaderComponent,
     AlertComponent,
+    TripStatusPipe,
+    TripStatusColorPipe
     TripStatusPipe,
     UserStatusPipe,
     EventUserStatusPipe,
