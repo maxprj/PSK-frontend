@@ -10,6 +10,7 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 export class TripUserAddModalComponent implements OnInit {
 
   @Input() users: [];
+  @Input() isApartmentFull: boolean;
   formSettings: FormGroup;
   submitted = false;
   livesInApartment = true;
@@ -23,7 +24,7 @@ export class TripUserAddModalComponent implements OnInit {
 
   private createForm() {
     this.formSettings = this.formBuilder.group({
-      inApartment: [true],
+      inApartment: [{value: !this.isApartmentFull, disabled: this.isApartmentFull}],
       userId: ['', Validators.required],
       flightTicket: [''],
       carRent: [''],

@@ -6,6 +6,7 @@ import {ApartmentsService} from '../../apartments/apartments.service';
 import {UserService} from '../../users/user.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {TripUserAddModalComponent} from '../trip-user-add-modal/trip-user-add-modal.component';
+import {debounceTime, filter, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-trip-details',
@@ -25,6 +26,7 @@ export class TripAddComponent implements OnInit {
   canAddToApartment = true;
   headElements = ['User', 'Flight ticket', 'Car Rent', 'Residence Address', 'Remove'];
   userElements = [];
+  availablePlaces: any;
 
   constructor(private formBuilder: FormBuilder,
               private tripsService: TripsService,
@@ -56,6 +58,7 @@ export class TripAddComponent implements OnInit {
       source: ['', Validators.required],
       users: this.formBuilder.array([], Validators.required)
     });
+    this.isReservationAvailable();
   }
 
   createOtherExpense() {
@@ -73,6 +76,7 @@ export class TripAddComponent implements OnInit {
         windowClass: 'show'
       });
     modalRef.componentInstance.users = this.availableUsers;
+    modalRef.componentInstance.isApartmentFull = !this.canAddToApartment;
     modalRef.result.then((result) => {
       this.userElements.push(result);
       const user = this.availableUsers.find(e => e.id === result.userId);
@@ -135,24 +139,37 @@ export class TripAddComponent implements OnInit {
     const user = this.removedUsers.find(e => e.id === id);
     this.availableUsers.push(user);
     this.removedUsers = this.removedUsers.filter(e => e.id !== id);
-    this.userElements = this.userElements.filter(proj => proj.userId !== id);
+    this.userElements = this.userElements.filter(proj => proj.id !== id);
   }
 
   isReservationAvailable() {
-    /*
     this.formSettings.get('reservationBegin').valueChanges.pipe(
       debounceTime(2000),
       filter(e => this.formSettings.get('destination').value !== null),
       filter(e => this.formSettings.get('reservationEnd').value !== null),
-      filter(e => this.reservationNeeded),
-      switchMap(e => this.apartmentsService.getAvailablePlaces(this.formSettings.get('destination').value,
-        {from: this.formSettings.get('reservationBegin').value,
-                till: this.formSettings.get('reservationEnd').value})))
-      .subscribe(result => {
-         if (result.availablePlaces < this.users.filter(e => e.inApartment).size()) {
-           this.canAddToApartment = false;
-         }
-      }); */
+      filter(e => this.reservationNeeded)).subscribe(() => this.getAvailablePlaces());
+
+    this.formSettings.get('reservationEnd').valueChanges.pipe(
+      debounceTime(2000),
+      filter(e => this.formSettings.get('destination').value !== null),
+      filter(e => this.formSettings.get('reservationBegin').value !== null),
+      filter(e => this.reservationNeeded)).subscribe(() => this.getAvailablePlaces());
+
+    this.formSettings.get('destination').valueChanges.pipe(
+      debounceTime(2000),
+      filter(e => this.formSettings.get('reservationBegin').value !== null),
+      filter(e => this.formSettings.get('reservationEnd').value !== null),
+      filter(e => this.reservationNeeded)).subscribe(() => this.getAvailablePlaces());
+  }
+
+  getAvailablePlaces() {
+    this.apartmentsService.getAvailablePlaces(this.formSettings.get('destination').value,
+      {from: this.formSettings.get('reservationBegin').value,
+        till: this.formSettings.get('reservationEnd').value}).pipe().subscribe(result => {
+      this.availablePlaces = result;
+      this.canAddToApartment = this.availablePlaces.availablePlaces < this.userElements.filter(e => e.inApartment).length;
+      console.log(this.canAddToApartment);
+    });
   }
 
   isReservationStartInvalid() {

@@ -49,7 +49,7 @@
       <td>{{getUserNameById(el.userId)}}</td>
       <td>{{el.flightTicket}}</td>
       <td>{{el.carRent}}</td>
-      <td>{{el.inApartment ? '-' : el.residenceAddress}}</td>
+      <td>{{el.inApartment ? 'In apartment' : el.residenceAddress}}</td>
       <td>
         <mat-icon style="cursor: pointer" (click)="removeUserFromList(el.userId)">delete</mat-icon>
       </td>
