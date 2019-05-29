@@ -3,6 +3,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {TripsService} from '../trips.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AlertService} from "../../shared/components/alert/alert.service";
+import {environment} from '../../../environments/environment';
+import {TripUserAddModalComponent} from '../trip-user-add-modal/trip-user-add-modal.component';
+import {TripsMergeModalComponent} from '../trips-merge-modal/trips-merge-modal.component';
 import {environment} from "../../../environments/environment";
 
 @Component({
@@ -13,7 +16,7 @@ import {environment} from "../../../environments/environment";
 export class TripListComponent implements OnInit {
 
   tripsLoaded = false;
-  headElements = ['#', 'Name', 'Departure point', 'Destination point', 'Departure time', 'Status', 'Details', 'Delete'];
+  headElements = ['#', 'Name', 'Departure point', 'Destination point', 'Departure time', 'Status',  'Details', 'Merge', 'Delete'];
   pageable: any;
   trips: any = [];
   params: any = {
@@ -23,7 +26,7 @@ export class TripListComponent implements OnInit {
               private router: Router,
               private tripService: TripsService,
               private alertService: AlertService,
-              private ngbModal: NgbModal) { }
+              private modalService: NgbModal) { }
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(result => {
@@ -67,6 +70,20 @@ export class TripListComponent implements OnInit {
   previousPage() {
     this.params.page = this.pageable.number - 1;
     this.loadTrips();
+  }
+
+  mergeTrips(id) {
+    const modalRef = this.modalService.open(TripsMergeModalComponent,
+      {
+        size: 'lg',
+        windowClass: 'show'
+      });
+    modalRef.componentInstance.tripId = id;
+    modalRef.result.then((result) => {
+      this.loadTrips();
+    }).catch((error) => {
+
+    });
   }
 
 }

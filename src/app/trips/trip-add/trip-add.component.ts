@@ -6,7 +6,7 @@ import {ApartmentsService} from '../../apartments/apartments.service';
 import {UserService} from '../../users/user.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {TripUserAddModalComponent} from '../trip-user-add-modal/trip-user-add-modal.component';
-import {debounceTime, filter, switchMap} from 'rxjs/operators';
+import {debounceTime, filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-trip-details',
@@ -143,29 +143,32 @@ export class TripAddComponent implements OnInit {
   }
 
   isReservationAvailable() {
+    console.log(this.formSettings.get('destination'));
+    console.log(this.formSettings.get('reservationEnd'));
+    console.log(this.formSettings.get('reservationBegin'));
     this.formSettings.get('reservationBegin').valueChanges.pipe(
       debounceTime(2000),
-      filter(e => this.formSettings.get('destination').value !== null),
-      filter(e => this.formSettings.get('reservationEnd').value !== null),
+      filter(e => this.formSettings.get('destination').value !== ''),
+      filter(e => this.formSettings.get('reservationEnd').value !== ''),
       filter(e => this.reservationNeeded)).subscribe(() => this.getAvailablePlaces());
 
     this.formSettings.get('reservationEnd').valueChanges.pipe(
       debounceTime(2000),
-      filter(e => this.formSettings.get('destination').value !== null),
-      filter(e => this.formSettings.get('reservationBegin').value !== null),
+      filter(e => this.formSettings.get('destination').value !== ''),
+      filter(e => this.formSettings.get('reservationBegin').value !== ''),
       filter(e => this.reservationNeeded)).subscribe(() => this.getAvailablePlaces());
 
     this.formSettings.get('destination').valueChanges.pipe(
       debounceTime(2000),
-      filter(e => this.formSettings.get('reservationBegin').value !== null),
-      filter(e => this.formSettings.get('reservationEnd').value !== null),
+      filter(e => this.formSettings.get('reservationBegin').value !== ''),
+      filter(e => this.formSettings.get('reservationEnd').value !== ''),
       filter(e => this.reservationNeeded)).subscribe(() => this.getAvailablePlaces());
   }
 
   getAvailablePlaces() {
     this.apartmentsService.getAvailablePlaces(this.formSettings.get('destination').value,
-      {from: this.formSettings.get('reservationBegin').value,
-        till: this.formSettings.get('reservationEnd').value}).pipe().subscribe(result => {
+      {from: new Date(this.formSettings.get('reservationBegin').value).toISOString(),
+        till: new Date(this.formSettings.get('reservationEnd').value).toISOString()}).pipe().subscribe(result => {
       this.availablePlaces = result;
       this.canAddToApartment = this.availablePlaces.availablePlaces < this.userElements.filter(e => e.inApartment).length;
       console.log(this.canAddToApartment);

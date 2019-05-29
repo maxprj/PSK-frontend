@@ -12,12 +12,14 @@ import {TripsRoutingModule} from './trips-routing.module';
 import {TripDetailsComponent} from './trip-details/trip-details.component';
 import { TripUserAddModalComponent } from './trip-user-add-modal/trip-user-add-modal.component';
 import {OwlDateTimeModule, OwlNativeDateTimeModule} from 'ng-pick-datetime';
+import { TripsMergeModalComponent } from './trips-merge-modal/trips-merge-modal.component';
 import {TripUserAddModalComponent} from './trip-user-add-modal/trip-user-add-modal.component';
 import {TripDetailsComponent} from './trip-details/trip-details.component';
 import {TripUserViewComponent} from './trip-user-view/trip-user-view.component';
 
 @NgModule({
   declarations: [
+    TripsMergeModalComponent,
     TripListComponent,
     TripAddComponent,
     TripDetailsComponent,
@@ -41,6 +43,9 @@ import {TripUserViewComponent} from './trip-user-view/trip-user-view.component';
     OwlDateTimeModule,
     OwlNativeDateTimeModule
   ],
-  entryComponents: [TripUserAddModalComponent]
+  entryComponents: [
+    TripUserAddModalComponent,
+    TripsMergeModalComponent
+  ]
 })
 export class TripsModule { }

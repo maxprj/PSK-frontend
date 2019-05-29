@@ -1,4 +1,7 @@
-<h2>Trips</h2>
+<div class="modal-header">
+  <h4 class="modal-title">Merge trip</h4>
+  <modal-btn-close (click)="activeModal.dismiss('Closed Modal')"></modal-btn-close>
+</div>
 <div class="spinner-div" *ngIf="!tripsLoaded">
   <mat-spinner></mat-spinner>
 </div>
@@ -17,19 +20,10 @@
       <td>{{el.sourceAddress.street}} {{el.sourceAddress.apartmentNumber}}, {{el.sourceAddress.city}}</td>
       <td>{{el.destinationAddress.street}} {{el.destinationAddress.apartmentNumber}}, {{el.destinationAddress.city}}</td>
       <td>{{el.departure | date: 'medium'}}</td>
-      <td>{{el.status}}</td>
       <td>
-        <a [routerLink]="[el.id]">
-          <mat-icon style="cursor: pointer;">settings</mat-icon>
-        </a>
-      </td>
-      <td>
-        <a (click)="mergeTrips(el.id)">
+        <a (click)="mergeTrip(el.id)">
           <mat-icon style="cursor: pointer;">merge_type</mat-icon>
         </a>
-      </td>
-      <td>
-        <mat-icon style="cursor: pointer" (click)="deleteTrip(el.id)">delete</mat-icon>
       </td>
     </tr>
     </tbody>
@@ -42,4 +36,3 @@
     </tfoot>
   </table>
 </div>
-<btn-primary label="Add new trip" (click)="addTrip()"></btn-primary>

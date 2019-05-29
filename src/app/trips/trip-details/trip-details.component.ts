@@ -93,7 +93,6 @@ export class TripDetailsComponent implements OnInit {
   }
 
   addUser() {
-    console.log(this.availableUsers);
     const modalRef = this.modalService.open(TripUserAddModalComponent,
       {
         size: 'lg',
