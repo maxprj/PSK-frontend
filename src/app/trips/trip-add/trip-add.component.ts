@@ -127,7 +127,6 @@ export class TripAddComponent implements OnInit {
       fb.patchValue(usr);
       formArray.push(fb);
     });
-    console.log(this.formSettings.value);
     if (this.formSettings.invalid) {
       return;
     }
@@ -169,7 +168,6 @@ export class TripAddComponent implements OnInit {
         till: new Date(this.formSettings.get('reservationEnd').value).toISOString()}).pipe().subscribe(result => {
       this.availablePlaces = result;
       this.canAddToApartment = this.availablePlaces.availablePlaces > this.userElements.filter(e => e.inApartment).length;
-      console.log(this.canAddToApartment);
     });
   }
 

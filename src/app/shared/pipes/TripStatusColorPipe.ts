@@ -6,7 +6,6 @@ import {TripStatus} from '../../trips/model/trip';
 })
 export class TripStatusColorPipe implements PipeTransform {
   transform(val: any): string {
-    console.log(val);
     return TripStatusPretty[val];
   }
 }
