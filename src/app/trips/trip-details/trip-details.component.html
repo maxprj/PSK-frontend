@@ -9,7 +9,8 @@
       <input type="text" class="form-control" formControlName="name" id="name" [ngClass]="{'is-invalid': submitted && f.name.invalid}">
     </form-row>
     <form-row forInput="departure" label="Departure time" [isInvalid]="submitted && isDepartureInvalid()" errorText="Departure time must be greater than current time">
-      <input type="datetime-local" class="form-control" formControlName="departure" id="departure" [ngClass]="{'is-invalid': submitted && isDepartureInvalid()}">
+      <input type="text" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" class="form-control" formControlName="departure" id="departure" [ngClass]="{'is-invalid': submitted && isDepartureInvalid()}">
+      <owl-date-time #dt1></owl-date-time>
     </form-row>
     <form-row forInput="source" label="Departure point">
       <input class="form-control" formControlName="source" id="source">
@@ -18,15 +19,18 @@
       <input class="form-control" formControlName="destination" id="destination">
     </form-row>
     <form-row *ngIf="!reservationNeeded" forInput="arrival" label="Arrival time" [isInvalid]="submitted && isArrivalValid()" errorText="Arrival time must be greater than departure time">
-      <input type="datetime-local" class="form-control" formControlName="arrival" id="arrival" [ngClass]="{'is-invalid': submitted && isArrivalValid()}">
+      <input type="text" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" class="form-control" formControlName="arrival" id="arrival" [ngClass]="{'is-invalid': submitted && isArrivalValid()}">
+      <owl-date-time #dt2></owl-date-time>
     </form-row>
     <div *ngIf="reservationNeeded">
     <span class="subtitle">Reservation information<hr flex/></span>
       <form-row forInput="reservationBegin" label="Reservation start" [isInvalid]="submitted && isReservationStartInvalid()" errorText="Reservation begin time must be greater than departure time">
-        <input type="datetime-local" class="form-control" formControlName="reservationBegin" id="reservationBegin" [ngClass]="{'is-invalid': submitted && isReservationStartInvalid()}">
+        <input type="text" [owlDateTime]="dt3" [owlDateTimeTrigger]="dt3" class="form-control" formControlName="reservationBegin" id="reservationBegin" [ngClass]="{'is-invalid': submitted && isReservationStartInvalid()}">
+        <owl-date-time #dt3></owl-date-time>
       </form-row>
       <form-row forInput="reservationEnd" label="Reservation End" [isInvalid]="submitted && isReservationEndInvalid()" errorText="Reservation end time must be greater than reservation begin time">
-        <input type="datetime-local" class="form-control" formControlName="reservationEnd" id="reservationEnd" [ngClass]="{'is-invalid': submitted && isReservationEndInvalid()}">
+        <input type="text" [owlDateTime]="dt4" [owlDateTimeTrigger]="dt4" class="form-control" formControlName="reservationEnd" id="reservationEnd" [ngClass]="{'is-invalid': submitted && isReservationEndInvalid()}">
+        <owl-date-time #dt4></owl-date-time>
       </form-row>
     </div>
     <span class="subtitle">Participants <hr flex/></span>
@@ -42,9 +46,9 @@
         <td>{{getUserNameById(el.userId)}}</td>
         <td>{{el.flightTicket}}</td>
         <td>{{el.carRent}}</td>
-        <td>{{el.residenceAddress === null ? el.residenceAddress : '-'}}</td>
+        <td>{{el.inApartment ? '-' : el.residenceAddress}}</td>
         <td>
-          <mat-icon style="cursor: pointer" (click)="removeUserFromList(el.id)">delete</mat-icon>
+          <mat-icon style="cursor: pointer" (click)="removeUserFromList(el.userId)">delete</mat-icon>
         </td>
       </tr>
       </tbody>

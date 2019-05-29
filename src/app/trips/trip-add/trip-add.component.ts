@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {TripsService} from '../trips.service';
 import {Location} from '@angular/common';
 import {ApartmentsService} from '../../apartments/apartments.service';
@@ -101,17 +101,31 @@ export class TripAddComponent implements OnInit {
     });
   }
 
+  createUser() {
+    return this.formBuilder.group({
+      inApartment: [true],
+      userId: ['', Validators.required],
+      flightTicket: [''],
+      carRent: [''],
+      residenceAddress: ['']});
+  }
+
   get f() {
     return this.formSettings.controls;
   }
 
   onSubmit() {
     this.submitted = true;
+    const formArray = <FormArray> this.formSettings.controls.users;
+    this.userElements.forEach(usr => {
+      const fb = this.createUser();
+      fb.patchValue(usr);
+      formArray.push(fb);
+    });
     console.log(this.formSettings.value);
     if (this.formSettings.invalid) {
       return;
     }
-    this.formSettings.patchValue({users: this.userElements});
     this.tripsService.createTrip(this.formSettings.value).pipe().subscribe(() => {
       this.location.back();
     });
@@ -121,7 +135,7 @@ export class TripAddComponent implements OnInit {
     const user = this.removedUsers.find(e => e.id === id);
     this.availableUsers.push(user);
     this.removedUsers = this.removedUsers.filter(e => e.id !== id);
-    this.userElements = this.userElements.filter(proj => proj.id !== id);
+    this.userElements = this.userElements.filter(proj => proj.userId !== id);
   }
 
   isReservationAvailable() {

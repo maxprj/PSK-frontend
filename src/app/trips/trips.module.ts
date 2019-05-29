@@ -10,6 +10,8 @@ import {AuthenticationModule} from '../authentication/authentication.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TripsRoutingModule} from './trips-routing.module';
 import {TripDetailsComponent} from './trip-details/trip-details.component';
+import { TripUserAddModalComponent } from './trip-user-add-modal/trip-user-add-modal.component';
+import {OwlDateTimeModule, OwlNativeDateTimeModule} from 'ng-pick-datetime';
 import {TripUserAddModalComponent} from './trip-user-add-modal/trip-user-add-modal.component';
 import {TripDetailsComponent} from './trip-details/trip-details.component';
 import {TripUserViewComponent} from './trip-user-view/trip-user-view.component';
@@ -35,9 +37,10 @@ import {TripUserViewComponent} from './trip-user-view/trip-user-view.component';
     WavesModule,
     FormsModule,
     CheckboxModule,
-    SharedModule
+    SharedModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule
   ],
   entryComponents: [TripUserAddModalComponent]
 })
-export class TripsModule {
-}
+export class TripsModule { }
