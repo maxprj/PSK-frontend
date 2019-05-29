@@ -4,7 +4,9 @@ import {TripsService} from '../trips.service';
 import {Location} from '@angular/common';
 import {ApartmentsService} from '../../apartments/apartments.service';
 import {UserService} from '../../users/user.service';
-import {ActivatedRoute} from '@angular/router';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {TripUserAddModalComponent} from '../trip-user-add-modal/trip-user-add-modal.component';
+import {debounceTime, filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-trip-details',
@@ -18,12 +20,19 @@ export class TripAddComponent implements OnInit {
   reservationNeeded = true;
   apartments: any = [];
   users: any = [];
+  removedUsers: any = [];
+  availableUsers: any = [];
   tripsInvalid = true;
+  canAddToApartment = false;
+  headElements = ['User', 'Flight ticket', 'Car Rent', 'Residence Address', 'Remove'];
+  userElements = [];
+  availablePlaces: any;
 
   constructor(private formBuilder: FormBuilder,
               private tripsService: TripsService,
               private apartmentsService: ApartmentsService,
               private location: Location,
+              private modalService: NgbModal,
               private userService: UserService) { }
 
   ngOnInit() {
@@ -47,8 +56,9 @@ export class TripAddComponent implements OnInit {
       reservationBegin: [''],
       reservationEnd: [''],
       source: ['', Validators.required],
-      users: this.formBuilder.array([this.createUser()])
+      users: this.formBuilder.array([], Validators.required)
     });
+    this.isReservationAvailable();
   }
 
   createOtherExpense() {
@@ -60,22 +70,27 @@ export class TripAddComponent implements OnInit {
   }
 
   addUser() {
-    const companies = this.formSettings.get('users') as FormArray;
-    companies.push(this.createUser());
+    const modalRef = this.modalService.open(TripUserAddModalComponent,
+      {
+        size: 'lg',
+        windowClass: 'show'
+      });
+    modalRef.componentInstance.users = this.availableUsers;
+    modalRef.componentInstance.canAddToApartment = this.canAddToApartment;
+    modalRef.result.then((result) => {
+      this.userElements.push(result);
+      const user = this.availableUsers.find(e => e.id === result.userId);
+      this.removedUsers.push(user);
+      this.availableUsers = this.availableUsers.filter(e => e.id !== result.userId);
+      this.canAddToApartment = this.availablePlaces.availablePlaces > this.userElements.filter(e => e.inApartment).length;
+    }).catch((error) => {
+
+    });
   }
 
-  removeUser(index) {
-    const companies = this.formSettings.get('users') as FormArray;
-    companies.removeAt(index);
-  }
-
-  createUser() {
-    return this.formBuilder.group({
-      inApartment: [true],
-      userId: ['', Validators.required],
-      flightTicket: [''],
-      carRent: [''],
-      residenceAddress: ['']});
+  getUserNameById(id) {
+    const obj = this.users.find(e => e.id === id);
+    return obj.name + ' ' + obj.surname;
   }
 
   getApartments() {
@@ -87,7 +102,17 @@ export class TripAddComponent implements OnInit {
   getUsers() {
     this.userService.getAll().pipe().subscribe(result => {
       this.users = result;
+      this.availableUsers = result;
     });
+  }
+
+  createUser() {
+    return this.formBuilder.group({
+      inApartment: [''],
+      userId: ['', Validators.required],
+      flightTicket: [''],
+      carRent: [''],
+      residenceAddress: ['']});
   }
 
   get f() {
@@ -96,12 +121,53 @@ export class TripAddComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    console.log(this.formSettings.value);
+    const formArray = <FormArray> this.formSettings.controls.users;
+    this.userElements.forEach(usr => {
+      const fb = this.createUser();
+      fb.patchValue(usr);
+      formArray.push(fb);
+    });
     if (this.formSettings.invalid) {
       return;
     }
     this.tripsService.createTrip(this.formSettings.value).pipe().subscribe(() => {
       this.location.back();
+    });
+  }
+
+  removeUserFromList(id) {
+    const user = this.removedUsers.find(e => e.id === id);
+    this.availableUsers.push(user);
+    this.removedUsers = this.removedUsers.filter(e => e.id !== id);
+    this.userElements = this.userElements.filter(proj => proj.id !== id);
+  }
+
+  isReservationAvailable() {
+    this.formSettings.get('reservationBegin').valueChanges.pipe(
+      debounceTime(1000),
+      filter(e => this.formSettings.get('destination').value !== ''),
+      filter(e => this.formSettings.get('reservationEnd').value !== ''),
+      filter(e => this.reservationNeeded)).subscribe(() => this.getAvailablePlaces());
+
+    this.formSettings.get('reservationEnd').valueChanges.pipe(
+      debounceTime(1000),
+      filter(e => this.formSettings.get('destination').value !== ''),
+      filter(e => this.formSettings.get('reservationBegin').value !== ''),
+      filter(e => this.reservationNeeded)).subscribe(() => this.getAvailablePlaces());
+
+    this.formSettings.get('destination').valueChanges.pipe(
+      debounceTime(1000),
+      filter(e => this.formSettings.get('reservationBegin').value !== ''),
+      filter(e => this.formSettings.get('reservationEnd').value !== ''),
+      filter(e => this.reservationNeeded)).subscribe(() => this.getAvailablePlaces());
+  }
+
+  getAvailablePlaces() {
+    this.apartmentsService.getAvailablePlaces(this.formSettings.get('destination').value,
+      {from: new Date(this.formSettings.get('reservationBegin').value).toISOString(),
+        till: new Date(this.formSettings.get('reservationEnd').value).toISOString()}).pipe().subscribe(result => {
+      this.availablePlaces = result;
+      this.canAddToApartment = this.availablePlaces.availablePlaces > this.userElements.filter(e => e.inApartment).length;
     });
   }
 
@@ -133,5 +199,6 @@ export class TripAddComponent implements OnInit {
 
   reservationOn() {
     this.reservationNeeded = !this.reservationNeeded;
+    this.canAddToApartment = this.reservationNeeded;
   }
 }

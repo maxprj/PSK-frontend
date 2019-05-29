@@ -24,7 +24,7 @@ export class PasswordChangeComponent implements OnInit {
   ngOnInit() {
     this.token = this.route.snapshot.queryParamMap.get('token');
     this.formSettings = this.formBuilder.group({
-      password: ['', Validators.required]
+      password: ['', [Validators.required, Validators.pattern("^[a-zA-Z0-9].{7}$")]]
     });
   }
 

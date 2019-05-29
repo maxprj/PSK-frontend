@@ -1,15 +1,35 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {AuthenticationGuard} from '../authentication/authentication.guard';
-import { UserListComponent } from './user-list/user-list.component';
+import {UserListComponent} from './components/user-list/user-list.component';
+import {UserOrganizerViewComponent} from './components/user-organizer-view/user-organizer-view.component';
+import {UserRole} from './_models/user';
 
 
 const routes: Routes = [
-  { path: '', component: UserListComponent, canActivate: [AuthenticationGuard]}
+  {
+    path: '',
+    component: UserOrganizerViewComponent,
+    data: {
+      roles: [
+        UserRole.ROLE_ORGANIZER,
+        UserRole.ROLE_ADMIN,
+      ]
+    }
+  },
+  {
+    path: 'details',
+    component: UserListComponent,
+    data: {
+      roles: [
+        UserRole.ROLE_ADMIN
+      ]
+    }
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class UsersRoutingModule { }
+export class UsersRoutingModule {
+}

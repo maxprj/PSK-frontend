@@ -37,8 +37,17 @@
   background-color: transparent;
   color: white;
   vertical-align: middle;
+  font-weight: normal;
 }
 
 .spacer {
   flex: 1 1 auto;
+}
+
+.navbar-user i {
+  padding-right: 5px;
+}
+
+a i {
+  padding-right: 10px;
 }

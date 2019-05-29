@@ -1,19 +1,20 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { UserCreateComponent } from './user-create/user-create.component';
-import { UserUpdateComponent } from './user-update/user-update.component';
-import { UserListComponent } from './user-list/user-list.component';
-import { UsersRoutingModule } from './users-routing.module';
-import { TableModule, WavesModule } from 'angular-bootstrap-md';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SharedModule } from '../shared/shared.module';
-import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AuthenticationModule } from '../authentication/authentication.module';
-import { MatProgressSpinnerModule, MatIconModule } from '@angular/material';
-import { UserRolePipe } from '../users/_models/enums/UserRolePipe';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {UserCreateComponent} from './components/user-create/user-create.component';
+import {UserUpdateComponent} from './components/user-update/user-update.component';
+import {UserListComponent} from './components/user-list/user-list.component';
+import {UsersRoutingModule} from './users-routing.module';
+import {TableModule, WavesModule} from 'angular-bootstrap-md';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {SharedModule} from '../shared/shared.module';
+import {NgbModalModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {AuthenticationModule} from '../authentication/authentication.module';
+import {MatIconModule, MatProgressSpinnerModule} from '@angular/material';
+import {UserOrganizerViewComponent} from './components/user-organizer-view/user-organizer-view.component';
+import {UserRolePipe} from "./_models/pipe/UserRolePipe";
 
 @NgModule({
-  declarations: [UserCreateComponent, UserUpdateComponent, UserListComponent, UserRolePipe],
+  declarations: [UserCreateComponent, UserUpdateComponent, UserListComponent, UserRolePipe, UserOrganizerViewComponent],
   imports: [
     CommonModule,
     UsersRoutingModule,

@@ -40,7 +40,7 @@ export class TripsService {
   }
 
   getMergableTrips(id) {
-    return this.http.get(environment.urls.trip.match(id));
+    return this.http.get<any>(environment.urls.trip.match(id));
   }
 
   mergeTrips(params) {
@@ -49,5 +49,9 @@ export class TripsService {
 
   userView(id: string): Observable<TripUserView> {
     return this.http.get<TripUserView>(environment.urls.trip.userView(id));
+  }
+
+  listForUser(params) {
+    return this.http.get<any>(environment.urls.trip.userList, {params: params});
   }
 }

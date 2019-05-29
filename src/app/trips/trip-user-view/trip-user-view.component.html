@@ -1,0 +1,36 @@
+<h2>Trips</h2>
+<div class="spinner-div" *ngIf="loading">
+  <mat-spinner></mat-spinner>
+</div>
+<br>
+<div *ngIf="!loading" class="container">
+  <table mdbTable class="z-depth-0">
+    <thead>
+    <tr>
+      <th *ngFor="let head of headElements; let i = index" scope="col">{{head}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let el of trips; let i = index">
+      <th scope="row">{{pageable.number*pageable.size + i + 1}}</th>
+      <td>{{el.name}}</td>
+      <td>{{el.sourceAddress.street}} {{el.sourceAddress.apartmentNumber}}, {{el.sourceAddress.city}}</td>
+      <td>{{el.destinationAddress.street}} {{el.destinationAddress.apartmentNumber}}, {{el.destinationAddress.city}}</td>
+      <td>{{el.departure | date: 'medium'}}</td>
+      <td [ngStyle]="{'color': el.status | tripStatusColorPipe}">{{el.status | tripStatusPipe}}</td>
+      <td>
+        <a (click)="viewDetails(el.id)">
+          <mat-icon style="cursor: pointer;">details</mat-icon>
+        </a>
+      </td>
+    </tr>
+    </tbody>
+    <tfoot class="grey lighten-5 w-100">
+    <tr>
+      <td [colSpan]="headElements.length">
+        <paginator [pageable]="pageable" (nextPageClick)="nextPage()" (previousPageClick)="previousPage()"></paginator>
+      </td>
+    </tr>
+    </tfoot>
+  </table>
+</div>

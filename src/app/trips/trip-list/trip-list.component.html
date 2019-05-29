@@ -17,10 +17,15 @@
       <td>{{el.sourceAddress.street}} {{el.sourceAddress.apartmentNumber}}, {{el.sourceAddress.city}}</td>
       <td>{{el.destinationAddress.street}} {{el.destinationAddress.apartmentNumber}}, {{el.destinationAddress.city}}</td>
       <td>{{el.departure | date: 'medium'}}</td>
-      <td>{{el.status}}</td>
+      <td [ngStyle]="{'color': el.status | tripStatusColorPipe}">{{el.status | tripStatusPipe}}</td>
       <td>
         <a [routerLink]="[el.id]">
           <mat-icon style="cursor: pointer;">settings</mat-icon>
+        </a>
+      </td>
+      <td>
+        <a (click)="mergeTrips(el.id)">
+          <mat-icon style="cursor: pointer;">merge_type</mat-icon>
         </a>
       </td>
       <td>

@@ -10,8 +10,17 @@ import {ModalBtnCloseComponent} from './components/modal-btn-close/modal-btn-clo
 import {LoaderComponent} from './components/loader/loader.component';
 import {AlertComponent} from './components/alert/alert.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {TripStatusPipe} from "./pipes/trip-status-pipe";
+import {TripStatusPipe} from './pipes/trip-status-pipe';
 import {BtnCancelComponent} from './components/btn-cancel/btn-cancel.component';
+import {TripStatusColorPipe} from './pipes/TripStatusColorPipe';
+import {UserStatusPipe} from "./pipes/user-status-pipe";
+import {CalendarWrapperComponent} from './components/calendar-wrapper/calendar-wrapper.component';
+import {adapterFactory} from "angular-calendar/date-adapters/date-fns";
+import {CalendarModule, DateAdapter} from "angular-calendar";
+import {MatProgressSpinnerModule} from "@angular/material";
+import {EventUserStatusPipe} from "./pipes/event-user-status.pipe";
+import {TripEventDetailsComponent} from "./components/trip-event-details/trip-event-details.component";
+import {OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime";
 
 @NgModule({
   declarations: [
@@ -25,12 +34,25 @@ import {BtnCancelComponent} from './components/btn-cancel/btn-cancel.component';
     LoaderComponent,
     AlertComponent,
     TripStatusPipe,
+    UserStatusPipe,
+    EventUserStatusPipe,
+    BtnCancelComponent,
+    CalendarWrapperComponent,
+    TripEventDetailsComponent,
+    TripStatusColorPipe,
     BtnCancelComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    MatProgressSpinnerModule,
+    ReactiveFormsModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    })
   ],
   exports: [
     FormRowWrapperComponent,
@@ -43,7 +65,15 @@ import {BtnCancelComponent} from './components/btn-cancel/btn-cancel.component';
     ModalBtnCloseComponent,
     LoaderComponent,
     AlertComponent,
-    TripStatusPipe
+    TripStatusPipe,
+    TripStatusColorPipe,
+    UserStatusPipe,
+    EventUserStatusPipe,
+    TripEventDetailsComponent,
+    CalendarWrapperComponent
+  ],
+  entryComponents: [
+    TripEventDetailsComponent
   ]
 })
 export class SharedModule { }

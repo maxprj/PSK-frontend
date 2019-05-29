@@ -23,6 +23,6 @@ import { SharedModule } from '../shared/shared.module';
     RouterModule,
     SharedModule
   ],
-  exports: [RouterModule]
+  exports: [RouterModule, NavComponent]
 })
 export class CoreModule { }

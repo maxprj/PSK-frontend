@@ -1,0 +1,26 @@
+<div class="modal-header">
+  <h4 class="modal-title">Event details</h4>
+  <modal-btn-close (click)="activeModal.dismiss('Closed Modal')"></modal-btn-close>
+</div>
+<form [formGroup]="form">
+  <div class="modal-body">
+    <form-row forInput="name" label="Event Name">
+      <input type="text" class="form-control" formControlName="name">
+    </form-row>
+    <form-row forInput="start" label="Event Start Date">
+      <input type="text" class="form-control" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" formControlName="start">
+      <owl-date-time #dt1></owl-date-time>
+    </form-row>
+    <form-row forInput="end" label="Event End Date">
+      <input type="text" class="form-control" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" formControlName="end">
+      <owl-date-time #dt2></owl-date-time>
+    </form-row>
+    <form-row forInput="description" label="Description">
+      <textarea type="text" class="form-control" formControlName="description"></textarea>
+    </form-row>
+  </div>
+  <div *ngIf="statusChangeAvailable()" class="modal-footer trip-actions">
+    <btn-cancel label="Decline" (onClick)="decline()"></btn-cancel>
+    <btn-primary label="Confirm" (onClick)="confirm()"></btn-primary>
+  </div>
+</form>

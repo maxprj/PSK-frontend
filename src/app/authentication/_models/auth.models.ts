@@ -1,4 +1,4 @@
-import {UserRole} from "../../users/_models/enums/UserRoleEnum";
+import {UserRole} from "../../users/_models/user";
 
 export interface PasswordForm {
     password: string;
