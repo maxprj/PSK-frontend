@@ -6,7 +6,7 @@ import {ApartmentsListComponent} from './apartments-list/apartments-list.compone
 
 const routes: Routes = [
   { path: '', component: ApartmentsListComponent, canActivate: [AuthenticationGuard]},
-  { path: '/:apartmentId', component: ApartmentsDetailsComponent, canActivate: [AuthenticationGuard]}
+  { path: ':apartmentId', component: ApartmentsDetailsComponent, canActivate: [AuthenticationGuard]}
 ];
 
 @NgModule({

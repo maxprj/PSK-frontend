@@ -15,7 +15,9 @@ export const environment = {
       update: (id: string) => `/api/apartment/${id}`,
       get: (id: string) => `/api/apartment/${id}`,
       delete: (id: string) => `/api/apartment/${id}`,
-      all: '/api/apartment/all'
+      all: '/api/apartment/all',
+      availablePlaces: (apartmentId: string) => `/api/apartment/${apartmentId}/reservation/places`,
+      reservationList: (apartmentId: string) => `/api/apartment/${apartmentId}/reservation`
     },
     trip: {
       list: '/api/trip',

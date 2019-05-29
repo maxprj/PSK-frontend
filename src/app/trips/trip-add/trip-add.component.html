@@ -32,14 +32,28 @@
   <form-row *ngIf="!reservationNeeded" forInput="arrival" label="Arrival time" [isInvalid]="submitted && isArrivalValid()" errorText="Arrival time must be greater than departure time">
     <input type="datetime-local" class="form-control" formControlName="arrival" id="arrival" [ngClass]="{'is-invalid': submitted && isArrivalValid()}">
   </form-row>
-  <span class="subtitle">Participants<hr flex/></span>
-  <div formArrayName="users" *ngFor="let item of f.users.controls; let i = index; let last = last;">
-    <div [formGroupName]="i">
-      <multiple-user-add  [submitted]="submitted" (addUserClick)="addUser()" [item]="item"
-                          [canRemove]="f.users.controls.length == 1" [index]="i" [last]="last"
-                         (removeUserClick)="removeUser(i)" [users]="users" [isInput]="true"></multiple-user-add>
-    </div>
-  </div>
+  <span class="subtitle">Participants <hr flex/></span>
+  <span class="add-user" *ngIf="submitted && userElements.length < 1">Please add at least one user</span>
+  <table mdbTable class="z-depth-0">
+    <thead>
+    <tr>
+      <th *ngFor="let head of headElements;" scope="col">{{head}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let el of userElements;">
+      <td>{{getUserNameById(el.userId)}}</td>
+      <td>{{el.flightTicket}}</td>
+      <td>{{el.carRent}}</td>
+      <td>{{el.residenceAddress === null ? el.residenceAddress : '-'}}</td>
+      <td>
+        <mat-icon style="cursor: pointer" (click)="removeUserFromList(el.id)">delete</mat-icon>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <span class="add form-inline"><a (click)="addUser()">Add</a></span>
+  <br>
   <span class="subtitle">Optional details<hr flex/></span>
   <form-row forInput="description" label="Description">
     <textarea type="text" class="form-control" formControlName="description" id="description"></textarea>

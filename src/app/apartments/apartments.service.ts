@@ -33,4 +33,12 @@ export class ApartmentsService {
   deleteApartment(id: string) {
     return this.http.delete(environment.urls.apartments.delete(id));
   }
+
+  getReservationList(id: string, params) {
+    return this.http.get(environment.urls.apartments.reservationList(id), {params: params});
+  }
+
+  getAvailablePlaces(id: string, params) {
+    return this.http.get(environment.urls.apartments.availablePlaces(id), {params: params});
+  }
 }

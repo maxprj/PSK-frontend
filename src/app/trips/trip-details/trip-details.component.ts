@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {TripsService} from '../trips.service';
 import {ApartmentsService} from '../../apartments/apartments.service';
 import {Location} from '@angular/common';
 import {UserService} from '../../users/user.service';
 import {ActivatedRoute} from '@angular/router';
+import {TripUserAddModalComponent} from '../trip-user-add-modal/trip-user-add-modal.component';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-trip-details',
@@ -17,16 +19,20 @@ export class TripDetailsComponent implements OnInit {
   submitted = false;
   apartments: any = [];
   users: any = [];
+  removedUsers: any = [];
+  availableUsers: any = [];
+  userElements: any = [];
+  headElements = ['User', 'Flight ticket', 'Car Rent', 'Residence Address', 'Remove'];
   trip;
   tripLoaded = false;
   tripId: string;
-  tripsInvalid = true;
   reservationNeeded = true;
 
   constructor(private formBuilder: FormBuilder,
               private tripsService: TripsService,
               private apartmentsService: ApartmentsService,
               private location: Location,
+              private modalService: NgbModal,
               private route: ActivatedRoute,
               private userService: UserService) { }
 
@@ -52,7 +58,7 @@ export class TripDetailsComponent implements OnInit {
       reservationBegin: [''],
       reservationEnd: [''],
       source: [{value: '', disabled: true}, Validators.required],
-      users: this.formBuilder.array([])
+      users: this.formBuilder.array([], Validators.required)
     });
   }
 
@@ -60,7 +66,8 @@ export class TripDetailsComponent implements OnInit {
     this.tripId = this.route.snapshot.paramMap.get('tripId');
     this.tripsService.getTripById(this.tripId).pipe().subscribe(result => {
       this.formSettings.patchValue(result);
-      result.users.forEach((value) => this.addPatchedUser(value));
+      this.userElements = result.users;
+      this.userElements.forEach((value) => this.sortRemovedUsers(value));
       this.trip = result;
       this.formSettings.patchValue({
         source: this.trip.source.street + ' ' + this.trip.source.apartmentNumber + ', ' + this.trip.source.city,
@@ -79,39 +86,27 @@ export class TripDetailsComponent implements OnInit {
     });
   }
 
+  sortRemovedUsers(user) {
+    const obj = this.users.find(e => e.id === user.userId);
+    this.removedUsers.push(obj);
+    this.availableUsers = this.availableUsers.filter(e => e.id !== user.userId);
+  }
+
   addUser() {
-    const users = this.formSettings.get('users') as FormArray;
-    users.push(this.createUser());
-  }
+    const modalRef = this.modalService.open(TripUserAddModalComponent,
+      {
+        size: 'lg',
+        windowClass: 'show'
+      });
+    modalRef.componentInstance.users = this.availableUsers;
+    modalRef.result.then((result) => {
+      this.userElements.push(result);
+      const user = this.availableUsers.find(e => e.id === result.userId);
+      this.removedUsers.push(user);
+      this.availableUsers = this.availableUsers.filter(e => e.id !== result.userId);
+    }).catch((error) => {
 
-  addPatchedUser(user) {
-    const users = this.formSettings.get('users') as FormArray;
-    users.push(this.createPatchedUser(user));
-  }
-
-  removeUser(index) {
-    const users = this.formSettings.get('users') as FormArray;
-    users.removeAt(index);
-  }
-
-  createPatchedUser(user) {
-    const formGroup = this.formBuilder.group({
-      inApartment: [{value: '', disabled: user.inApartment}],
-      userId: [{value: '', disabled: true}, Validators.required],
-      flightTicket: [''],
-      carRent: [''],
-      residenceAddress: [{value: '', disabled: user.inApartment}]});
-    formGroup.patchValue(user);
-    return formGroup;
-  }
-
-  createUser() {
-    return this.formBuilder.group({
-      inApartment: [''],
-      userId: ['', Validators.required],
-      flightTicket: [''],
-      carRent: [''],
-      residenceAddress: ['']});
+    });
   }
 
   getApartments() {
@@ -123,6 +118,7 @@ export class TripDetailsComponent implements OnInit {
   getUsers() {
     this.userService.getAll().pipe().subscribe(result => {
       this.users = result;
+      this.availableUsers = result;
     });
   }
 
@@ -136,9 +132,22 @@ export class TripDetailsComponent implements OnInit {
     if (this.formSettings.invalid) {
       return;
     }
+    this.formSettings.patchValue({users: this.userElements});
     this.tripsService.updateTrip(this.trip.id, this.formSettings.getRawValue()).pipe().subscribe(() => {
       this.location.back();
     });
+  }
+
+  getUserNameById(id) {
+    const obj = this.users.find(e => e.id === id);
+    return obj.name + ' ' + obj.surname;
+  }
+
+  removeUserFromList(id) {
+    const user = this.removedUsers.find(e => e.id === id);
+    this.availableUsers.push(user);
+    this.removedUsers = this.removedUsers.filter(e => e.id !== id);
+    this.userElements = this.userElements.filter(proj => proj.id !== id);
   }
 
   isReservationStartInvalid() {
@@ -157,17 +166,9 @@ export class TripDetailsComponent implements OnInit {
     return !this.compareDates(Date.now(), this.f.departure.value);
   }
 
-  areTripPointsInvalid() {
-    this.tripsInvalid = this.f.source.value === this.f.destination.value;
-  }
-
   compareDates(date1, date2): boolean {
     const aDate = new Date(date1).valueOf();
     const bDate = new Date(date2).valueOf();
     return aDate < bDate;
-  }
-
-  reservationOn() {
-    this.reservationNeeded = !this.reservationNeeded;
   }
 }

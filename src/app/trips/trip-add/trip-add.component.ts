@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {TripsService} from '../trips.service';
 import {Location} from '@angular/common';
 import {ApartmentsService} from '../../apartments/apartments.service';
 import {UserService} from '../../users/user.service';
-import {ActivatedRoute} from '@angular/router';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {TripUserAddModalComponent} from '../trip-user-add-modal/trip-user-add-modal.component';
 
 @Component({
   selector: 'app-trip-details',
@@ -18,12 +19,18 @@ export class TripAddComponent implements OnInit {
   reservationNeeded = true;
   apartments: any = [];
   users: any = [];
+  removedUsers: any = [];
+  availableUsers: any = [];
   tripsInvalid = true;
+  canAddToApartment = true;
+  headElements = ['User', 'Flight ticket', 'Car Rent', 'Residence Address', 'Remove'];
+  userElements = [];
 
   constructor(private formBuilder: FormBuilder,
               private tripsService: TripsService,
               private apartmentsService: ApartmentsService,
               private location: Location,
+              private modalService: NgbModal,
               private userService: UserService) { }
 
   ngOnInit() {
@@ -47,7 +54,7 @@ export class TripAddComponent implements OnInit {
       reservationBegin: [''],
       reservationEnd: [''],
       source: ['', Validators.required],
-      users: this.formBuilder.array([this.createUser()])
+      users: this.formBuilder.array([], Validators.required)
     });
   }
 
@@ -60,22 +67,25 @@ export class TripAddComponent implements OnInit {
   }
 
   addUser() {
-    const companies = this.formSettings.get('users') as FormArray;
-    companies.push(this.createUser());
+    const modalRef = this.modalService.open(TripUserAddModalComponent,
+      {
+        size: 'lg',
+        windowClass: 'show'
+      });
+    modalRef.componentInstance.users = this.availableUsers;
+    modalRef.result.then((result) => {
+      this.userElements.push(result);
+      const user = this.availableUsers.find(e => e.id === result.userId);
+      this.removedUsers.push(user);
+      this.availableUsers = this.availableUsers.filter(e => e.id !== result.userId);
+    }).catch((error) => {
+
+    });
   }
 
-  removeUser(index) {
-    const companies = this.formSettings.get('users') as FormArray;
-    companies.removeAt(index);
-  }
-
-  createUser() {
-    return this.formBuilder.group({
-      inApartment: [true],
-      userId: ['', Validators.required],
-      flightTicket: [''],
-      carRent: [''],
-      residenceAddress: ['']});
+  getUserNameById(id) {
+    const obj = this.users.find(e => e.id === id);
+    return obj.name + ' ' + obj.surname;
   }
 
   getApartments() {
@@ -87,6 +97,7 @@ export class TripAddComponent implements OnInit {
   getUsers() {
     this.userService.getAll().pipe().subscribe(result => {
       this.users = result;
+      this.availableUsers = result;
     });
   }
 
@@ -100,9 +111,34 @@ export class TripAddComponent implements OnInit {
     if (this.formSettings.invalid) {
       return;
     }
+    this.formSettings.patchValue({users: this.userElements});
     this.tripsService.createTrip(this.formSettings.value).pipe().subscribe(() => {
       this.location.back();
     });
+  }
+
+  removeUserFromList(id) {
+    const user = this.removedUsers.find(e => e.id === id);
+    this.availableUsers.push(user);
+    this.removedUsers = this.removedUsers.filter(e => e.id !== id);
+    this.userElements = this.userElements.filter(proj => proj.id !== id);
+  }
+
+  isReservationAvailable() {
+    /*
+    this.formSettings.get('reservationBegin').valueChanges.pipe(
+      debounceTime(2000),
+      filter(e => this.formSettings.get('destination').value !== null),
+      filter(e => this.formSettings.get('reservationEnd').value !== null),
+      filter(e => this.reservationNeeded),
+      switchMap(e => this.apartmentsService.getAvailablePlaces(this.formSettings.get('destination').value,
+        {from: this.formSettings.get('reservationBegin').value,
+                till: this.formSettings.get('reservationEnd').value})))
+      .subscribe(result => {
+         if (result.availablePlaces < this.users.filter(e => e.inApartment).size()) {
+           this.canAddToApartment = false;
+         }
+      }); */
   }
 
   isReservationStartInvalid() {

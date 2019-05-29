@@ -1,0 +1,29 @@
+<div class="modal-header">
+  <h4 class="modal-title">Add user</h4>
+  <modal-btn-close (click)="activeModal.dismiss('Closed Modal')"></modal-btn-close>
+</div>
+<form [formGroup]="formSettings" (ngSubmit)="submitForm()" class="modal-body">
+  <form-row forInput="userId" label="User" [isInvalid]="submitted && formSettings.controls.userId.invalid" errorText="User is invalid">
+    <select class="form-control" formControlName="userId" id="userId" [ngClass]="{'is-invalid': submitted && formSettings.controls.userId.invalid}">
+      <option *ngFor="let user of users" [value]="user.id">{{user.name}} {{user.lastName}}</option>
+    </select>
+  </form-row>
+  <form-row forInput="flightTicket" label="Flight ticket">
+    <input type="text" class="form-control" formControlName="flightTicket" id="flightTicket">
+  </form-row>
+  <form-row forInput="carRent" label="Car for rent">
+    <input type="text" class="form-control" formControlName="carRent" id="carRent">
+  </form-row>
+  <div class="form-group form-check">
+    <input type="checkbox" (click)="residenceSwitch()" class="form-check-input" formControlName="inApartment" id="inApartment">
+    <label class="form-check-label" for="inApartment">Has user place in apartments?</label>
+  </div>
+  <div *ngIf="!livesInApartment">
+    <form-row forInput="residenceAddress" label="Residence address" [isInvalid]="submitted && formSettings.controls.residenceAddress.invalid" errorText="Residence address is invalid">
+      <input type="text" class="form-control" formControlName="residenceAddress" id="residenceAddress">
+    </form-row>
+  </div>
+  <div class="modal-footer">
+    <btn-primary label="Add"></btn-primary>
+  </div>
+</form>
