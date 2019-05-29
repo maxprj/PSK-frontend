@@ -5,10 +5,30 @@
                [opened]="(isHandset$ | async)">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item (click)="navigate('users')" *ngIf="isAdmin">Users</a>
-      <a mat-list-item (click)="navigate('apartments')" *ngIf="isAdmin">Apartments</a>
-      <a mat-list-item (click)="navigate('events')" *ngIf="isAdmin || isOrganiser || isUser">Calendar</a>
-      <a mat-list-item (click)="navigate('trips')" *ngIf="isAdmin || isOrganiser">Trips</a>
+      <a mat-list-item (click)="navigate('users')" *ngIf="isAdmin">
+        <i class="material-icons">
+          supervisor_account
+        </i>
+        Users
+      </a>
+      <a mat-list-item (click)="navigate('apartments')" *ngIf="isAdmin">
+        <i class="material-icons">
+          account_balance
+        </i>
+        Apartments
+      </a>
+      <a mat-list-item (click)="navigate('events')" *ngIf="isAdmin || isOrganiser || isUser">
+        <i class="material-icons">
+          today
+        </i>
+        Calendar
+      </a>
+      <a mat-list-item (click)="navigate('trips')" *ngIf="isAdmin || isOrganiser">
+        <i class="material-icons">
+          transfer_within_a_station
+        </i>
+        Trips
+      </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -25,7 +45,7 @@
       <span class="spacer"></span>
       <div class="navbar-user">
         <i class="material-icons">
-          account_circle
+          perm_identity
         </i>
         <span>{{userFirstName}} {{userLastName}}</span>
       </div>
