@@ -32,7 +32,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
               localStorage.removeItem(TOKEN_PSK);
               this.router.navigate(['/login']);
             } else {
-              this.alertService.error(error.message);
+              this.alertService.error(error.error.message);
             }
             return throwError(error);
           }));

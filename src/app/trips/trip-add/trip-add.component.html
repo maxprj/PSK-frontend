@@ -56,13 +56,13 @@
     </tr>
     </tbody>
   </table>
-  <span class="add form-inline"><a (click)="addUser()">Add</a></span>
+  <span *ngIf="availableUsers.length > 0" class="add form-inline"><a (click)="addUser()">Add</a></span>
   <br>
   <span class="subtitle">Optional details<hr flex/></span>
   <form-row forInput="description" label="Description">
     <textarea type="text" class="form-control" formControlName="description" id="description"></textarea>
   </form-row>
-  <form-row forInput="otherExpenses" label="Other expenses">
+  <form-row forInput="otherExpenses" label="Other expenses (€)">
     <input type="number" class="form-control" formControlName="otherExpenses" id="otherExpenses">
   </form-row>
   <other-expense label="Plane tickets" [formGroup]="f.flight" [submitted]="submitted"></other-expense>
