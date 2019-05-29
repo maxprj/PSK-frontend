@@ -5,6 +5,7 @@ import {AlertService} from "../../shared/components/alert/alert.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {TripsService} from "../trips.service";
 import {TripEventDetailsComponent} from "../../shared/components/trip-event-details/trip-event-details.component";
+import {catchError} from 'rxjs/operators';
 
 @Component({
   selector: 'app-trip-user-view',
@@ -37,7 +38,7 @@ export class TripUserViewComponent implements OnInit {
 
   loadTrips() {
     this.loading = true;
-    this.router.navigate(['/trips'], {queryParams: {page: this.params.page}});
+    this.router.navigate(['/trips/user'], {queryParams: {page: this.params.page}});
     this.tripService.listForUser(this.params).pipe().subscribe(result => {
       this.pageable = result;
       this.trips = result.content;
@@ -60,7 +61,7 @@ export class TripUserViewComponent implements OnInit {
       if (!accepted) {
         this.loadTrips();
       }
-    });
+    }).catch(() => {});
   }
 
   nextPage() {

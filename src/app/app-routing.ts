@@ -4,7 +4,7 @@ import {AuthenticationGuard} from './authentication/authentication.guard';
 import {PasswordChangeComponent} from './authentication/password-change/password-change.component';
 import {NavComponent} from './core/layout-components/nav/nav.component';
 import {ErrorPageComponent} from './error-page/error-page.component';
-import {UserRole} from "./users/_models/user";
+import {UserRole} from './users/_models/user';
 
 const appRoutes: Routes = [
   {
@@ -26,7 +26,8 @@ const appRoutes: Routes = [
         loadChildren: 'src/app/users/users.module#UsersModule',
         data: {
           roles: [
-            UserRole.ROLE_ADMIN
+            UserRole.ROLE_ADMIN,
+            UserRole.ROLE_ORGANIZER
           ]
         }
       },
@@ -45,7 +46,8 @@ const appRoutes: Routes = [
         data: {
           roles: [
             UserRole.ROLE_ORGANIZER,
-            UserRole.ROLE_ADMIN
+            UserRole.ROLE_ADMIN,
+            UserRole.ROLE_USER
           ]
         }
       },

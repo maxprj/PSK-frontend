@@ -46,9 +46,9 @@ export class NavComponent {
 
   setMenuVisibilityValues() {
     const userRole = this.authenticationService.currentUserRole;
-    this.isAdmin = userRole == UserRole.ROLE_ADMIN;
-    this.isOrganiser = userRole == UserRole.ROLE_ORGANIZER;
-    this.isUser = userRole == UserRole.ROLE_USER;
+    this.isAdmin = userRole === UserRole.ROLE_ADMIN;
+    this.isOrganiser = userRole === UserRole.ROLE_ORGANIZER;
+    this.isUser = userRole === UserRole.ROLE_USER;
   }
 
   setUserFirstAndLastName() {
