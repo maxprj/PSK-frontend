@@ -66,8 +66,7 @@ import {OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime";
     LoaderComponent,
     AlertComponent,
     TripStatusPipe,
-    TripStatusColorPipe
-    TripStatusPipe,
+    TripStatusColorPipe,
     UserStatusPipe,
     EventUserStatusPipe,
     TripEventDetailsComponent,

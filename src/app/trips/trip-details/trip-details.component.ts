@@ -70,6 +70,7 @@ export class TripDetailsComponent implements OnInit {
   getTrip() {
     this.tripId = this.route.snapshot.paramMap.get('tripId');
     this.tripsService.getTripById(this.tripId).pipe().subscribe(result => {
+      console.log(result);
       this.formSettings.patchValue(result);
       this.userElements = result.users;
       this.userElements.forEach((value) => this.sortRemovedUsers(value));

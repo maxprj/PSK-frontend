@@ -3,8 +3,8 @@ import {LoginComponent} from './authentication/login';
 import {AuthenticationGuard} from './authentication/authentication.guard';
 import {PasswordChangeComponent} from './authentication/password-change/password-change.component';
 import {NavComponent} from './core/layout-components/nav/nav.component';
-import {UserRole} from "./users/_models/enums/UserRoleEnum";
 import {ErrorPageComponent} from './error-page/error-page.component';
+import {UserRole} from "./users/_models/user";
 
 const appRoutes: Routes = [
   {

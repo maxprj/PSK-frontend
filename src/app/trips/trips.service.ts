@@ -40,7 +40,7 @@ export class TripsService {
   }
 
   getMergableTrips(id) {
-    return this.http.get(environment.urls.trip.match(id));
+    return this.http.get<any>(environment.urls.trip.match(id));
   }
 
   mergeTrips(params) {

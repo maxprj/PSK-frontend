@@ -3,8 +3,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {TripsService} from '../trips.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AlertService} from "../../shared/components/alert/alert.service";
-import {environment} from '../../../environments/environment';
-import {TripUserAddModalComponent} from '../trip-user-add-modal/trip-user-add-modal.component';
 import {TripsMergeModalComponent} from '../trips-merge-modal/trips-merge-modal.component';
 import {environment} from "../../../environments/environment";
 
