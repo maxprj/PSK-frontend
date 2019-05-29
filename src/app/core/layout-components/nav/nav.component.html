@@ -24,6 +24,12 @@
       </button>
       <span class="spacer"></span>
       <div class="navbar-user">
+        <i class="material-icons">
+          account_circle
+        </i>
+        <span>{{userFirstName}} {{userLastName}}</span>
+      </div>
+      <div class="navbar-user">
         <button type="button" class="pointer" (click)="logout()">
           <i class="material-icons">
             exit_to_app

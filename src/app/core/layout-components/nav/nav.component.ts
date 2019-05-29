@@ -1,11 +1,12 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
 import {Router} from "@angular/router";
 import { UserRole } from 'src/app/users/_models/enums/UserRoleEnum';
 import { MatSidenav } from '@angular/material';
+import { USER_VIEW } from 'src/app/utils/constants';
 
 @Component({
   selector: 'app-nav',
@@ -16,6 +17,8 @@ export class NavComponent {
   isAdmin: boolean;
   isOrganiser: boolean;
   isUser: boolean;
+  userFirstName: String;
+  userLastName: String;
 
   @ViewChild('drawer') drawer: MatSidenav;
 
@@ -28,6 +31,7 @@ export class NavComponent {
               private router: Router,
               private authenticationService: AuthenticationService) {
     this.setMenuVisibilityValues();
+    this.setUserFirstAndLastName();
   }
 
   logout() {
@@ -44,6 +48,14 @@ export class NavComponent {
     this.isAdmin = userRole == UserRole.ROLE_ADMIN;
     this.isOrganiser = userRole == UserRole.ROLE_ORGANIZER;
     this.isUser = userRole == UserRole.ROLE_USER;
+  }
+
+  setUserFirstAndLastName() {
+    if (localStorage.getItem(USER_VIEW) != null) {
+      const currentUserToken = new BehaviorSubject<any>(JSON.parse(localStorage.getItem(USER_VIEW)));
+      this.userFirstName = currentUserToken.value['name'];
+      this.userLastName = currentUserToken.value['surname'];
+    }
   }
 
 }
