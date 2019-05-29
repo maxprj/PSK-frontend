@@ -53,7 +53,7 @@
       </tr>
       </tbody>
     </table>
-    <span class="add form-inline" *ngIf="submitted && userElements.length < 1"><a (click)="addUser()">Add</a></span>
+    <span class="add form-inline" *ngIf="availableUsers.length > 0"><a (click)="addUser()">Add</a></span>
     <br>
     <span class="subtitle">Optional details<hr flex/></span>
     <form-row forInput="description" label="Description">
