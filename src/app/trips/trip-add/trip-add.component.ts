@@ -6,7 +6,7 @@ import {ApartmentsService} from '../../apartments/apartments.service';
 import {UserService} from '../../users/user.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {TripUserAddModalComponent} from '../trip-user-add-modal/trip-user-add-modal.component';
-import {filter} from 'rxjs/operators';
+import {debounceTime, filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-trip-details',
@@ -145,16 +145,19 @@ export class TripAddComponent implements OnInit {
 
   isReservationAvailable() {
     this.formSettings.get('reservationBegin').valueChanges.pipe(
+      debounceTime(1000),
       filter(e => this.formSettings.get('destination').value !== ''),
       filter(e => this.formSettings.get('reservationEnd').value !== ''),
       filter(e => this.reservationNeeded)).subscribe(() => this.getAvailablePlaces());
 
     this.formSettings.get('reservationEnd').valueChanges.pipe(
+      debounceTime(1000),
       filter(e => this.formSettings.get('destination').value !== ''),
       filter(e => this.formSettings.get('reservationBegin').value !== ''),
       filter(e => this.reservationNeeded)).subscribe(() => this.getAvailablePlaces());
 
     this.formSettings.get('destination').valueChanges.pipe(
+      debounceTime(1000),
       filter(e => this.formSettings.get('reservationBegin').value !== ''),
       filter(e => this.formSettings.get('reservationEnd').value !== ''),
       filter(e => this.reservationNeeded)).subscribe(() => this.getAvailablePlaces());
