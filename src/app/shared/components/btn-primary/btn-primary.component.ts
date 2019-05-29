@@ -9,6 +9,7 @@ export class BtnPrimaryComponent {
 
   @Input() label: string;
   @Input() isDisabled: boolean;
+  @Input() type = 'submit';
 
   @Output('onClick') click: EventEmitter<any>;
 

@@ -10,6 +10,8 @@ services:
       - 8080:8080
     depends_on:
       - db
+    volumes:
+      - /var/log/psk:/var/log
   db:
     image: mongo:4.0
     container_name: db
