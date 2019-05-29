@@ -18,7 +18,7 @@
         <td>{{el.email}}</td>
         <td>{{el.role | userRolePipe}}</td>
         <td>{{el.createdAt | date: 'yyyy/MM/dd'}}</td>
-        <td>{{el.status}}</td>
+        <td>{{el.status | userStatusPipe}}</td>
         <td>
           <mat-icon style="cursor: pointer" (click)="updateUser(el.id)">create</mat-icon>
         </td>

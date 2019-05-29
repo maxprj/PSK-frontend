@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { UserRoleEnumToTextMapping } from '../_models/enums/UserRoleEnumToTextMapping';
-import { UserRole } from '../_models/enums/UserRoleEnum';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {UserRole} from "../../_models/enums/UserRoleEnum";
 
 @Component({
   selector: 'app-user-create',

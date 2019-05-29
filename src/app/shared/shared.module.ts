@@ -12,6 +12,11 @@ import {AlertComponent} from './components/alert/alert.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TripStatusPipe} from "./pipes/trip-status-pipe";
 import {BtnCancelComponent} from './components/btn-cancel/btn-cancel.component';
+import {UserStatusPipe} from "./pipes/user-status-pipe";
+import {CalendarWrapperComponent} from './components/calendar-wrapper/calendar-wrapper.component';
+import {adapterFactory} from "angular-calendar/date-adapters/date-fns";
+import {CalendarModule, DateAdapter} from "angular-calendar";
+import {MatProgressSpinnerModule} from "@angular/material";
 
 @NgModule({
   declarations: [
@@ -25,12 +30,20 @@ import {BtnCancelComponent} from './components/btn-cancel/btn-cancel.component';
     LoaderComponent,
     AlertComponent,
     TripStatusPipe,
-    BtnCancelComponent
+    UserStatusPipe,
+    BtnCancelComponent,
+    CalendarWrapperComponent,
+
   ],
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    MatProgressSpinnerModule,
+    ReactiveFormsModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    })
   ],
   exports: [
     FormRowWrapperComponent,
@@ -43,7 +56,9 @@ import {BtnCancelComponent} from './components/btn-cancel/btn-cancel.component';
     ModalBtnCloseComponent,
     LoaderComponent,
     AlertComponent,
-    TripStatusPipe
+    TripStatusPipe,
+    UserStatusPipe,
+    CalendarWrapperComponent
   ]
 })
 export class SharedModule { }

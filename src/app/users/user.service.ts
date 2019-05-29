@@ -19,6 +19,10 @@ export class UserService {
     return this.http.get<UserListView[]>(environment.urls.users.list, { params: params });
   }
 
+  getPagedActive(params) {
+    return this.http.get<UserListView[]>(environment.urls.users.activeList, { params: params });
+  }
+
   getById(id) {
     return this.http.get<UserView>(environment.urls.users.get(id));
   }

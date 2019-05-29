@@ -40,7 +40,7 @@
     </form-row>
     <btn-primary [type]="'button'" label="Add user" (onClick)="addUser()"></btn-primary>
 
-    <table mdbTable class="z-depth-0">
+    <table mdbTable class="z-depth-0" *ngIf="selectedUsers.length > 0">
       <thead>
       <tr>
         <th *ngFor="let head of headElements; let i = index" scope="col">{{head}}</th>

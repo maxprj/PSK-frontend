@@ -28,6 +28,7 @@ export const environment = {
     },
     users: {
       list: '/api/user',
+      activeList: '/api/user/active',
       allList: '/api/user/all',
       create: '/api/user',
       resetPassword: '/api/user/resetPassword',
@@ -38,6 +39,7 @@ export const environment = {
     events: {
       create: '/api/event',
       list: '/api/event',
+      ofUser: (id: string) => `/api/event/user/${id}`,
       get: (id: string) => `/api/event/${id}`,
       delete: (id: string) => `/api/event/${id}`,
       confirm: (id: string) => `/api/event/${id}/confirm`,
@@ -45,6 +47,18 @@ export const environment = {
     }
   },
   constants: {
+    calendar: {
+      color: {
+        userEvent: {
+          primary: '#4285f4',
+          secondary: '#4285f4'
+        },
+        tripEvent: {
+          primary: '#00c851',
+          secondary: '#00c851'
+        }
+      }
+    },
     pageSize: 5
   }
 };

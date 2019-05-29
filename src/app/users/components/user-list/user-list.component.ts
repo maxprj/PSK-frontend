@@ -1,12 +1,12 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { AuthenticationService } from 'src/app/authentication/authentication.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { UserCreateComponent } from '../user-create/user-create.component';
-import { UserUpdateComponent } from '../user-update/user-update.component';
-import { UserService } from '../user.service';
-import { AlertService } from 'src/app/shared/components/alert/alert.service';
-import { environment } from 'src/environments/environment';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {AuthenticationService} from 'src/app/authentication/authentication.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {UserCreateComponent} from '../user-create/user-create.component';
+import {UserUpdateComponent} from '../user-update/user-update.component';
+import {UserService} from '../../user.service';
+import {AlertService} from 'src/app/shared/components/alert/alert.service';
+import {environment} from 'src/environments/environment';
 
 @Component({
   selector: 'app-user-list',
@@ -41,7 +41,7 @@ export class UserListComponent implements OnInit {
 
   private loadUsers() {
     this.usersLoaded = false;
-    this.router.navigate(['/users'], {queryParams: {page: this.params.page}});
+    this.router.navigate(['/users/details'], {queryParams: {page: this.params.page}});
     this.usersService.getPaged(this.params).pipe().subscribe(result => {
       this.pageable = result;
       this.users = this.pageable.content;
@@ -78,7 +78,7 @@ export class UserListComponent implements OnInit {
       });
 
     modalRef.componentInstance.id = id;
-    
+
     modalRef.result.then((result) => {
       this.usersLoaded = false;
       this.usersService.updateUser(id, result).pipe().subscribe(user => {
@@ -86,7 +86,7 @@ export class UserListComponent implements OnInit {
         this.loadUsers();
       });
     }).catch((error) => {
-      
+
     });
   }
 

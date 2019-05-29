@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {DateValidators} from "../../../shared/validators/date.validator";
-import {UserService} from "../../../users/user.service";
-import {UserAllView} from "../../../users/_models/user";
-import {EventCreateForm} from "../../model/event";
+import {DateValidators} from "../../../../shared/validators/date.validator";
+import {UserService} from "../../../../users/user.service";
+import {UserAllView} from "../../../../users/_models/user";
+import {EventCreateForm} from "../../../model/event";
 
 @Component({
   selector: 'app-event-add-modal',
@@ -60,8 +60,11 @@ export class EventAddModalComponent implements OnInit {
       return;
     }
     let value: EventCreateForm = {
-      ...<EventCreateForm>this.form.value,
-      users: this.availableUsers.map(u => u.id)
+      name: this.form.get('name').value,
+      description: this.form.get('description').value,
+      start: this.form.get('start').value,
+      end: this.form.get('end').value,
+      users: this.selectedUsers.map(u => u.id)
     };
 
     this.activeModal.close(value);
@@ -78,7 +81,9 @@ export class EventAddModalComponent implements OnInit {
     if (user) {
       this.selectedUsers.push(user);
       this.availableUsers.splice(this.availableUsers.indexOf(user), 1);
-      this.form.get('user').setValue('');
+      if(this.availableUsers.length > 0) {
+        this.form.get('user').reset(this.availableUsers[0].id);
+      }
     }
   }
 }

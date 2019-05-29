@@ -37,3 +37,8 @@ export interface UserAllView {
   name: string;
   surname: string;
 }
+
+export enum UserStatus {
+  ACTIVE = 'ACTIVE',
+  VERIFICATION_PENDING = 'VERIFICATION_PENDING'
+}

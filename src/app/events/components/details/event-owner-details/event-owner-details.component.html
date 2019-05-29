@@ -20,20 +20,19 @@
     </form-row>
   </div>
 
-  <table mdbTable class="z-depth-0">
+  <table mdbTable class="z-depth-0" *ngIf="hasUsers()">
     <thead>
     <tr>
       <th *ngFor="let head of headElements; let i = index" scope="col">{{head}}</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let user of selectedUsers; let i = index">
+    <tr *ngFor="let user of event.users; let i = index">
       <td>{{i + 1}}</td>
       <td>{{user.name}}</td>
       <td>{{user.surname}}</td>
-      <td>
-        <mat-icon style="cursor: pointer" (click)="removeUser(user.id)">delete</mat-icon>
-      </td>
+      <td>{{user.email}}</td>
+      <td>{{user.status}}</td>
     </tr>
     </tbody>
   </table>
