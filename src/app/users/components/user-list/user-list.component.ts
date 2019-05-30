@@ -46,7 +46,6 @@ export class UserListComponent implements OnInit {
       this.pageable = result;
       this.users = this.pageable.content;
       this.usersLoaded = true;
-      this.cdRef.detectChanges();
     }, error => {
       this.usersLoaded = true;
       this.alertService.error(error.error.message);
