@@ -7,8 +7,9 @@ import {UserService} from '../../users/user.service';
 import {ActivatedRoute} from '@angular/router';
 import {TripUserAddModalComponent} from '../trip-user-add-modal/trip-user-add-modal.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {debounceTime, filter} from 'rxjs/operators';
+import {debounceTime, filter, map} from 'rxjs/operators';
 import {TripDetailsView, TripStatus} from "../model/trip";
+import {UserAllView, UserSelectView} from "../../users/_models/user";
 
 @Component({
   selector: 'app-trip-details',
@@ -94,7 +95,7 @@ export class TripDetailsComponent implements OnInit {
       carRent: t.carRent ? t.carRent : '',
       flight: t.flight ? t.flight : '',
       hotel: t.hotel ? t.hotel : '',
-    }
+    };
   }
 
   isReservationAvailable() {
@@ -129,9 +130,9 @@ export class TripDetailsComponent implements OnInit {
   }
 
   sortRemovedUsers(user) {
-    const obj = this.users.find(e => e.id === user.userId);
+    const obj = this.users.find(e => e.userId === user.userId);
     this.removedUsers.push(obj);
-    this.availableUsers = this.availableUsers.filter(e => e.id !== user.userId);
+    this.availableUsers = this.availableUsers.filter(e => e.userId !== user.userId);
   }
 
   addUser() {
@@ -141,11 +142,12 @@ export class TripDetailsComponent implements OnInit {
         windowClass: 'show'
       });
     modalRef.componentInstance.users = this.availableUsers;
+    modalRef.componentInstance.canAddToApartment = this.canAddToApartment;
     modalRef.result.then((result) => {
       this.userElements.push(result);
-      const user = this.availableUsers.find(e => e.id === result.userId);
+      const user = this.availableUsers.find(e => e.userId === result.userId);
       this.removedUsers.push(user);
-      this.availableUsers = this.availableUsers.filter(e => e.id !== result.userId);
+      this.availableUsers = this.availableUsers.filter(e => e.userId !== result.userId);
       this.canAddToApartment = this.availablePlaces.availablePlaces > this.userElements.filter(e => e.inApartment).length;
     }).catch((error) => {
 
@@ -159,9 +161,20 @@ export class TripDetailsComponent implements OnInit {
   }
 
   getUsers() {
-    this.userService.getAll().pipe().subscribe(result => {
-      this.users = result;
-      this.availableUsers = result;
+    this.userService.getAll().pipe(map(users => this.toSelectView(users)))
+      .subscribe(result => {
+        this.users = result;
+        this.availableUsers = result;
+      });
+  }
+
+  toSelectView(users: UserAllView[]): UserSelectView[] {
+    return users.map(u => {
+      return <UserSelectView>{
+        userId: u.id,
+        name: u.name,
+        surname: u.surname
+      };
     });
   }
 
@@ -186,7 +199,7 @@ export class TripDetailsComponent implements OnInit {
       fb.patchValue(usr);
       formArray.push(fb);
     });
-    if (this.formSettings.invalid) {
+    if (this.formSettings.invalid || this.isFormInValid()) {
       return;
     }
     this.tripsService.updateTrip(this.trip.id, this.formSettings.getRawValue()).pipe().subscribe(() => {
@@ -195,8 +208,10 @@ export class TripDetailsComponent implements OnInit {
   }
 
   getUserNameById(id) {
-    const obj = this.users.find(e => e.id === id);
-    return obj.name + ' ' + obj.surname;
+    const obj = this.users.find(e => e.userId === id);
+    if (obj) {
+      return obj.name + ' ' + obj.surname;
+    }
   }
 
   removeUserFromList(id) {
@@ -229,9 +244,15 @@ export class TripDetailsComponent implements OnInit {
   }
 
   isFormEditable(status: TripStatus) {
-    if (status == TripStatus.STARTED || status == TripStatus.FINISHED || status == TripStatus.CANCELLED) {
+    if (status === TripStatus.STARTED || status === TripStatus.FINISHED || status === TripStatus.CANCELLED) {
       this.formSettings.disable();
       this.isEditable = false;
     }
+  }
+
+  isFormInValid() {
+    return this.isReservationStartInvalid()
+      || this.isReservationEndInvalid()
+      || this.isDepartureInvalid();
   }
 }

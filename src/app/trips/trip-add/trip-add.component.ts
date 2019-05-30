@@ -7,8 +7,8 @@ import {UserService} from '../../users/user.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {TripUserAddModalComponent} from '../trip-user-add-modal/trip-user-add-modal.component';
 import {filter} from 'rxjs/operators';
-import {UserAllView, UserSelectView} from "../../users/_models/user";
-import {map} from "rxjs/internal/operators";
+import {UserAllView, UserSelectView} from '../../users/_models/user';
+import {map} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-trip-details',
@@ -83,7 +83,6 @@ export class TripAddComponent implements OnInit {
     modalRef.componentInstance.users = this.availableUsers;
     modalRef.componentInstance.canAddToApartment = this.canAddToApartment;
     modalRef.result.then((result) => {
-      console.log(result);
       this.userElements.push(result);
       const user = this.availableUsers.find(e => e.userId === result.userId);
       this.removedUsers.push(user);
@@ -121,8 +120,8 @@ export class TripAddComponent implements OnInit {
         userId: u.id,
         name: u.name,
         surname: u.surname
-      }
-    })
+      };
+    });
   }
 
   createUser() {
@@ -141,20 +140,15 @@ export class TripAddComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    if (this.formSettings.invalid || this.isFormInValid()) {
-      console.log(this.isFormInValid());
-      console.log(this.isDepartureInvalid());
-      console.log(this.areTripPointsInvalid());
-      console.log(this.isReservationEndInvalid());
-      console.log(this.isReservationStartInvalid());
-      return;
-    }
     const formArray = <FormArray> this.formSettings.controls.users;
     this.userElements.forEach(usr => {
       const fb = this.createUser();
       fb.patchValue(usr);
       formArray.push(fb);
     });
+    if (this.formSettings.invalid || this.isFormInValid()) {
+      return;
+    }
     this.tripsService.createTrip(this.formSettings.value).pipe().subscribe(() => {
       this.location.back();
     });
