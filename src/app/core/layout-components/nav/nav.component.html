@@ -12,10 +12,10 @@
         Users
       </a>
       <a mat-list-item (click)="navigate('users/details')" *ngIf="isAdmin">
-        <i class="material-icons">supervisor_account</i>
+        <i class="material-icons">group_add</i>
         User Management
       </a>
-      <a mat-list-item (click)="navigate('apartments')" *ngIf="isAdmin">
+      <a mat-list-item (click)="navigate('apartments')" *ngIf="isAdmin || isOrganiser">
         <i class="material-icons">
           hotel
         </i>
@@ -35,7 +35,7 @@
     </a>
       <a mat-list-item (click)="navigate('trips/user')" *ngIf="isAdmin || isUser || isOrganiser">
         <i class="material-icons">
-          transfer_within_a_station
+          directions_run
         </i>
         My Trips
       </a>
@@ -78,6 +78,5 @@
         </div>
       </div>
     </div>
-    <app-footer></app-footer>
   </mat-sidenav-content>
 </mat-sidenav-container>
