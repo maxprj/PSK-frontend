@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../authentication.service';
 import { PasswordForm } from '../_models/auth.models';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-password-change',
@@ -19,10 +21,13 @@ export class PasswordChangeComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private formBuilder: FormBuilder,
               private service: AuthenticationService,
-              private router: Router) { }
+              private router: Router,
+              private http: HttpClient) {
+    this.token = this.route.snapshot.queryParamMap.get('token');
+    this.validateToken();
+  }
 
   ngOnInit() {
-    this.token = this.route.snapshot.queryParamMap.get('token');
     this.formSettings = this.formBuilder.group({
       password: ['', [Validators.required, Validators.pattern("^[a-zA-Z0-9]{7,}$")]]
     });
@@ -49,6 +54,13 @@ export class PasswordChangeComponent implements OnInit {
       error => {
         this.alertService.error(error.error.error_description);
       }
+    );
+  }
+
+  validateToken() {
+    this.http.get(environment.urls.users.validateToken(this.token)).subscribe(
+      data => {},
+      error => { this.router.navigate(['/login']); }
     );
   }
 }
