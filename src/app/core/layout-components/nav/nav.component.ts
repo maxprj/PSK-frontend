@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 import {MatSidenav} from '@angular/material';
 import {USER_VIEW} from 'src/app/utils/constants';
 import {UserRole} from "../../../users/_models/user";
+import { DefaultRootService } from 'src/app/authentication/default-root.service';
 
 @Component({
   selector: 'app-nav',
@@ -29,9 +30,12 @@ export class NavComponent {
 
   constructor(private breakpointObserver: BreakpointObserver,
               private router: Router,
-              private authenticationService: AuthenticationService) {
+              private authenticationService: AuthenticationService,
+              private defaultRootService: DefaultRootService) {
     this.setMenuVisibilityValues();
     this.setUserFirstAndLastName();
+
+    this.router.navigate([this.defaultRootService.getHomePageBaseOnUserRole]);
   }
 
   logout() {
