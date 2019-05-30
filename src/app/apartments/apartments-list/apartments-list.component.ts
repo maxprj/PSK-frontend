@@ -19,7 +19,7 @@ export class ApartmentsListComponent implements OnInit {
   params: any = {
     size: environment.constants.pageSize
   };
-  headElements = ['ID', 'Name', 'City', 'Street', 'No', 'Size', 'Details', 'Delete'];
+  headElements = ['ID', 'Name', 'City', 'Street', 'No', 'Size', 'Reservations', 'Details', 'Delete'];
 
   constructor(private authenticationService: AuthenticationService,
               private apartmentsService: ApartmentsService,
