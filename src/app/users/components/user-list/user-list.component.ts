@@ -65,7 +65,6 @@ export class UserListComponent implements OnInit {
         this.loadUsers();
       });
     }).catch((error) => {
-      this.router.navigate(['/error']);
     });
   }
 
@@ -85,7 +84,6 @@ export class UserListComponent implements OnInit {
         this.loadUsers();
       });
     }).catch((error) => {
-      this.router.navigate(['/error']);
     });
   }
 
