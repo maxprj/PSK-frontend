@@ -41,12 +41,11 @@ export class UserListComponent implements OnInit {
 
   private loadUsers() {
     this.usersLoaded = false;
-    this.router.navigate(['/users'], {queryParams: {page: this.params.page}});
+    this.router.navigate(['/users/details'], {queryParams: {page: this.params.page}});
     this.usersService.getPaged(this.params).pipe().subscribe(result => {
       this.pageable = result;
       this.users = this.pageable.content;
       this.usersLoaded = true;
-      this.cdRef.detectChanges();
     }, error => {
       this.usersLoaded = true;
       this.alertService.error(error.error.message);

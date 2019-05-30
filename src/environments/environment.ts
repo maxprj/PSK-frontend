@@ -65,7 +65,7 @@ export const environment = {
     pageSize: 5
   },
   homePageUrls: {
-    admin: 'users',
+    admin: 'users/details',
     organiser: 'trips',
     user: 'events'
   }
