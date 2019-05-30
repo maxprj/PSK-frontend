@@ -7,6 +7,7 @@ import {UserAllView} from "../../../../users/_models/user";
 import {EventCreateForm} from "../../../model/event";
 import {USER_VIEW} from "../../../../utils/constants";
 import {CurrentUserView} from "../../../../authentication/_models/auth.models";
+import {DateAfterTodayValidator} from "../../../../shared/validators/date-after-today.validator";
 
 @Component({
   selector: 'app-event-add-modal',
@@ -43,7 +44,9 @@ export class EventAddModalComponent implements OnInit {
       end: [this.currentDate, Validators.required]
     }, {
       validator: Validators.compose(
-        [DateValidators.dateLessThan('start', 'end', {'endDate': true})]
+        [
+          DateValidators.dateLessThan('start', 'end', {'endDate': true}),
+          DateAfterTodayValidator.isAfterToday('start', {'startDate': true})]
       )
     });
   }
@@ -89,7 +92,7 @@ export class EventAddModalComponent implements OnInit {
     if (user) {
       this.selectedUsers.push(user);
       this.availableUsers.splice(this.availableUsers.indexOf(user), 1);
-      if(this.availableUsers.length > 0) {
+      if (this.availableUsers.length > 0) {
         this.form.get('user').reset(this.availableUsers[0].id);
       }
     }

@@ -19,6 +19,8 @@
       <input type="text" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2"
              class="form-control" formControlName="start" [min]="currentDate"
              id="start" [ngClass]="{'is-invalid': submitted && f.start.invalid}">
+      <invalid-feedback [isInvalid]="submitted && form.hasError('startDate')"
+                        errorText="Invalid start date."></invalid-feedback>
       <owl-date-time #dt2></owl-date-time>
     </form-row>
 
