@@ -6,6 +6,7 @@ import {AlertService} from '../../shared/components/alert/alert.service';
 import {ApartmentAddModalComponent} from '../apartment-add-modal/apartment-add-modal.component';
 import {ActivatedRoute, Router} from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { UserRole } from 'src/app/users/_models/user';
 
 @Component({
   selector: 'app-apartments-list',
@@ -20,13 +21,18 @@ export class ApartmentsListComponent implements OnInit {
     size: environment.constants.pageSize
   };
   headElements = ['ID', 'Name', 'City', 'Street', 'No', 'Size', 'Reservations', 'Details', 'Delete'];
+  isAdmin: boolean;
+  isOrganiser: boolean;
 
   constructor(private authenticationService: AuthenticationService,
               private apartmentsService: ApartmentsService,
               private router: Router,
               private activatedRoute: ActivatedRoute,
               private modalService: NgbModal,
-              private alertService: AlertService) { }
+              private alertService: AlertService) {
+    this.setVisibilityValues();
+    this.removeHeadersForOrganiser();
+  }
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(result => {
@@ -82,5 +88,19 @@ export class ApartmentsListComponent implements OnInit {
   nextPage() {
     this.params.page = this.pageable.number + 1;
     this.loadApartments();
+  }
+
+  setVisibilityValues() {
+    const userRole = this.authenticationService.currentUserRole;
+    this.isAdmin = userRole === UserRole.ROLE_ADMIN;
+    this.isOrganiser = userRole === UserRole.ROLE_ORGANIZER;
+  }
+
+  removeHeadersForOrganiser() {
+    if (this.isOrganiser)
+    {
+      this.headElements.pop();
+      this.headElements.pop();
+    }
   }
 }

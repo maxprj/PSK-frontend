@@ -23,12 +23,12 @@
             <mat-icon style="cursor: pointer;">assignment</mat-icon>
           </a>
         </td>
-        <td>
+        <td *ngIf="isAdmin">
           <a [routerLink]="[el.id]">
             <mat-icon style="cursor: pointer;">settings</mat-icon>
           </a>
         </td>
-        <td>
+        <td *ngIf="isAdmin">
           <mat-icon style="cursor: pointer" (click)="deleteApartment(el.id)">delete</mat-icon>
         </td>
       </tr>
@@ -42,4 +42,4 @@
     </tfoot>
   </table>
 </div>
-<btn-primary label="Add new apartment" (onClick)="addApartment($event)"></btn-primary>
+<btn-primary label="Add new apartment" (onClick)="addApartment($event)" *ngIf="isAdmin"></btn-primary>

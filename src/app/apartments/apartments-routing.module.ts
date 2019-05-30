@@ -13,7 +13,8 @@ const routes: Routes = [
     canActivate: [AuthenticationGuard],
     data: {
       roles: [
-        UserRole.ROLE_ADMIN
+        UserRole.ROLE_ADMIN,
+        UserRole.ROLE_ORGANIZER
       ]
     }
   },
@@ -33,7 +34,8 @@ const routes: Routes = [
     canActivate: [AuthenticationGuard],
     data: {
       roles: [
-        UserRole.ROLE_ADMIN
+        UserRole.ROLE_ADMIN,
+        UserRole.ROLE_ORGANIZER
       ]
     }
   }

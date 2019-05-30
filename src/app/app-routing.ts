@@ -39,7 +39,8 @@ const appRoutes: Routes = [
         canActivate: [AuthenticationGuard],
         data: {
           roles: [
-            UserRole.ROLE_ADMIN
+            UserRole.ROLE_ADMIN,
+            UserRole.ROLE_ORGANIZER
           ]
         }
       },
