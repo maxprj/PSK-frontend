@@ -8,6 +8,7 @@ import {ActivatedRoute} from '@angular/router';
 import {TripUserAddModalComponent} from '../trip-user-add-modal/trip-user-add-modal.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {debounceTime, filter} from 'rxjs/operators';
+import {TripDetailsView, TripStatus} from "../model/trip";
 
 @Component({
   selector: 'app-trip-details',
@@ -30,6 +31,8 @@ export class TripDetailsComponent implements OnInit {
   reservationNeeded = true;
   canAddToApartment = false;
   availablePlaces: any;
+
+  isEditable = true;
 
   constructor(private formBuilder: FormBuilder,
               private tripsService: TripsService,
@@ -61,6 +64,7 @@ export class TripDetailsComponent implements OnInit {
       otherExpenses: [''],
       reservationBegin: [''],
       reservationEnd: [''],
+      updatedAt: [''],
       source: [{value: '', disabled: true}, Validators.required],
       users: this.formBuilder.array([], Validators.required)
     });
@@ -70,11 +74,11 @@ export class TripDetailsComponent implements OnInit {
   getTrip() {
     this.tripId = this.route.snapshot.paramMap.get('tripId');
     this.tripsService.getTripById(this.tripId).pipe().subscribe(result => {
-      console.log(result);
-      this.formSettings.patchValue(result);
+      this.formSettings.patchValue(this.mapToForm(result));
       this.userElements = result.users;
       this.userElements.forEach((value) => this.sortRemovedUsers(value));
       this.trip = result;
+      this.isFormEditable(result.status);
       this.formSettings.patchValue({
         source: this.trip.source.street + ' ' + this.trip.source.apartmentNumber + ', ' + this.trip.source.city,
         destination: this.trip.destination.street + ' ' + this.trip.destination.apartmentNumber + ', ' + this.trip.destination.city,
@@ -82,6 +86,15 @@ export class TripDetailsComponent implements OnInit {
       this.reservationNeeded = result.reservation;
       this.tripLoaded = true;
     });
+  }
+
+  mapToForm(t: TripDetailsView) {
+    return {
+      ...t,
+      carRent: t.carRent ? t.carRent : '',
+      flight: t.flight ? t.flight : '',
+      hotel: t.hotel ? t.hotel : '',
+    }
   }
 
   isReservationAvailable() {
@@ -213,5 +226,12 @@ export class TripDetailsComponent implements OnInit {
     const aDate = new Date(date1).valueOf();
     const bDate = new Date(date2).valueOf();
     return aDate < bDate;
+  }
+
+  isFormEditable(status: TripStatus) {
+    if (status == TripStatus.STARTED || status == TripStatus.FINISHED || status == TripStatus.CANCELLED) {
+      this.formSettings.disable();
+      this.isEditable = false;
+    }
   }
 }

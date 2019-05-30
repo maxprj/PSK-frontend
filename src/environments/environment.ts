@@ -53,19 +53,19 @@ export const environment = {
     calendar: {
       color: {
         userEvent: {
-          primary: '#4285f4',
-          secondary: '#4285f4'
+          primary: '#FFB6C1',
+          secondary: '#FFB6C1'
         },
         tripEvent: {
-          primary: '#00c851',
-          secondary: '#00c851'
+          primary: '#90EE90',
+          secondary: '#90EE90'
         }
       }
     },
     pageSize: 5
   },
   homePageUrls: {
-    admin: 'users',
+    admin: 'users/details',
     organiser: 'trips',
     user: 'events'
   }

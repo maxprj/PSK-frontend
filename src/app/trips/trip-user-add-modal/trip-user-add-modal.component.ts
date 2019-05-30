@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {UserSelectView} from "../../users/_models/user";
 
 @Component({
   selector: 'app-trip-user-add-modal',
@@ -9,7 +10,7 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 })
 export class TripUserAddModalComponent implements OnInit {
 
-  @Input() users: [];
+  @Input() users: UserSelectView[] = [];
   @Input() canAddToApartment: boolean;
   formSettings: FormGroup;
   submitted = false;
@@ -38,6 +39,8 @@ export class TripUserAddModalComponent implements OnInit {
 
   public submitForm() {
     this.submitted = true;
+    console.log(this.users);
+    console.log(this.formSettings.getRawValue());
     if (this.formSettings.invalid) {
       return;
     }
