@@ -4,6 +4,7 @@ import {ApartmentsDetailsComponent} from './apartments-details/apartments-detail
 import {AuthenticationGuard} from '../authentication/authentication.guard';
 import {ApartmentsListComponent} from './apartments-list/apartments-list.component';
 import {UserRole} from '../users/_models/user';
+import { ReservationListComponent } from './reservation-list/reservation-list.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,16 @@ const routes: Routes = [
   {
     path: ':apartmentId',
     component: ApartmentsDetailsComponent,
+    canActivate: [AuthenticationGuard],
+    data: {
+      roles: [
+        UserRole.ROLE_ADMIN
+      ]
+    }
+  },
+  {
+    path: ':apartmentId/reservation',
+    component: ReservationListComponent,
     canActivate: [AuthenticationGuard],
     data: {
       roles: [

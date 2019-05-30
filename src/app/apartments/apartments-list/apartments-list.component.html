@@ -19,6 +19,11 @@
         <td>{{el.address.apartmentNumber}}</td>
         <td>{{el.size}}</td>
         <td>
+          <a [routerLink]="[el.id, 'reservation']">
+            <mat-icon style="cursor: pointer;">assignment</mat-icon>
+          </a>
+        </td>
+        <td>
           <a [routerLink]="[el.id]">
             <mat-icon style="cursor: pointer;">settings</mat-icon>
           </a>

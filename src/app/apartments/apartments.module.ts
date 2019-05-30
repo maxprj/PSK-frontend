@@ -11,12 +11,14 @@ import {ApartmentsRoutingModule} from './apartments-routing.module';
 import {CommonModule} from '@angular/common';
 import {SharedModule} from '../shared/shared.module';
 import {HttpClientModule} from "@angular/common/http";
+import { ReservationListComponent } from './reservation-list/reservation-list.component';
 
 @NgModule({
   declarations: [
     ApartmentsListComponent,
     ApartmentsDetailsComponent,
-    ApartmentAddModalComponent
+    ApartmentAddModalComponent,
+    ReservationListComponent
   ],
   imports: [
     NgbModule,
