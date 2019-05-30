@@ -37,7 +37,8 @@ export const environment = {
       resetPassword: '/api/user/resetPassword',
       savePassword: '/api/user/savePassword',
       get: (userId: string) => `/api/user/${userId}`,
-      update: (userId: string) => `/api/user/${userId}`
+      update: (userId: string) => `/api/user/${userId}`,
+      validateToken: (token: string) => `/api/user/token/${token}`
     },
     events: {
       create: '/api/event',
