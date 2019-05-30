@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {Observable} from "rxjs/index";
-import {TripUserView} from "./model/trip";
+import {TripDetailsView, TripUserView} from "./model/trip";
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +19,8 @@ export class TripsService {
     return this.http.post(environment.urls.trip.list, trip);
   }
 
-  getTripById(id) {
-    return this.http.get<any>(environment.urls.trip.byId(id));
+  getTripById(id): Observable<TripDetailsView> {
+    return this.http.get<TripDetailsView>(environment.urls.trip.byId(id));
   }
 
   updateTrip(id, trip) {

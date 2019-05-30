@@ -4,7 +4,7 @@ import {TripListComponent} from './trip-list/trip-list.component';
 import {MatIconModule, MatProgressSpinnerModule} from '@angular/material';
 import {SharedModule} from '../shared/shared.module';
 import {TripAddComponent} from './trip-add/trip-add.component';
-import {CheckboxModule, TableModule, WavesModule} from 'angular-bootstrap-md';
+import {ButtonsModule, CheckboxModule, TableModule, WavesModule} from 'angular-bootstrap-md';
 import {NgbModalModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AuthenticationModule} from '../authentication/authentication.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -34,6 +34,7 @@ import {TripUserViewComponent} from './trip-user-view/trip-user-view.component';
     ReactiveFormsModule,
     CommonModule,
     TableModule,
+    ButtonsModule,
     WavesModule,
     FormsModule,
     CheckboxModule,
@@ -46,4 +47,5 @@ import {TripUserViewComponent} from './trip-user-view/trip-user-view.component';
     TripsMergeModalComponent
   ]
 })
-export class TripsModule { }
+export class TripsModule {
+}

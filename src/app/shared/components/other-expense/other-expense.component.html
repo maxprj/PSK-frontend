@@ -6,9 +6,9 @@
   <form-row forInput="price" label="Total Price (€)" [isInvalid]="submitted && f.price.invalid" errorText="Count is invalid">
     <input type="number" class="form-control" formControlName="price" id="price" [ngClass]="{'is-invalid': submitted && f.count.invalid}">
   </form-row>
-  <div class="form-group form-check">
-    <input type="checkbox" class="form-check-input" formControlName="ordered" id="ordered">
-    <label class="form-check-label" for="ordered">Is it ordered?</label>
+  <div class="form-group custom-control custom-checkbox">
+    <input type="checkbox" class="custom-control-input" formControlName="ordered" id="ordered">
+    <label class="custom-control-label" for="ordered">Is it ordered?</label>
   </div>
 </div>
 

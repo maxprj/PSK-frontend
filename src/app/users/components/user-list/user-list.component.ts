@@ -41,7 +41,7 @@ export class UserListComponent implements OnInit {
 
   private loadUsers() {
     this.usersLoaded = false;
-    this.router.navigate(['/users'], {queryParams: {page: this.params.page}});
+    this.router.navigate(['/users/details'], {queryParams: {page: this.params.page}});
     this.usersService.getPaged(this.params).pipe().subscribe(result => {
       this.pageable = result;
       this.users = this.pageable.content;
@@ -66,7 +66,6 @@ export class UserListComponent implements OnInit {
         this.loadUsers();
       });
     }).catch((error) => {
-      this.router.navigate(['/error']);
     });
   }
 
@@ -86,7 +85,6 @@ export class UserListComponent implements OnInit {
         this.loadUsers();
       });
     }).catch((error) => {
-      this.router.navigate(['/error']);
     });
   }
 

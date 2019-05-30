@@ -28,7 +28,8 @@ export class ApartmentsDetailsComponent implements OnInit {
         street: ['', Validators.required],
         city: ['', Validators.required]
       }),
-      size: ['', [Validators.required, Validators.min(1)]]
+      size: ['', [Validators.required, Validators.min(1)]],
+      updatedAt: ['']
     });
      this.service.getById(this.apartmentId).pipe().subscribe(result => {
        this.formSettings.patchValue(result);

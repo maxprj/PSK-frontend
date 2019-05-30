@@ -1,39 +1,58 @@
 <h2>Trip information</h2>
 <form [formGroup]="formSettings" (ngSubmit)="onSubmit()">
   <form-row forInput="name" label="Trip name" [isInvalid]="submitted && f.name.invalid" errorText="Name is invalid">
-    <input type="text" class="form-control" formControlName="name" id="name" [ngClass]="{'is-invalid': submitted && f.name.invalid}">
+    <input type="text" class="form-control" formControlName="name" id="name"
+           [ngClass]="{'is-invalid': submitted && f.name.invalid}">
   </form-row>
-  <form-row forInput="departure" label="Departure time" [isInvalid]="submitted && isDepartureInvalid()" errorText="Departure time must be greater than current time">
-    <input type="text" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" class="form-control" formControlName="departure" id="departure" [ngClass]="{'is-invalid': submitted && isDepartureInvalid()}">
+  <form-row forInput="departure" label="Departure time" [isInvalid]="submitted && isDepartureInvalid()"
+            errorText="Departure time must be greater than current time">
+    <input type="text" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" class="form-control" formControlName="departure"
+           id="departure" [min]="currentDate" [ngClass]="{'is-invalid': submitted && isDepartureInvalid()}">
     <owl-date-time #dt1></owl-date-time>
   </form-row>
-  <form-row forInput="source" label="Departure point" [isInvalid]="submitted && (f.source.invalid || tripsInvalid)" errorText="Departure point is invalid">
-    <select class="form-control" formControlName="source" id="source" [ngClass]="{'is-invalid': submitted && (f.source.invalid || tripsInvalid)}" (change)="areTripPointsInvalid()">
+  <form-row forInput="source" label="Departure point" [isInvalid]="submitted && (f.source.invalid || tripsInvalid)"
+            errorText="Departure point is invalid">
+    <select class="form-control" formControlName="source" id="source"
+            [ngClass]="{'is-invalid': submitted && (f.source.invalid || tripsInvalid)}"
+            (change)="areTripPointsInvalid()">
       <option *ngFor="let apartment of apartments" [value]="apartment.id">{{apartment.name}}</option>
     </select>
   </form-row>
-  <form-row forInput="destination" label="Destination point" [isInvalid]="submitted && (f.destination.invalid || tripsInvalid)" errorText="Destination point is invalid">
-    <select class="form-control" formControlName="destination" id="destination" [ngClass]="{'is-invalid': submitted && (f.destination.invalid || tripsInvalid)}" (change)="areTripPointsInvalid()">
+  <form-row forInput="destination" label="Destination point"
+            [isInvalid]="submitted && (f.destination.invalid || tripsInvalid)" errorText="Destination point is invalid">
+    <select class="form-control" formControlName="destination" id="destination"
+            [ngClass]="{'is-invalid': submitted && (f.destination.invalid || tripsInvalid)}"
+            (change)="areTripPointsInvalid()">
       <option *ngFor="let apartment of apartments" [value]="apartment.id">{{apartment.name}}</option>
     </select>
   </form-row>
   <span class="subtitle">Reservation information<hr flex/></span>
-  <div class="form-group form-check">
-    <input type="checkbox" (click)="reservationOn()" class="form-check-input" formControlName="reservation" id="reservation">
-    <label class="form-check-label" for="reservation">Is apartment reservation needed?</label>
+  <div class="form-group custom-control custom-checkbox">
+    <input type="checkbox" (click)="reservationOn()" class="custom-control-input" formControlName="reservation"
+           id="reservation">
+    <label class="custom-control-label" for="reservation">Is apartment reservation needed?</label>
   </div>
   <div *ngIf="reservationNeeded">
-    <form-row forInput="reservationBegin" label="Reservation start" [isInvalid]="submitted && isReservationStartInvalid()" errorText="Reservation begin time must be greater than departure time">
-      <input type="text" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" class="form-control" formControlName="reservationBegin" id="reservationBegin" [ngClass]="{'is-invalid': submitted && isReservationStartInvalid()}">
+    <form-row forInput="reservationBegin" label="Reservation start"
+              [isInvalid]="submitted && isReservationStartInvalid()"
+              errorText="Reservation begin time must be greater than departure time">
+      <input type="text" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" class="form-control" [min]="currentDate"
+             formControlName="reservationBegin" id="reservationBegin"
+             [ngClass]="{'is-invalid': submitted && isReservationStartInvalid()}">
       <owl-date-time #dt2></owl-date-time>
     </form-row>
-    <form-row forInput="reservationEnd" label="Reservation End" [isInvalid]="submitted && isReservationEndInvalid()" errorText="Reservation end time must be greater than reservation begin time">
-      <input type="text" [owlDateTime]="dt3" [owlDateTimeTrigger]="dt3" class="form-control" formControlName="reservationEnd" id="reservationEnd" [ngClass]="{'is-invalid': submitted && isReservationEndInvalid()}">
+    <form-row forInput="reservationEnd" label="Reservation End" [isInvalid]="submitted && isReservationEndInvalid()"
+              errorText="Reservation end time must be greater than reservation begin time">
+      <input type="text" [owlDateTime]="dt3" [owlDateTimeTrigger]="dt3" class="form-control"
+             formControlName="reservationEnd" id="reservationEnd" [min]="currentDate"
+             [ngClass]="{'is-invalid': submitted && isReservationEndInvalid()}">
       <owl-date-time #dt3></owl-date-time>
     </form-row>
   </div>
-  <form-row *ngIf="!reservationNeeded" forInput="arrival" label="Arrival time" [isInvalid]="submitted && isArrivalValid()" errorText="Arrival time must be greater than departure time">
-    <input type="text" [owlDateTime]="dt4" [owlDateTimeTrigger]="dt4" class="form-control" formControlName="arrival" id="arrival" [ngClass]="{'is-invalid': submitted && isArrivalValid()}">
+  <form-row *ngIf="!reservationNeeded" forInput="arrival" label="Arrival time"
+            [isInvalid]="submitted && isArrivalValid()" errorText="Arrival time must be greater than departure time">
+    <input type="text" [owlDateTime]="dt4" [owlDateTimeTrigger]="dt4" class="form-control" formControlName="arrival"
+           id="arrival" [ngClass]="{'is-invalid': submitted && isArrivalValid()}">
     <owl-date-time #dt4></owl-date-time>
   </form-row>
   <span class="subtitle">Participants <hr flex/></span>

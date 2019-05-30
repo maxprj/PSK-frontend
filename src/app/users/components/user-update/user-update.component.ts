@@ -24,7 +24,8 @@ export class UserUpdateComponent implements OnInit {
     this.formSettings = this.formBuilder.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
-      role: ['', Validators.required]
+      role: ['', Validators.required],
+      updatedAt: ['']
     });
 
     this.usersService.getById(this.id).pipe().subscribe(result => {

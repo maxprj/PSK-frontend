@@ -48,12 +48,12 @@
         <td>{{el.carRent}}</td>
         <td>{{el.inApartment ? '-' : el.residenceAddress}}</td>
         <td>
-          <mat-icon style="cursor: pointer" (click)="removeUserFromList(el.userId)">delete</mat-icon>
+          <mat-icon style="cursor: pointer" *ngIf="isEditable" (click)="removeUserFromList(el.userId)">delete</mat-icon>
         </td>
       </tr>
       </tbody>
     </table>
-    <span class="add form-inline" *ngIf="availableUsers.length > 0"><a (click)="addUser()">Add</a></span>
+    <span class="add form-inline" *ngIf="availableUsers.length > 0 && isEditable"><a (click)="addUser()">Add</a></span>
     <br>
     <span class="subtitle">Optional details<hr flex/></span>
     <form-row forInput="description" label="Description">
@@ -65,7 +65,7 @@
     <other-expense label="Plane tickets" [formGroup]="f.flight" [submitted]="submitted"></other-expense>
     <other-expense label="Hotel booking" [formGroup]="f.hotel" [submitted]="submitted"></other-expense>
     <other-expense label="Car rent" [formGroup]="f.carRent" [submitted]="submitted"></other-expense>
-    <btn-primary label="Update trip"></btn-primary>
+    <btn-primary label="Update trip" *ngIf="isEditable"></btn-primary>
   </form>
 </div>
 
