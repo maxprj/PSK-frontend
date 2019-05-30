@@ -6,8 +6,7 @@ import {AuthenticationService} from '../authentication.service';
 import {AlertService} from '../../shared/components/alert/alert.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {PasswordResetComponent} from '../password-reset/password-reset.component';
-import {environment} from 'src/environments/environment';
-import {UserRole} from "../../users/_models/user";
+import { DefaultRootService } from '../default-root.service';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +23,8 @@ export class LoginComponent implements OnInit {
               private router: Router,
               private authenticationService: AuthenticationService,
               private alertService: AlertService,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private defaultRootService: DefaultRootService) {
     if (this.authenticationService.currentUserValue) {
       this.router.navigate(['/']);
     }
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
     }
     this.loading = true;
     this.authenticationService.login(this.f.username.value, this.f.password.value).pipe(first()).subscribe(data => {
-        this.router.navigate([this.getHomePageBaseOnUserRole]);
+        this.router.navigate([this.defaultRootService.getHomePageBaseOnUserRole]);
       },
       error => {
         this.alertService.error(error.error.error_description);
@@ -69,17 +69,4 @@ export class LoginComponent implements OnInit {
         this.authenticationService.resetPassword(result).subscribe(data => {});
       });
   }
-
-  get getHomePageBaseOnUserRole() {
-    const userRole = this.authenticationService.currentUserRole;
-
-    if (userRole == UserRole.ROLE_USER) {
-      return environment.homePageUrls.user;
-    } else if (userRole == UserRole.ROLE_ORGANIZER) {
-      return environment.homePageUrls.organiser;
-    } else {
-      return environment.homePageUrls.admin;
-    }
-  }
-
 }
