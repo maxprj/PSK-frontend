@@ -5,6 +5,7 @@ import {PasswordChangeComponent} from './authentication/password-change/password
 import {NavComponent} from './core/layout-components/nav/nav.component';
 import {ErrorPageComponent} from './error-page/error-page.component';
 import {UserRole} from './users/_models/user';
+import { UnauthGuard } from './authentication/unauth.guard';
 
 const appRoutes: Routes = [
   {
@@ -54,9 +55,9 @@ const appRoutes: Routes = [
       {path: 'error', component: ErrorPageComponent},
     ]
   },
-  {path: 'login', component: LoginComponent},
-  {path: 'user/changePassword', component: PasswordChangeComponent},
-  {path: '**', redirectTo: '', canActivate: [AuthenticationGuard]},
+  {path: 'login', component: LoginComponent, canActivate: [UnauthGuard]},
+  {path: 'user/changePassword', component: PasswordChangeComponent, canActivate: [UnauthGuard]},
+  {path: '**', redirectTo: 'login', canActivate: [UnauthGuard]},
 
 ];
 
