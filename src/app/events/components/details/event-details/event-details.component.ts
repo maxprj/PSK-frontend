@@ -23,6 +23,7 @@ export class EventDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
+    console.log(this.event);
   }
 
   initForm() {
@@ -33,7 +34,7 @@ export class EventDetailsComponent implements OnInit {
       end: [''],
     });
     this.form.disable();
-    this.form.patchValue(event);
+    this.form.patchValue(this.event);
   }
 
   statusChangeAvailable() {

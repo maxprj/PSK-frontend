@@ -4,7 +4,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CalendarEvent, CalendarEventAction} from 'angular-calendar';
 import {EventService} from "../../service/event.service";
 import {EventCalendarView} from "../../model/event";
-import {map} from "rxjs/internal/operators";
+import {map, tap} from "rxjs/internal/operators";
 import {environment} from "../../../../environments/environment";
 import {EventOwnerDetailsComponent} from "../details/event-owner-details/event-owner-details.component";
 import {EventDetailsComponent} from "../details/event-details/event-details.component";
@@ -19,11 +19,8 @@ import {EventAddModalComponent} from "../details/event-add-modal/event-add-modal
 })
 export class UserCalendarComponent implements OnInit {
 
-  ngOnInit() {
-    this.loadEvents();
-  }
-
-  loading: boolean = true;
+  loading = true;
+  userEvents = [];
 
   constructor(private modal: NgbModal,
               private eventService: EventService) {
@@ -42,6 +39,10 @@ export class UserCalendarComponent implements OnInit {
   refresh: Subject<any> = new Subject();
 
   events: CalendarEvent[] = [];
+
+  ngOnInit() {
+    this.loadEvents();
+  }
 
   handleEvent(event: CalendarEvent): void {
     if (event.meta.trip) {
@@ -80,12 +81,13 @@ export class UserCalendarComponent implements OnInit {
   }
 
   showEventDetails(event: CalendarEvent) {
+    console.log(event);
     const modalRef = this.modal.open(EventDetailsComponent,
       {
-        size: "sm",
+        size: 'lg',
         windowClass: 'show'
       });
-    modalRef.componentInstance.event = event;
+    modalRef.componentInstance.event = this.userEvents.find(e => e.id === event.id);
     modalRef.result.then(accepted => {
       if (!accepted) {
         this.loading = true;
@@ -111,13 +113,13 @@ export class UserCalendarComponent implements OnInit {
   }
 
   loadEvents() {
-    this.eventService.list().pipe(
+    this.eventService.list().pipe(tap(events => this.userEvents = events),
       map(events => events.map(e => this.toCalendarEvent(e)))
     ).subscribe((events) => {
       this.events = events;
       this.refresh.next();
       this.loading = false;
-    })
+    });
   }
 
   toCalendarEvent(e: EventCalendarView): CalendarEvent {
